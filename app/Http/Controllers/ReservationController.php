@@ -16,6 +16,30 @@ class ReservationController extends Controller
         $rooms = Room::all();
         return view('reservation.index', ['rooms' => $rooms]);
     }
+
+    public function filter(Request $request)
+    {
+        $search = $request->search;
+        if ($search == "cost_low_to_high") {
+            $rooms = Room::query()->orderBy('price', 'asc')->get();
+            $information = "Price Low to High";
+            return view('reservation.index', ['rooms' => $rooms, 'information' => $information]);
+        } else if ($search == "cost_high_to_low") {
+            $rooms = Room::query()->orderBy('price', 'desc')->get();
+            $information = "Price Low to High";
+            return view('reservation.index', ['rooms' => $rooms, 'information' => $information]);
+        } else if ($search == "free") {
+            $rooms = Room::where('status', 'free')->get();
+            if (count($rooms) == 0) {
+                $information = "All Room has been booked, or full";
+            } else {
+                $information = "Status Room Free";
+            }
+            // $information = "Status Room Free";
+            return view('reservation.index', ['rooms' => $rooms, 'information' => $information]);
+        }
+    }
+
     public function reservation(Room $room)
     {
         $set_value = Str::random(7);

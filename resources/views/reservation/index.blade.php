@@ -15,17 +15,22 @@
        <div class="row justify-content-center">
             <div class="col">
                 <h2>Select Room For Your Holiday</h2>
-                <div class="dropdown mb-3 ">
-                    <button class="btn btn-testimonial dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                        Filter
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Price Low to High</a>
-                        <a class="dropdown-item" href="#">Price High to Low</a>
-                        <a class="dropdown-item" href="#">Class</a>
-                    </div>
-                </div>
+                <form action="/roomsdashboard" method="POST" class="mt-2 mb-3">
+                    @csrf
+                    <select class="" id="search" name="search">
+                        <option selected>Please Select</option>
+                        <option value="cost_low_to_high">Price Low to High</option>
+                        <option value="cost_high_to_low">Price High to Low</option>
+                        <option value="free">Status : Free</option>
+                    </select>
+                    <button class="btn btn-sm btn-primary">Search</button>
+                </form>
             </div>
+       </div>
+       <div class="row justify-content-center">
+           <div class="col" style="color: white;">
+                {{ $information ?? '' }}
+           </div>
        </div>
        <div class="row">
            @foreach ($rooms as $rm)

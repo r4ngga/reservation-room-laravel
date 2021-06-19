@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/paymentroom', 'ReservationController@paymentreservation');
 
         Route::get('/roomsdashboard', 'ReservationController@index');
+        Route::post('/roomsdashboard', 'ReservationController@filter');
         Route::get('/bookingrooms/{room}', 'ReservationController@reservation');
         Route::post('/bookingrooms', 'ReservationController@booking');
 
