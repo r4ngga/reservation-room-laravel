@@ -124,7 +124,7 @@
                      <div class="address">
                         <h3>Newsletter </h3>
                         <input class="form-control" placeholder="Enter your email" type="type" name="Enter your email">
-                        <button class="submit-btn">Subscribe</button>
+                        <button class="submit-btn" data-toggle="modal" data-target="#modalComingSoon">Subscribe</button>
                      </div>
                   </div>
                </div>
@@ -133,6 +133,24 @@
                <p>Copyright &copy; {{date('Y')}} All Right Reserved By Rangga Wisnu Aji M</a></p>
             </div>
          </div>
+         <div class="modal fade" id="modalComingSoon" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Coming soon </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  This feature coming soon development
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </footer>
       <!-- end footer -->
       <!-- Javascript files-->
