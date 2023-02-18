@@ -61,7 +61,7 @@
                         <nav class="main-menu">
                            <ul class="menu-area-main">
                               <li> <a href="{{('/myaccount')}}">My Account</a></li>
-                              @if(auth()->user()->role=="admin")
+                              @if(auth()->user()->role=="1")
                               <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                                       Manage Data
@@ -72,7 +72,7 @@
                                     </div>
                               </li>
                               <li><a href="{{('/reservation')}}">Confirmation</a></li>
-                              @elseif(auth()->user()->role=="user")
+                              @elseif(auth()->user()->role=="2")
                               <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li>
                               <li> <a href="{{('/roomsdashboard')}}">Reservation</a> </li>
                               @endif
@@ -81,7 +81,7 @@
                                       Account
                                     </a>
                                     <div class="dropdown-menu" >
-                                    @if(auth()->user()->role=="user")
+                                    @if(auth()->user()->role=="2")
                                       <a href="{{('/history')}}">My History</a>
                                     @endif
                                       <a href="{{('/setting')}}">Setting</a>

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/setting', 'AuthController@updatesettingacc')->middleware('auth');
     Route::get('/changepassword', 'AuthController@changepassword')->middleware('auth');
     Route::post('/changepassword', 'AuthController@updatechangepassword')->middleware('auth');
-    Route::group(['middleware' => ['cek_login:admin']], function () {
+    Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('/admindashboard', 'AdminController@admindashboard');
         Route::get('/rooms', 'RoomController@show_all');
         Route::get('/rooms/addroom', 'RoomController@insert');
@@ -44,7 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/users', 'UserController@show_all_user');
     });
 
-    Route::group(['middleware' => ['cek_login:user']], function () {
+    Route::group(['middleware' => ['cek_login:2']], function () {
         Route::get('/userdashboard', 'ReservationController@reservationlist');
         Route::get('/userdashboard/{reservation}', 'ReservationController@paidreservation');
         Route::post('/paymentroom', 'ReservationController@paymentreservation');
