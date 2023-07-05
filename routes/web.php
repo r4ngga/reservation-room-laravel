@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Admin;
+use App\Http\Controllers\AdminController;
+use App\Http\Controller\User;
+use App\Http\Controllers\Auth as Authentication; // because conflict with Illuminate\Support\Facades\Auth
+
+use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,21 +25,22 @@ use App\Http\Controllers\AuthController;
 //     return view('welcome');
 // });
 
-Route::get('/', [AuthController::class, 'index']);
-Route::get('/login', [AuthController::class, 'loginpage']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/', [Authentication\AuthController::class, 'index']);
+Route::get('/login', [Authentication\AuthController::class, 'loginpage']);
+Route::post('/login', [Authentication\AuthController::class, 'login']);
 
-Route::get('/register', [AuthController::class, 'register']);
-Route::post('/register', [UserController::class, 'store']);
+Route::get('/register', [Authentication\AuthController::class, 'register']);
+// Route::post('/register', [UserController::class, 'store']);
+Route::post('/register', [Authentication\AuthController::class, 'store']);
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
-    Route::get('/myaccount', [AuthController::class, '@myaccount'])->middleware('auth');
-    Route::get('/setting', [AuthController::class, 'settingaccount'])->middleware('auth');
-    Route::post('/setting', [AuthController::class, 'updatesettingacc'])->middleware('auth');
-    Route::get('/changepassword', [AuthController::class, 'changepassword'])->middleware('auth');
-    Route::post('/changepassword', [AuthController::class, 'updatechangepassword'])->middleware('auth');
+    Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth');
+    Route::get('/myaccount', [Authentication\AuthController::class, 'myaccount'])->middleware('auth');
+    Route::get('/setting', [Authentication\AuthController::class, 'settingaccount'])->middleware('auth');
+    Route::post('/setting', [Authentication\AuthController::class, 'updatesettingacc'])->middleware('auth');
+    Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword'])->middleware('auth');
+    Route::post('/changepassword', [Authentication\AuthController::class, 'updatechangepassword'])->middleware('auth');
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('/admindashboard', [AdminController::class, 'admindashboard']);
         Route::get('/rooms', [RoomController::class, 'show_all']);
@@ -43,8 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/rooms/{room}', [RoomController::class, 'destroy']);
 
         Route::get('/reservation', [ReservationController::class, 'confirmationbooking']);
-        Route::post('/confirmpaymentroom', [ReservationController::class, 'confirmpaymentreservation']);
-        Route::get('/users', [UserController::class, 'show_all_user']);
+        Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
+        Route::get('/users', [Admin\UserController::class, 'show_all_user']);
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

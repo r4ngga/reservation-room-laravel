@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +16,8 @@ class AuthController extends Controller
 
     public function myaccount()
     {
+        $account = Auth::user();
+        dd($account);
         return view('myaccount');
     }
 
@@ -27,6 +29,30 @@ class AuthController extends Controller
     public function register()
     {
         return view('register');
+    }
+
+    public function store(Request $request)
+    {
+        $validate =  $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|numeric',
+            'gender' => 'required',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password =  bcrypt($request['password']);
+        $user->phone_number = $request->phone_number;
+        $user->gender = $request->gender;
+        $user->save();
+
+        if ($validate) {
+            return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
+        }
     }
 
     public function login(Request $request)
