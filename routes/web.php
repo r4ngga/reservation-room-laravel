@@ -42,15 +42,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword'])->middleware('auth');
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatechangepassword'])->middleware('auth');
     Route::group(['middleware' => ['cek_login:1']], function () {
-        Route::get('/admindashboard', [AdminController::class, 'admindashboard']);
-        Route::get('/rooms', [RoomController::class, 'show_all']);
-        Route::get('/rooms/addroom', [RoomController::class, 'insert']);
-        Route::post('/rooms', [RoomController::class, 'store']);
-        Route::get('/change/{room}', [RoomController::class, 'edit']);
-        Route::patch('/rooms/{room}', [RoomController::class, 'update']);
-        Route::delete('/rooms/{room}', [RoomController::class, 'destroy']);
+        Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard']);
+        Route::get('/rooms', [Admin\RoomController::class, 'show_all']);
+        Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
+        Route::post('/rooms', [Admin\RoomController::class, 'store']);
+        Route::get('/change/{room}', [Admin\RoomController::class, 'edit']);
+        Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update']);
+        Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
 
-        Route::get('/reservation', [ReservationController::class, 'confirmationbooking']);
+        Route::get('/reservation', [Admin\ReservationController::class, 'confirmationbooking']);
         Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
         Route::get('/users', [Admin\UserController::class, 'show_all_user']);
     });
@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/roomsdashboard', [ReservationController::class, 'index']);
         Route::post('/roomsdashboard', [ReservationController::class, 'filter']);
-        Route::get('/bookingrooms/{room}', [ReservationController::class, 'reservation']);
+        Route::get('/bookingrooms/{id}', [ReservationController::class, 'reservation']);
         Route::post('/bookingrooms', [ReservationController::class, 'booking']);
 
         Route::get('/history', [ReservationController::class, 'loghistory']);

@@ -15,7 +15,7 @@
                     {{session('notify')}}
                 </div>
                  @endif
-                <form method="POST" action="/register">
+                <form method="POST" action="/register" enctype="multipart/form-data">
                     @csrf
                    <div class="row">
                       <div class="col-sm-12">

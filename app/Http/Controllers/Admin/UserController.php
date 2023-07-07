@@ -10,15 +10,16 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::where('role', 2)->get();
         return view('user.all_user', compact('users'));
     }
 
-    // public function show_all_user()
-    // {
-    //     $users = User::all();
-    //     return view('user.all_user', ['users' => $users]);
-    // }
+    public function fetch_all_user()
+    {
+        $users = User::where('role', 2)->get();
+        json_encode($users);
+        // return view('user.all_user', ['users' => $users]);
+    }
 
     public function store(Request $request)
     {
@@ -53,8 +54,29 @@ class UserController extends Controller
         }
     }
 
-    public function userdashboard()
+    public function update(Request $request)
     {
-        return view('user.dashboard');
+        $validate =  $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|numeric',
+            'gender' => 'required',
+        ]);
+
+        $update = new User();
+        $update->name = $request->name;
+        $update->email = $request->email;
+        $update->address = $request->address;
+        $update->password = bcrypt($request->password) ;
+        $update->phone_number = $request->phone_number;
+        $update->gender = $request->gender ;
+        $update->save();
     }
+
+    // public function userdashboard()
+    // {
+    //     return view('user.dashboard');
+    // }
 }

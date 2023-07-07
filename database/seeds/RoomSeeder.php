@@ -14,11 +14,11 @@ class RoomSeeder extends Seeder
     {
         DB::table('rooms')->insert([
             'number_room' => 1,
-            'facility' => '',
+            'facility' => '2 bed, ac, bathroom',
             'class' => 'Reguler',
             'capacity' => 2,
             'price' => 10000,
-            'status' => '',
+            'status' => 'free',
             'image_room' => null,
         ]);
         //

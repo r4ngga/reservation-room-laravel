@@ -42,8 +42,9 @@ class ReservationController extends Controller
         }
     }
 
-    public function reservation(Room $room)
+    public function reservation($id)
     {
+        $room = Room::findOrFaill($id);
         $set_value = Str::random(7);
         return view('reservation.booking', compact('room', 'set_value'));
     }
@@ -102,11 +103,17 @@ class ReservationController extends Controller
             'number_reservation' => 'required',
             'photo_transfer' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-        $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
-        $request->photo_transfer->move(public_path('images'), $imgName);
+        if($request->photo_transfer)
+        {
+            $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
+            $request->photo_transfer->move(public_path('images'), $imgName);
+        }
+        $check_img = isset($request->photo_transfer) ? $imgName : null;
+        // $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
+        // $request->photo_transfer->move(public_path('images'), $imgName);
         Reservation::where('number_reservation', $request->number_reservation)->update([
             'status_payment' => $request->status_payment,
-            'photo_transfer' => $imgName,
+            'photo_transfer' => $check_img,
         ]);
         Room::where('number_room', $request->number_room)->update([
             'status' => 'full',
@@ -114,21 +121,21 @@ class ReservationController extends Controller
         return redirect('/userdashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
     }
 
-    public function confirmpaymentreservation(Request $request) //for action confrmation payment by admin
-    {
-        $request->validate([
-            'status_payment' => 'required',
-            'number_room' => 'required',
-            'number_reservation' => 'required',
-        ]);
-        Reservation::where('number_reservation', $request->number_reservation)->update([
-            'status_payment' => $request->status_payment,
-        ]);
-        Room::where('number_room', $request->number_room)->update([
-            'status' => 'full',
-        ]);
-        return redirect('/reservation')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
-    }
+    // public function confirmpaymentreservation(Request $request) //for action confrmation payment by admin
+    // {
+    //     $request->validate([
+    //         'status_payment' => 'required',
+    //         'number_room' => 'required',
+    //         'number_reservation' => 'required',
+    //     ]);
+    //     Reservation::where('number_reservation', $request->number_reservation)->update([
+    //         'status_payment' => $request->status_payment,
+    //     ]);
+    //     Room::where('number_room', $request->number_room)->update([
+    //         'status' => 'full',
+    //     ]);
+    //     return redirect('/reservation')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
+    // }
 
     public function confirmationbooking()
     {
@@ -144,6 +151,7 @@ class ReservationController extends Controller
 
     public function loghistory()
     {
+        $auth = Auth::user();
         $reservation = DB::table('reservations')
             ->join('users', 'reservations.user_id', '=', 'users.id_user')
             ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')

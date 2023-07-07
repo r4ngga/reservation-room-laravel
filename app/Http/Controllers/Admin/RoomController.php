@@ -20,6 +20,19 @@ class RoomController extends Controller
         return view('room.add_room');
     }
 
+    public function fetchRoom(Request $request)
+    {
+        $rooms = Room::where('status', 'free')->get();
+        json_encode($rooms);
+    }
+
+    public function fetchDetailRoom($id)
+    {
+        $getRoom = Room::where('id', $id)->first();
+        dd($getRoom);
+        json_encode($getRoom);
+    }
+
     public function show_all()
     {
         $rooms = Room::all();

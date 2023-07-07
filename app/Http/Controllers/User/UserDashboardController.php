@@ -9,25 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class UserDashboardController extends Controller
 {
-    // public function index()
-    // {
-    //     return view('home');
-    // }
+    public function index()
+    {
+        return view('myaccount');
+    }
 
-    // public function myaccount()
-    // {
-    //     return view('myaccount');
-    // }
 
-    // public function loginpage()
-    // {
-    //     return view('login');
-    // }
-
-    // public function register()
-    // {
-    //     return view('register');
-    // }
 
     // public function login(Request $request)
     // {
@@ -63,20 +50,29 @@ class UserDashboardController extends Controller
             'gender' => 'required',
         ]);
 
-        User::where('id_user', $request->id_user)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'gender' => $request->gender,
-        ]);
+        $user_update = User::where('id_user', $request->id_user)->get();
+        $user_update->name = $request->name;
+        $user_update->email = $request->email;
+        $user_update->address = $request->address;
+        $user_update->phone_number = $request->phone_number;
+        $user_update->gender = $request->gender;
+        $user_update->save();
+
+        // User::where('id_user', $request->id_user)->update([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'address' => $request->address,
+        //     'phone_number' => $request->phone_number,
+        //     'gender' => $request->gender,
+        // ]);
 
         return redirect('/userdashboard')->with('notify', 'Congratulation success changes setting account !!');
     }
 
     public function changepassword()
     {
-        return view('change_password');
+        $getUserPassword = Auth::user();
+        return view('change_password', compact('getUserPassword'));
     }
 
     public function updatechangepassword(Request $request, User $user)
