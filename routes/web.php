@@ -27,11 +27,15 @@ use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', [Authentication\AuthController::class, 'index']);
 Route::get('/login', [Authentication\AuthController::class, 'loginpage']);
+//Route::get('/login', [Authentication\AuthController::class, 'loginpage'])->name('login');
 Route::post('/login', [Authentication\AuthController::class, 'login']);
+//Route::post('/login', [Authentication\AuthController::class, 'login'])->name('login-act');
 
 Route::get('/register', [Authentication\AuthController::class, 'register']);
+//Route::get('/register', [Authentication\AuthController::class, 'register'])->name('register');
 // Route::post('/register', [UserController::class, 'store']);
 Route::post('/register', [Authentication\AuthController::class, 'store']);
+//Route::post('/register', [Authentication\AuthController::class, 'store']);->name('regist')
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -43,6 +47,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatechangepassword'])->middleware('auth');
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard']);
+        //Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard'])->name('admin');
         Route::get('/rooms', [Admin\RoomController::class, 'show_all']);
         Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
         Route::post('/rooms', [Admin\RoomController::class, 'store']);

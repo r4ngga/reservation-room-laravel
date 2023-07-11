@@ -8,7 +8,7 @@
             <div class="card h-70 bg-success">
                 <div class="card-body">
                     <h4 style="color:white">Total Users</h4>
-                    <h1 style="color:white"> {{$users}} </h1>
+                    <h1 style="color:white"> {{$userCount}} </h1>
                 </div>
             </div>
         </div>

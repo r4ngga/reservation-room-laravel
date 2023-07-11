@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 
 class ReservationController extends Controller
 {

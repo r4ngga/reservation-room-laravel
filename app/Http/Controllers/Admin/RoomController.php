@@ -6,6 +6,7 @@ use App\Room;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
+use App\Http\Controllers\Controller;
 
 class RoomController extends Controller
 {

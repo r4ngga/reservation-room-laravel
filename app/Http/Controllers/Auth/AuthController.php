@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -17,8 +18,8 @@ class AuthController extends Controller
     public function myaccount()
     {
         $account = Auth::user();
-        dd($account);
-        return view('myaccount');
+        // dd($account);
+        return view('myaccount', compact('account'));
     }
 
     public function loginpage()
@@ -76,7 +77,8 @@ class AuthController extends Controller
 
     public function settingaccount()
     {
-        return view('setting');
+        $getUser = Auth::user();
+        return view('setting', compact('getUser'));
     }
 
     public function updatesettingacc(Request $request, User $user)
@@ -102,7 +104,8 @@ class AuthController extends Controller
 
     public function changepassword()
     {
-        return view('change_password');
+        $getUserPassword = Auth::user();
+        return view('change_password', compact('getUserPassword'));
     }
 
     public function updatechangepassword(Request $request, User $user)
@@ -111,9 +114,22 @@ class AuthController extends Controller
             'password' => 'required',
             'repeat_password' => 'required',
         ]);
-        User::where('id_user', $request->id_user)->update([
-            'password' => bcrypt($request['password']),
-        ]);
+        $repeat = $request->repeat_password;
+        $passwrd = $request->password;
+
+        if($repeat == $passwrd)
+        {
+            // return redirect()->back()->withErrors('Inputan Jumlah Siswa 0')->withInput();
+            return redirect()->back()->withErrors('Password must match');
+        }
+
+        $user = User::wher('id_user', $request->id_user)->first();
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        // User::where('id_user', $request->id_user)->update([
+        //     'password' => bcrypt($request['password']),
+        // ]);
         return redirect('/userdashboard')->with('notify', 'Congratulation success changes password !!');
     }
 
