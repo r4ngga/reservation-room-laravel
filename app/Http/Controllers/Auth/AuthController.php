@@ -34,7 +34,7 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        $validate =  $request->validate([
+        $request->validate([
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
@@ -51,9 +51,9 @@ class AuthController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
-        if ($validate) {
+        // if ($validate) {
             return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
-        }
+        // }
     }
 
     public function login(Request $request)
@@ -83,7 +83,7 @@ class AuthController extends Controller
 
     public function updatesettingacc(Request $request, User $user)
     {
-        $validate =  $request->validate([
+        $request->validate([
             'name' => 'required',
             'email' => 'required',
             'address' => 'required',
@@ -91,13 +91,21 @@ class AuthController extends Controller
             'gender' => 'required',
         ]);
 
-        User::where('id_user', $request->id_user)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'gender' => $request->gender,
-        ]);
+        $user = User::where('id_user', $request->id_user)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone_number = $request->phone_number;
+        $user->gender = $request->gender;
+        $user->save();
+
+        // User::where('id_user', $request->id_user)->update([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'address' => $request->address,
+        //     'phone_number' => $request->phone_number,
+        //     'gender' => $request->gender,
+        // ]);
 
         return redirect('/userdashboard')->with('notify', 'Congratulation success changes setting account !!');
     }
@@ -110,7 +118,7 @@ class AuthController extends Controller
 
     public function updatechangepassword(Request $request, User $user)
     {
-        $validate =  $request->validate([
+        $request->validate([
             'password' => 'required',
             'repeat_password' => 'required',
         ]);
@@ -123,7 +131,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors('Password must match');
         }
 
-        $user = User::wher('id_user', $request->id_user)->first();
+        $user = User::where('id_user', $request->id_user)->first();
         $user->password = bcrypt($request->password);
         $user->save();
 

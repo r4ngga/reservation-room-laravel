@@ -26,13 +26,13 @@ use App\Http\Controllers\Admin\UserController;
 // });
 
 Route::get('/', [Authentication\AuthController::class, 'index']);
-Route::get('/login', [Authentication\AuthController::class, 'loginpage']);
-//Route::get('/login', [Authentication\AuthController::class, 'loginpage'])->name('login');
-Route::post('/login', [Authentication\AuthController::class, 'login']);
-//Route::post('/login', [Authentication\AuthController::class, 'login'])->name('login-act');
+// Route::get('/login', [Authentication\AuthController::class, 'loginpage']);
+Route::get('/login', [Authentication\AuthController::class, 'loginpage'])->name('login');
+// Route::post('/login', [Authentication\AuthController::class, 'login']);
+Route::post('/login', [Authentication\AuthController::class, 'login'])->name('login-act');
 
-Route::get('/register', [Authentication\AuthController::class, 'register']);
-//Route::get('/register', [Authentication\AuthController::class, 'register'])->name('register');
+// Route::get('/register', [Authentication\AuthController::class, 'register']);
+Route::get('/register', [Authentication\AuthController::class, 'register'])->name('register');
 // Route::post('/register', [UserController::class, 'store']);
 Route::post('/register', [Authentication\AuthController::class, 'store']);
 //Route::post('/register', [Authentication\AuthController::class, 'store']);->name('regist')
@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['cek_login:2']], function () {
         Route::get('/userdashboard', [ReservationController::class, 'reservationlist']);
+        //Route::get('/userdashboard', [ReservationController::class, 'reservationlist'])->name('user');
         Route::get('/userdashboard/{reservation}', [ReservationController::class, 'paidreservation']);
         Route::post('/paymentroom', [ReservationController::class, 'paymentreservation']);
 

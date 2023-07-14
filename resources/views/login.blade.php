@@ -18,7 +18,8 @@
                     </button>
                 </div>
                  @endif
-                <form method="POST" action="/login">
+                {{-- <form method="POST" action="/login"> --}}
+                <form method="POST" action="{{route('login-act')}}">
                     @csrf
                    <div class="row">
                       <div class="col-sm-12">
@@ -28,6 +29,9 @@
                       <div class="col-sm-12">
                          <input class="contactus" placeholder="Password" type="password" name="password">
 
+                      </div>
+                      <div class="col-sm-12" style="margin-bottom: 2px;">
+                         <a href="" style="padding-bottom: 4px;">Forget a Password, Reset Password Here</a>
                       </div>
                       <div class="col-sm-12">
                          <button type="submit" class="send">Login</button>

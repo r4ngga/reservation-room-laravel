@@ -58,7 +58,8 @@
                               <li> <a href="#about">About</a> </li>
                               <li> <a href="#service"> Service</a> </li>
                               <li> <a href="#ContactUs">Contact us</a> </li>
-                              <li> <a href="{{('/login')}}">Login</a> </li>
+                              {{-- <li> <a href="{{('/login')}}">Login</a> </li> --}}
+                              <li> <a href="{{ route('login') }}">Login</a> </li>
                            </ul>
                         </nav>
                      </div>

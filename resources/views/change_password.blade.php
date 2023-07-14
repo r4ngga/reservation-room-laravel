@@ -15,7 +15,7 @@
                         <form action="/changepassword" method="POST">
                             @csrf
                             <div class="form-group" hidden>
-                                <input type="text" class="form-control" id="id_user" name="id_user" value="{{auth()->user()->id_user}}">
+                                <input type="text" class="form-control" id="id_user" name="id_user" value="{{$getUserPassword->id_user ?? ''}}">
                             </div>
                             <div class="form-group">
                                 <label for="password">New Password</label>
