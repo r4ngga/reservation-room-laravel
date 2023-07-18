@@ -47,7 +47,7 @@
                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
                   <div class="full">
                      <div class="center-desk">
-                        @if(auth()->user()->role=="admin")
+                        @if(auth()->user()->role=="1")
                         <div class="logo"> <a href="{{('/admindashboard')}}">MyRR</a> </div>
                         @else
                         <div class="logo"> <a href="{{('/userdashboard')}}">MyRR</a> </div>

@@ -23,15 +23,40 @@ class RoomController extends Controller
 
     public function fetchRoom(Request $request)
     {
-        $rooms = Room::where('status', 'free')->get();
-        json_encode($rooms);
+        $rooms = Room::where('status', 'free')
+                    ->orWhere('status', 'Free')->get();
+        // json_encode($rooms);
+        return view('room.index', compact('rooms'));
     }
 
     public function fetchDetailRoom($id)
     {
         $getRoom = Room::where('id', $id)->first();
         dd($getRoom);
-        json_encode($getRoom);
+        //return json_encode($getRoom);
+        return json_decode($getRoom, true);
+    }
+
+    public function fetchEditRoom($id){
+        // $room = Room::where('id', $id)->first();
+        $room = Room::findOrFail($id);
+
+        $imag = '';
+        if($room->image_room){
+            $imag = '/images/'.$room->image_room;
+        }else{
+            $imag = '/images/default.jpeg';
+        }
+
+        return response()->json( array(
+            'number_room' => $room->number_room,
+            'facility' => $room->facility,
+            'class' => $room->class,
+            'capacity' => $room->capacity,
+            'price' => $room->price,
+            'image_room' => $imag,
+        ));
+        //return json_encode($room);
     }
 
     public function show_all()
@@ -50,15 +75,21 @@ class RoomController extends Controller
             'price' => 'required|numeric',
             // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-        $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
-        $request->image_room->move(public_path('images'), $imgName);
+        if($request->image_room){
+            $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
+            $request->image_room->move(public_path('images'), $imgName);
+        }
+
+        dd($imgName);
+
         $room = new Room();
         $room->facility = $request->facility;
         $room->class = $request->class;
         $room->capacity = $request->capacity;
         $room->price = $request->price;
-        //$room->image_room = isset($request->image_room) ? $imgName : null;
+        $room->image_room = !empty($request->image_room) ? $imgName : null;
         $room->save();
+
         // Room::create([
         //     'facility' => $request->facility,
         //     'class' => $request->class,
@@ -66,6 +97,7 @@ class RoomController extends Controller
         //     'price' => $request->price,
         //     'image_room' => $imgName,
         // ]);
+
         return redirect('/rooms')->with('notify', 'Congratulations, success add a new room !');
     }
 
@@ -81,17 +113,34 @@ class RoomController extends Controller
             'class' => 'required|in:Vip,Premium,Reguler',
             'capacity' => 'required|numeric',
             'price' => 'required|numeric',
-            'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
+            // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
         $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
         $request->image_room->move(public_path('images'), $imgName);
 
-        $room = new Room();
-        $room->facility = $request->facility;
-        $room->class = $request->class;
-        $room->capacity = $request->capacity;
-        $room->price = $request->price;
-        // $room->image_room = isset($request->image_room) ? $imgName : null;
+        $oldImg = '';
+        $room = Room::where('number_room', $room->number_room)->first();
+        if($request->image_room){
+            $oldImg = '/images/'.$room->image_room;
+            // $oldImg = '/images/'.$book->image_book;
+            unlink(public_path($oldImg));
+        }
+        dd($oldImg);
+
+        // $room = Room::where('number_room', $id)->first();
+        if(!empty($request->facility)){
+            $room->facility = $request->facility;
+        }
+        if(!empty($request->class)){
+            $room->class = $request->class;
+        }
+        if(!empty($request->capacity)){
+            $room->capacity = $request->capacity;
+        }
+        if(!empty($request->price)){
+            $room->price = $request->price;
+        }
+        $room->image_room = isset($request->image_room) ? $imgName : null;
         $room->save();
         // Room::where('number_room', $room->number_room)->update([
         //     'facility' => $request->facility,

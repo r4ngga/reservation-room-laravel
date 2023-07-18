@@ -49,8 +49,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard']);
         //Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard'])->name('admin');
         Route::get('/rooms', [Admin\RoomController::class, 'show_all']);
+        //Route::get('/rooms', [Admin\RoomController::class, 'show_all'])->name('room');
         Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
         Route::post('/rooms', [Admin\RoomController::class, 'store']);
+        //Route::post('/rooms', [Admin\RoomController::class, 'store'])->name('room.store');
         Route::get('/change/{room}', [Admin\RoomController::class, 'edit']);
         Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update']);
         Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
