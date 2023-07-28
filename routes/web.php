@@ -46,20 +46,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword'])->middleware('auth');
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatechangepassword'])->middleware('auth');
     Route::group(['middleware' => ['cek_login:1']], function () {
-        Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard']);
-        //Route::get('/admindashboard', [Admin\AdminController::class, 'admindashboard'])->name('admin');
-        Route::get('/rooms', [Admin\RoomController::class, 'show_all']);
-        //Route::get('/rooms', [Admin\RoomController::class, 'show_all'])->name('room');
+        Route::get('admin-dashboard', [Admin\AdminController::class, 'admindashboard'])->name('admin');
+        Route::get('room', [Admin\RoomController::class, 'show_all'])->name('room');
         Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
         Route::post('/rooms', [Admin\RoomController::class, 'store']);
         //Route::post('/rooms', [Admin\RoomController::class, 'store'])->name('room.store');
         Route::get('/change/{room}', [Admin\RoomController::class, 'edit']);
+        //Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
         Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update']);
+        // Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update'])->name('room.update');
         Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
+        //Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy'])->name('room.destroy');
 
-        Route::get('/reservation', [Admin\ReservationController::class, 'confirmationbooking']);
+        Route::get('reservation', [Admin\ReservationController::class, 'confirmationbooking'])->name('reservation');
         Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
-        Route::get('/users', [Admin\UserController::class, 'show_all_user']);
+        //Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation'])->name('confirmation-reservation');
+        // Route::get('/users', [Admin\UserController::class, 'show_all_user']);
+        Route::get('users', [Admin\UserController::class, 'index'])->name('users');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

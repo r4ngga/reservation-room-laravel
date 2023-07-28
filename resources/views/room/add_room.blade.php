@@ -1,6 +1,19 @@
 @extends('template/main_dashboard')
 
 @section('title','Insert New Room')
+
+@section('style')
+<style>
+    .mini-img-room{
+        max-width: 100px;
+        width: 100%;
+        max-height: 100px;
+        height: 100%;
+        margin: 4px;
+    }
+</style>
+@endsection
+
 @section('container')
 <div class="container">
     <div class="row">
@@ -41,6 +54,12 @@
                             <div class="form-group">
                                 <label for="image room">Image Room</label>
                                 <input type="file" class="form-control-file" id="image_room" name="image_room">
+
+                                <div class="row">
+                                    <div class="col">
+                                        <img id="img-room" src="" class="mini-img-room" style="display: none;" alt="">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Insert</button>
@@ -51,4 +70,43 @@
        </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    const prevImage = (event) => { //untuk preview image ketika edit
+        /**
+       * Get the selected files.
+       */
+      const imageFiles = event.target.files;
+      /**
+       * Count the number of files selected.
+       */
+      const imageFilesLength = imageFiles.length;
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      /**
+       * If at least one image is selected, then proceed to display the preview.
+       */
+      if (imageFilesLength > 0) {
+          /**
+           * Get the image path.
+           */
+          const imageSrc = URL.createObjectURL(imageFiles[0]);
+          /**
+           * Select the image preview element.
+           */
+          const imagePreviewElement = document.querySelector("#img-room");
+          /**
+           * Assign the path to the image preview element.
+           */
+          imagePreviewElement.src = imageSrc;
+          /**
+           * Show the element by changing the display value to "block".
+           */
+          imagePreviewElement.style.display = "block";
+      }
+    };
+</script>
 @endsection

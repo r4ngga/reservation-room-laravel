@@ -30,6 +30,19 @@
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+      <style>
+        .main-footer {
+           position: fixed;
+           left: 0;
+           bottom: 0;
+           right: 0;
+           /* width: 100%; */
+           /* background-color: red;
+           color: white; */
+           /* text-align: center; */
+        }
+      </style>
+      @yield('style')
    </head>
    <!-- body -->
    <body class="main-layout">
@@ -48,7 +61,7 @@
                   <div class="full">
                      <div class="center-desk">
                         @if(auth()->user()->role=="1")
-                        <div class="logo"> <a href="{{('/admindashboard')}}">MyRR</a> </div>
+                        <div class="logo"> <a href="{{('/admin-dashboard')}}">MyRR</a> </div>
                         @else
                         <div class="logo"> <a href="{{('/userdashboard')}}">MyRR</a> </div>
                         @endif
@@ -67,11 +80,11 @@
                                       Manage Data
                                     </a>
                                     <div class="dropdown-menu" >
-                                      <a href="{{('/rooms')}}">Rooms Data</a>
-                                      <a href="{{('/users')}}">Users Data</a>
+                                      <a href="{{('room')}}">Rooms Data</a>
+                                      <a href="{{('users')}}">Users Data</a>
                                     </div>
                               </li>
-                              <li><a href="{{('/reservation')}}">Confirmation</a></li>
+                              <li><a href="{{('reservation')}}">Confirmation</a></li>
                               @elseif(auth()->user()->role=="2")
                               <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li>
                               <li> <a href="{{('/roomsdashboard')}}">Reservation</a> </li>
@@ -118,7 +131,7 @@
       <!-- end Testimonial -->
       <!--  footer -->
 
-         <div class="footer bottom">
+         <div class="footer bottom main-footer">
             <div class="container">
                <div class="row">
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
@@ -182,6 +195,7 @@
             </div>
           </div>
 
+          @yield('scripts')
       <!-- end footer -->
       <!-- Javascript files-->
       <script src="/template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>

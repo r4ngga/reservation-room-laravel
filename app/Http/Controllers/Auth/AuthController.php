@@ -66,7 +66,7 @@ class AuthController extends Controller
             if (auth()->user()->role == 2) { //role pengguna (user) 2
                 return redirect('/userdashboard');
             } elseif (auth()->user()->role == 1) { //role admin 1
-                return redirect('/admindashboard');
+                return redirect('admin-dashboard');
             } else {
                 return redirect('/login')->with('notify', 'You don"t have role');
             }
