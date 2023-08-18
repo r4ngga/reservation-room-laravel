@@ -57,10 +57,10 @@
             <tbody>
               @foreach($rooms as $rm)
               <tr>
-                <th scope="row">{{$rm->number_room}}</th>
-                <th>{{$rm->class}}</th>
-                <th>{{$rm->capacity}}</th>
-                <th>{{$rm->status}}</th>
+                <td scope="row">{{$rm->number_room}}</td>
+                <td>{{$rm->class}}</td>
+                <td>{{$rm->capacity}}</td>
+                <td>{{$rm->status}}</td>
                 {{-- <th>
                     @if($rm->image_room == null)
                     image room not found
@@ -68,11 +68,11 @@
                     <img src="/images/{{$rm->image_room}}" alt="" width="55" height="55">
                     @endif
                 </th> --}}
-                <th>
+                <td>
                     <a href="{{$rm->number_room}}/#ShowDetailRoom" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailRoom{{$rm->number_room}}">Detail</a>
                     <a href="/change/{{$rm->number_room}}" class="btn btn-info">Change</a>
                     <a href="{{$rm->number_room}}/#DeleteRoom" class="btn btn-danger" data-toggle="modal"  data-target="#DeleteRoom{{$rm->number_room}}">Delete</a>
-                </th>
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -279,5 +279,56 @@
           imagePreviewElement.style.display = "block";
       }
     };
+
+    function fetchEdit(id)
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/fetchedit/'+id,
+            processdata: false,
+            // type: 'JSON',
+            success:function(data){
+                console.log(data);
+                // document.getElementById('id-book').value = data.id_book;
+                // document.getElementById('name-book').value = data.name_book;
+                // document.getElementById('author-book').value = data.author;
+                // document.getElementById('isbn-book').value = data.isbn;
+                // document.getElementById('publisher-book').value = data.publisher;
+                // document.getElementById('timerelease-book').value = data.time_release;
+                // document.getElementById('pages-book').value = data.pages_book;
+                // document.getElementById('language-book').value = data.language;
+                // document.getElementById('img-book').src = data.image_book;
+                // document.getElementById('img-book').value = "";
+
+            }
+        });
+    }
+
+    function fetchroom()
+    {
+        $.ajax({
+            type: 'GET',
+            url: '',
+            processdata: false,
+            success: function(data)
+            {
+                console.log(data);
+            }
+        });
+    }
+
+    function fetchShowRoom(id)
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/room/'+id,
+            processdata: false,
+            // type: 'JSON',
+            success:function(data){
+                console.log(data);
+                //
+            }
+        });
+    }
 </script>
 @endsection

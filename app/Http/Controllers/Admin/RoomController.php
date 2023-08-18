@@ -12,7 +12,9 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = Room::all();
+        // $rooms = Room::all();
+        $rooms = Room::where('status', 'free')
+                    ->orWhere('status', 'Free')->get();
         return view('room.index', compact('rooms'));
     }
 
@@ -26,7 +28,20 @@ class RoomController extends Controller
         $rooms = Room::where('status', 'free')
                     ->orWhere('status', 'Free')->get();
         // json_encode($rooms);
-        return view('room.index', compact('rooms'));
+        $html = '<tr>';
+        $html .= '<td scope="row">'. $rooms->number_room ?? '' .'</td>';
+        $html .= '<td>'. $rooms->class ?? '' .'</td>';
+        $html .= '<td>'. $rooms->capacity ?? '' .'</td>';
+        $html .= '<td>'. $rooms->status ?? '' .'</td>';
+        $html .= '<td>';
+        $html .= '<a href="#" onclick="fetchShowRoom('.$rooms->number_room.')" data-toggle="modal" data-target="#ShowDetailRoom" class="btn btn-success">Detail</a>';
+        $html .= '<a href="#" onclick="getEdtRoom('.$rooms->number_room.', '.$rooms->facility.', '.$rooms->class.', '.$rooms->capacity.', '.$rooms->price.', '.$rooms->status.')" data-toggle="modal" data-target="#editRoom" class="btn btn-info">Change</a>';
+        $html .= '<a href="#" onclick="deleteRoom('.$rooms->number_room.')" data-toggle="modal" data-target="#DeleteRoom" class="btn btn-danger">Delete</a>';
+        $html .= ' </td>';
+        $html .= '</tr>';
+
+        return response()->json(['html' => $html]);
+        // return view('room.index', compact('rooms'));
     }
 
     public function fetchDetailRoom($id)
@@ -62,7 +77,8 @@ class RoomController extends Controller
     public function show_all()
     {
         $rooms = Room::all();
-        return view('room.index', ['rooms' => $rooms]);
+        // return view('room.index', ['rooms' => $rooms]);
+        return view('room.index', compact('rooms'));
     }
 
     public function store(Request $request)

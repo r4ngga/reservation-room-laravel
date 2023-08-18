@@ -48,13 +48,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('admin-dashboard', [Admin\AdminController::class, 'admindashboard'])->name('admin');
         Route::get('room', [Admin\RoomController::class, 'show_all'])->name('room');
+        //Route::get('fetchroom', [Admin\RoomController::class, 'fetchRoom'])->name('fetchroom');
         Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
+        //Route::get('room/{id}', [Admin\RoomController::class, 'fetchDetailRoom'])->name('room.show');
         Route::post('/rooms', [Admin\RoomController::class, 'store']);
         //Route::post('/rooms', [Admin\RoomController::class, 'store'])->name('room.store');
         Route::get('/change/{room}', [Admin\RoomController::class, 'edit']);
         //Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
         Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update']);
         // Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update'])->name('room.update');
+        //Route::get('fetchroom/{id}', [Admin\RoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
         Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
         //Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy'])->name('room.destroy');
 
@@ -63,6 +66,9 @@ Route::group(['middleware' => ['auth']], function () {
         //Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation'])->name('confirmation-reservation');
         // Route::get('/users', [Admin\UserController::class, 'show_all_user']);
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
+
+        //Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
+        //Route::get('fetchLog/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
