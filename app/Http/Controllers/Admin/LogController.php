@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-//use App\Log;
+use App\Log;
 use App\Room;
 use App\User;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class LogController extends Controller
 
     public function index()
     {
-        //$logs = Log::all()->orderBy('desc');
+        $logs = Log::all()->orderBy('desc');
         //$countlogs = count($logs);
 
         //return view('logs.index', compact('logs', 'countlogs'));
