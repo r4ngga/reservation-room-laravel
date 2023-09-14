@@ -16,10 +16,10 @@ class LogController extends Controller
 
     public function index()
     {
-        $logs = Log::all()->orderBy('desc');
-        //$countlogs = count($logs);
+        $logs = Log::orderBy('created_at','desc')->get();
+        $countlogs = count($logs);
 
-        //return view('logs.index', compact('logs', 'countlogs'));
+        return view('logs.index', compact('logs', 'countlogs'));
     }
 
     public function fetchDetail($id)

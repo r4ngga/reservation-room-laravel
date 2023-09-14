@@ -57,10 +57,10 @@
             <tbody>
               @foreach($rooms as $rm)
               <tr>
-                <td scope="row">{{$rm->number_room}}</td>
-                <td>{{$rm->class}}</td>
-                <td>{{$rm->capacity}}</td>
-                <td>{{$rm->status}}</td>
+                <td scope="row">{{$rm->number_room ?? ''}}</td>
+                <td>{{$rm->class ?? ''}}</td>
+                <td>{{$rm->capacity ?? ''}}</td>
+                <td>{{$rm->status ?? ''}}</td>
                 {{-- <th>
                     @if($rm->image_room == null)
                     image room not found

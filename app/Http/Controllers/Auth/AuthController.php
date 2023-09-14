@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Log;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -51,6 +53,20 @@ class AuthController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
+        $get_last_user = User::find($user->id_user);
+
+        $now = Carbon::now();
+        //create logs
+        $logs = new Log();
+        $logs->user_id = $user->id_user;
+        $logs->action = 'POST';
+        $logs->description = 'register a new user';
+        $logs->role = $user->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode($get_last_user);
+        $logs->save();
+
         // if ($validate) {
             return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
         // }
@@ -62,10 +78,37 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
+        $now = Carbon::now();
         if (Auth::attempt($request->only('email', 'password'))) {
             if (auth()->user()->role == 2) { //role pengguna (user) 2
+
+                //create log
+                $user = Auth::user();
+                $log = new Log();
+                $log->user_id = $user->id_user;
+                $log->action = 'POST';
+                $log->description = 'login system';
+                $log->data_old = '-';
+                $log->data_new = '-';
+                $log->role = $user->role;
+                $log->log_time = $now;
+                $log->save();
+
                 return redirect('/userdashboard');
             } elseif (auth()->user()->role == 1) { //role admin 1
+
+                //create log
+                $user = Auth::user();
+                $log = new Log();
+                $log->user_id = $user->id_user;
+                $log->action = 'POST';
+                $log->description = 'login system';
+                $log->data_old = '-';
+                $log->data_new = '-';
+                $log->role = $user->role;
+                $log->log_time = $now;
+                $log->save();
+
                 return redirect('admin-dashboard');
             } else {
                 return redirect('/login')->with('notify', 'You don"t have role');
@@ -122,6 +165,7 @@ class AuthController extends Controller
             'password' => 'required',
             'repeat_password' => 'required',
         ]);
+        $get_last_user = User::where('id_user', $request->id_user)->first();
         $repeat = $request->repeat_password;
         $passwrd = $request->password;
 
@@ -135,6 +179,19 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
+        $now = Carbon::new();
+
+        //create log
+        $log = new Log();
+        $log->user_id = $user->id_user;
+        $log->action = 'POST';
+        $log->description = 'update a password';
+        $log->data_old = json_encode($get_last_user);
+        // $log->data_new = json_encode($user);
+        $log->role = $user->role;
+        $log->log_time = $now;
+        $log->save();
+
         // User::where('id_user', $request->id_user)->update([
         //     'password' => bcrypt($request['password']),
         // ]);
@@ -143,8 +200,70 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $userAuth = Auth::user();
+        $now = Carbon::now();
+
+        //create log
+        $log = new Log();
+        $log->user_id = $userAuth->id_user;
+        $log->action = 'POST';
+        $log->description = 'logout from system';
+        $log->data_old = '-';
+        $log->data_new = '-';
+        $log->role = $userAuth->role;
+        $log->log_time = $now;
+        $log->save();
+
         $request->session()->flush();
         Auth::logout();
         return redirect('/login')->with('notify', 'Success Logout');
+    }
+
+    public function validationPhoneNumber(Request $request)
+    {
+        $phone = $request->phone_number;
+        $nomer_explode = $phone;
+
+        if(substr($nomer_explode, 0, 2) === "62"){
+            $nomerparse = explode('62', $nomer_explode)[1];
+            $phone = '0'.$nomerparse;
+        }
+        $checkPhone = User::where('phone_number', $phone)->first();
+
+        $status = array(
+            'message' => 'valid',
+            'status' => true,
+        );
+
+        if($checkPhone){
+            $status = array(
+                'message' => 'this number phone has been use',
+                'status' => false,
+            );
+        }
+
+        return response()->json($status);
+
+    }
+
+    public function validationEmail(Request $request)
+    {
+        $email = $request->email;
+
+        $checkEmail = User::where('email', $email)->first();
+
+        $status = array(
+            'message' => 'valid',
+            'status' => true,
+        );
+
+        if($checkEmail){
+            $status = array(
+                'message' => 'this email has been taken',
+                'status' => false,
+            );
+        }
+        return response()->json($status);
+
     }
 }

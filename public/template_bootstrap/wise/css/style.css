@@ -11,8 +11,8 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
 
 /*****----------------------------------------
-     1) font-family: 'Rajdhani', sans-serif;  
-     2) font-family: 'Poppins', sans-serif; 
+     1) font-family: 'Rajdhani', sans-serif;
+     2) font-family: 'Poppins', sans-serif;
 ----------------------------------------*****/
 
 
@@ -1045,7 +1045,7 @@ nav.main-menu {
 }
 
 .main-menu ul>li a {
-	padding: 6px 36px 0 36px;
+	padding: 6px 10px 0 10px;
 	line-height: 20px;
 	font-size: 16px;
 	display: block;
@@ -1141,7 +1141,7 @@ nav.main-menu {
 	vertical-align: middle;
 }
 
-.main-menu ul>li:nth-child (6) {
+.main-menu ul>li {
 	padding-right: 0px;
 }
 
@@ -1639,7 +1639,7 @@ input[type="radio"] .styled:checked+label::after {
 
 
 /*---------------------------------------------------------------------
-    layout new css 
+    layout new css
 ---------------------------------------------------------------------*/
 
 .header {
@@ -1764,7 +1764,7 @@ input[type="radio"] .styled:checked+label::after {
 }
 
 .about .titlepage span {
-	color: # 3d3c3c;
+	color: #3d3c3c;
 	font-size: 17px;
 	line-height: 30px;
 }
@@ -1809,7 +1809,7 @@ input[type="radio"] .styled:checked+label::after {
 }
 
 .service .titlepage span {
-	color: # 3d3c3c
+	color: #3d3c3c;
 }
 
 .service .service-box figure {
@@ -1951,7 +1951,7 @@ img.zoom {
 }
 
 .download .titlepage span {
-	color: # 3d3c3c
+	color: #3d3c3c;
 }
 
 .download .titlepage h2 {

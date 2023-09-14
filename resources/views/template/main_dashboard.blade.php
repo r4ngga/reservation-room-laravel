@@ -15,14 +15,14 @@
       <!-- bootstrap css -->
       <link rel="stylesheet" href="/template_bootstrap/wise/css/bootstrap.min.css">
       <!-- style css -->
-      <link rel="stylesheet" href="/template_bootstrap/wise/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/template_bootstrap/wise/css/style.css">
       <!-- Responsive-->
       <link rel="stylesheet" href="/template_bootstrap/wise/css/responsive.css">
       <!-- fevicon -->
       <link rel="icon" href="/template_bootstrap/wise/images/favicon.png" type="image/gif" />
       <!-- Scrollbar Custom CSS -->
       <link rel="stylesheet" href="/template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css">
-      <script src="/template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
+      <script type="text/javascript" src="/template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
@@ -40,6 +40,10 @@
            /* background-color: red;
            color: white; */
            /* text-align: center; */
+        }
+
+        .list-navbar{
+            padding: 6px 10px 0px 10px !important;
         }
       </style>
       @yield('style')
@@ -85,6 +89,7 @@
                                     </div>
                               </li>
                               <li><a href="{{('reservation')}}">Confirmation</a></li>
+                              <li><a href="{{('logs')}}">Logs</a></li>
                               @elseif(auth()->user()->role=="2")
                               <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li>
                               <li> <a href="{{('/roomsdashboard')}}">Reservation</a> </li>
@@ -198,31 +203,31 @@
           @yield('scripts')
       <!-- end footer -->
       <!-- Javascript files-->
-      <script src="/template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
+      <script type="text/javascript" src="/template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
 
-      <script src="/template_bootstrap/wise/js/jquery.min.js"></script>
-      <script src="/template_bootstrap/wise/js/popper.min.js"></script>
+      <script type="text/javascript" src="/template_bootstrap/wise/js/jquery.min.js"></script>
+      <script type="text/javascript" src="/template_bootstrap/wise/js/popper.min.js"></script>
 
       {{-- <script src="/template_bootstrap/wise/js/plugin.js"></script> --}}
       <!-- sidebar -->
-      <script src="/template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="/template_bootstrap/wise/js/custom.js"></script>
-      <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+      <script type="text/javascript" src="/template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script type="text/javascript" src="/template_bootstrap/wise/js/custom.js"></script>
+      <script type="text/javascript" src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
       <script>
-         $(document).ready(function(){
-         $(".fancybox").fancybox({
-         openEffect: "none",
-         closeEffect: "none"
-         });
+        $(document).ready(function(){
+            $(".fancybox").fancybox({
+                openEffect: "none",
+                closeEffect: "none"
+            });
 
-         $(".zoom").hover(function(){
+            $(".zoom").hover(function(){
 
-         $(this).addClass('transition');
-         }, function(){
+                $(this).addClass('transition');
+            }, function(){
 
-         $(this).removeClass('transition');
-         });
-         });
+                $(this).removeClass('transition');
+            });
+        });
 
       </script>
    </body>

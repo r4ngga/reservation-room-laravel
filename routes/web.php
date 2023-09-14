@@ -37,6 +37,9 @@ Route::get('/register', [Authentication\AuthController::class, 'register'])->nam
 Route::post('/register', [Authentication\AuthController::class, 'store']);
 //Route::post('/register', [Authentication\AuthController::class, 'store']);->name('regist')
 
+//Route::post('validation-phone-number', [Authentication\AuthController::class, 'validationPhoneNumber'])->name('validation-phone'); //checking email phone number
+//Route::post('validation-email', [Authentication\AuthController::class, 'validationEmail'])->name('validation-email'); //checking email
+
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth');
@@ -67,8 +70,8 @@ Route::group(['middleware' => ['auth']], function () {
         // Route::get('/users', [Admin\UserController::class, 'show_all_user']);
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
 
-        //Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
-        //Route::get('fetchLog/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
+        Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
+        //Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
