@@ -15,7 +15,7 @@
       <!-- bootstrap css -->
       <link rel="stylesheet" href="/template_bootstrap/wise/css/bootstrap.min.css">
       <!-- style css -->
-      <link rel="stylesheet" href="/template_bootstrap/wise/css/style.css">
+      <link rel="stylesheet" type="text/css" href="/template_bootstrap/wise/css/style.css">
       <!-- Responsive-->
       <link rel="stylesheet" href="/template_bootstrap/wise/css/responsive.css">
       <!-- fevicon -->
@@ -129,6 +129,7 @@
                     <p>Copyright &copy; {{date('Y')}} All Right Reserved By Rangga Wisnu Aji M</a></p>
             </div>
          </div>
+
          <div class="modal fade" id="modalComingSoon" tabindex="-1">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -148,6 +149,8 @@
             </div>
           </div>
       </footer>
+
+      @yield('scripts')
       <!-- end footer -->
       <!-- Javascript files-->
       <script src="/template_bootstrap/wise/js/jquery.min.js"></script>
@@ -159,20 +162,20 @@
       <script src="/template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
       <script src="/template_bootstrap/wise/js/custom.js"></script>
       <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-      <script>
+      <script type="text/javascript">
          $(document).ready(function(){
-         $(".fancybox").fancybox({
-         openEffect: "none",
-         closeEffect: "none"
-         });
+            $(".fancybox").fancybox({
+                openEffect: "none",
+                closeEffect: "none"
+            });
 
-         $(".zoom").hover(function(){
+            $(".zoom").hover(function(){
 
-         $(this).addClass('transition');
-         }, function(){
+                $(this).addClass('transition');
+            }, function(){
 
-         $(this).removeClass('transition');
-         });
+                $(this).removeClass('transition');
+            });
          });
 
       </script>

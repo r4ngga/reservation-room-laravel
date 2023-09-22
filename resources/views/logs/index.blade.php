@@ -4,7 +4,7 @@
 
 @section('style')
 <style>
-    .card-total{
+    .card-total-log{
         position: absolute;
         /* right: 100%; */
         left: 65%;
@@ -19,52 +19,53 @@
         /* padding-top: 1px; */
     }
 
-    .mini-img-room{
+    .mini-img-log{
         max-width: 100px;
         width: 100%;
         max-height: 100px;
         height: 100%;
     }
 
-    .position-col{
+    .position-col-log{
         right: 100%;
     }
 </style>
 @endsection
 
 @section('container')
-<div class="container mt-2 mb-2">
+{{-- <div id="service" class="service"> --}}
+<div class="container py-5 mt-2 mb-2" style="overflow-y:auto;">
     {{-- <a href="{{('/rooms/addroom')}}" class="btn btn-primary mb-2">Add a New Room</a> --}}
-    <div class="row">
+    <div class="row pb-4">
        <div class="col">
         @if(session('notify'))
             <div class="alert alert-success my-2" role="alert">
                 {{session('notify')}}
             </div>
          @endif
-        <table class="table">
+        <table class="table table-bordered table-sm border-1 mb-2" id="tableLogs">
             <thead>
               <tr>
-                <th scope="col">Log Id</th>
-                <th scope="col">Action</th>
-                <th scope="col">Role</th>
-                <th scope="col">Description</th>
-                <th scope="col">Log Time</th>
+                <th style="text-align: center;" scope="col">Log Id</th>
+                <th style="text-align: center;" scope="col">Command</th>
+                <th style="text-align: center;" scope="col">Role</th>
+                <th style="text-align: center;" scope="col">Description</th>
+                <th style="text-align: center;" scope="col">Log Time</th>
                 {{-- <th scope="col">Image Room</th> --}}
-                <th scope="col">Action</th>
+                <th style="text-align: center;" scope="col">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="bodylogs">
               @foreach($logs as $log)
               <tr>
-                <td scope="row">{{$log->id ?? ''}}</td>
-                <td>{{$log->action ?? ''}}</td>
-                <td>{{$log->role ?? ''}}</td>
-                <td>{{$log->description ?? ''}}</td>
-                <td>{{$log->log_time ?? ''}}</td>
+                <td style="text-align: center;" scope="row">{{$log->id ?? ''}}</td>
+                <td style="text-align: center;">{{$log->action ?? ''}}</td>
+                <td style="text-align: center;">{{($log->role == 1)? 'admin' : 'user' ?? ''}}</td>
+                <td style="text-align: center;">{{$log->description ?? ''}}</td>
+                <td style="text-align: center;">{{date('j F Y, h:i', strtotime($log->log_time)) ?? ''}}</td>
 
-                <td>
-                    <a href="{{$log->id}}/#ShowDetailLog" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailLog{{$log->id}}">Detail</a>
+                <td style="text-align: center;">
+                    <a href="javascript:void(0)" onclick="fetchShowLog({{$log->id ?? ''}})" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailLog">Detail</a>
                 </td>
               </tr>
               @endforeach
@@ -73,7 +74,7 @@
        </div>
     </div>
 </div>
-
+{{-- </div> --}}
 {{-- detail room --}}
 
 <div class="modal fade" id="ShowDetailLog" tabindex="-1">
@@ -92,12 +93,24 @@
                     <div class="col"> <p id="l-id"></p> </div>
                 </div>
                 <div class="row">
-                    <div class="col">Action : </div>
+                    <div class="col">Name : </div>
+                    <div class="col"> <p id="l-nameuser"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">User Id : </div>
+                    <div class="col"> <p id="l-userid"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Command : </div>
                     <div class="col"> <p id="l-action"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Description : </div>
                     <div class="col"> <p id="l-description"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Role : </div>
+                    <div class="col"> <p id="l-role"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Log Time : </div>
@@ -113,13 +126,6 @@
                 </div>
 
             </div>
-          {{-- <p>Number Rooms : {{$rm->number_room}} <br>
-             Facility     : {{$rm->facility}} <br>
-             Class        : {{$rm->class}} <br>
-             Capacity     : {{$rm->capacity}} <br>
-             Price        : {{$rm->price}} <br>
-             Status       : {{$rm->status}}
-          </p> --}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -136,7 +142,7 @@
 @section('scripts')
 <script>
 
-    function fetchroom()
+    function fetchlog()
     {
         $.ajax({
             type: 'GET',
@@ -149,7 +155,7 @@
         });
     }
 
-    function fetchShowRoom(id)
+    function fetchShowLog(id)
     {
         $.ajax({
             type: 'GET',
@@ -157,8 +163,18 @@
             processdata: false,
             // type: 'JSON',
             success:function(data){
-                console.log(data);
-                //
+                let parsedata = JSON.parse(data);
+                console.log(parsedata);
+                document.getElementById('l-id').innerHTML = parsedata.id;
+                document.getElementById('l-userid').innerHTML = parsedata.user_id;
+                document.getElementById('l-action').innerHTML = parsedata.action;
+                document.getElementById('l-description').innerHTML = parsedata.description;
+                document.getElementById('l-time').innerHTML = parsedata.log_time;
+                document.getElementById('l-dataold').innerHTML = parsedata.data_old;
+                document.getElementById('l-datanew').innerHTML = parsedata.data_new;
+                document.getElementById('l-nameuser').innerHTML = parsedata.name;
+                document.getElementById('l-role').innerHTML = parsedata.role;
+                // document.getElementById('b-pagesbook').innerHTML = data.pages_book;
             }
         });
     }

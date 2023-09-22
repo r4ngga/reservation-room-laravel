@@ -1377,6 +1377,8 @@ nav.main-menu {
 
 .heroslider .container {
 	position: relative;
+    /* overflow: auto; */
+    /* position: fixed; */
 	height: 100%;
 	padding-left: 0;
 	padding-right: 0;
@@ -2293,8 +2295,9 @@ ul.contant_icon li img {
 .copyright {
 	background-color: #fff;
 	padding: 20px 0px;
-	;
 	margin-top: 55px;
+    border-top-style: groove;
+    border-top-color: #0fc690;
 }
 
 .copyright p {

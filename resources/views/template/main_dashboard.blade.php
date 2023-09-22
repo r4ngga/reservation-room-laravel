@@ -20,6 +20,11 @@
       <link rel="stylesheet" href="/template_bootstrap/wise/css/responsive.css">
       <!-- fevicon -->
       <link rel="icon" href="/template_bootstrap/wise/images/favicon.png" type="image/gif" />
+      <!-- datatables -->
+      <link rel="stylesheet" type="text/css" href="/template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
+      <link rel="stylesheet" type="text/css" href="/template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="/template_bootstrap/datatables/DataTables-1.13.6/css/jquery.dataTables.min.css">
+
       <!-- Scrollbar Custom CSS -->
       <link rel="stylesheet" href="/template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css">
       <script type="text/javascript" src="/template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
@@ -27,12 +32,15 @@
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
 
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
       <style>
         .main-footer {
-           position: fixed;
+           /* position: initial; */
+           position: absolute;
+           /* position:unset; */
            left: 0;
            bottom: 0;
            right: 0;
@@ -136,8 +144,8 @@
       <!-- end Testimonial -->
       <!--  footer -->
 
-         <div class="footer bottom main-footer">
-            <div class="container">
+         <div class="fixed-bottom" >
+            {{-- <div class="container">
                <div class="row">
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
@@ -176,11 +184,12 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> --}}
             <div class="copyright">
                     <p>Copyright &copy; {{date('Y')}} All Right Reserved By Rangga Wisnu Aji M</a></p>
             </div>
-         </div>
+        </div>
+
          <div class="modal fade" id="modalComingSoon" tabindex="-1">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -203,6 +212,7 @@
           @yield('scripts')
       <!-- end footer -->
       <!-- Javascript files-->
+      <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
       <script type="text/javascript" src="/template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
 
       <script type="text/javascript" src="/template_bootstrap/wise/js/jquery.min.js"></script>
@@ -213,7 +223,36 @@
       <script type="text/javascript" src="/template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
       <script type="text/javascript" src="/template_bootstrap/wise/js/custom.js"></script>
       <script type="text/javascript" src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-      <script>
+      <script type="text/javascript" src="{{ asset('template_bootstrap/datatables/DataTables-1.13.6/js/dataTables.bootstrap.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('template_bootstrap/datatables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js') }}"></script>
+
+      <script src="template_bootstrap/datatables/DataTables-1.13.6/js/jquery.dataTables.min.js"></script>
+
+      <script type="text/javascript">
+
+        $(document).ready(function(){
+            $('#tableLogs').DataTable({
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20], [5, 10, 20]],
+                // columnDefs: [
+                    // {
+                    // targets: [0],
+                    // visible: false,
+                    // searchable: false,
+                    // pageLength: 5,
+                    // lengthMenu: [[5, 10, 20, -1], [5, 10, 20, "Todos"]]
+                //     }
+                // ],
+            });
+        })
+
+        $(document).ready(function(){
+            $('#tableRooms').DataTable({
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            });
+        })
+
         $(document).ready(function(){
             $(".fancybox").fancybox({
                 openEffect: "none",

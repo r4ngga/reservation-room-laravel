@@ -43,7 +43,7 @@
                       @enderror
                       </div>
                       <div class="col-sm-12">
-                        <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" name="phone_number">
+                        <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" id="regis_phone_number" name="phone_number">
                       @error('phone_number')
                         <div class="invalid-feedback">{{$message}}</div>
                       @enderror
@@ -78,3 +78,10 @@
     </div>
  </div>
 @endsection()
+
+@section('scripts')
+<script>
+    const regist_phone_number = document.querySelector('#regis_phone_number');
+
+</script>
+@endsection

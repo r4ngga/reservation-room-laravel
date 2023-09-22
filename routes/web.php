@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
 
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
-        //Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
+        Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
