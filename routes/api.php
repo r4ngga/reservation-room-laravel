@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Api;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['namespace' => 'Api'], function(){
+    //logs
+    Route::get('logs', 'LogApiController@getLogs');
+    Route::get('logs/{id}', 'LogApiController@getFetchLogs');
+    //Route::get('logs-by-role', 'LogApiController@FetchLogsByRole');
+
+    //rooms
+    //Route::get('rooms', 'RoomApiController@getAllRooms');
+    //Route::get('rooms-free', 'RoomApiController@getFreeRoom');
+    //Route::get('rooms-booked', 'RoomApiController@getBookedRoom');
 });
+
+// Route::get('logs', 'LogApiController@getLogs');
