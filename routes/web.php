@@ -50,16 +50,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatechangepassword'])->middleware('auth');
     Route::group(['middleware' => ['cek_login:1']], function () {
         Route::get('admin-dashboard', [Admin\AdminController::class, 'admindashboard'])->name('admin');
+        Route::get('count-rooms', [Admin\AdminController::class, 'countRoom'])->name('count-rooms');
+        Route::get('count-users', [Admin\AdminController::class, 'countUser'])->name('count-users');
+        Route::get('count-reservations', [Admin\AdminController::class, 'countReservation'])->name('count-reservations');
         Route::get('room', [Admin\RoomController::class, 'show_all'])->name('room');
-        //Route::get('fetchroom', [Admin\RoomController::class, 'fetchRoom'])->name('fetchroom');
+        // Route::get('fetchroom', [Admin\RoomController::class, 'fetchRoom'])->name('fetchroom');
         Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
-        //Route::get('room/{id}', [Admin\RoomController::class, 'fetchDetailRoom'])->name('room.show');
+        Route::get('rooms/{id}', [Admin\RoomController::class, 'fetchDetailRoom'])->name('rooms.show');
         Route::post('/rooms', [Admin\RoomController::class, 'store']);
         //Route::post('/rooms', [Admin\RoomController::class, 'store'])->name('room.store');
-        Route::get('/change/{room}', [Admin\RoomController::class, 'edit']);
-        //Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
-        Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update']);
-        // Route::patch('/rooms/{room}', [Admin\RoomController::class, 'update'])->name('room.update');
+        Route::get('fetchedit/{id}', [Admin\RoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
+        // Route::get('/change/{id}', [Admin\RoomController::class, 'edit']);
+        Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
+        // Route::patch('/rooms/{id}', [Admin\RoomController::class, 'update']);
+        Route::post('rooms/update/{id}', [Admin\RoomController::class, 'update'])->name('room.update');
         //Route::get('fetchroom/{id}', [Admin\RoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
         Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
         //Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy'])->name('room.destroy');

@@ -46,10 +46,30 @@ class RoomController extends Controller
 
     public function fetchDetailRoom($id)
     {
-        $getRoom = Room::where('id', $id)->first();
-        dd($getRoom);
-        //return json_encode($getRoom);
-        return json_decode($getRoom, true);
+        $getRoom = Room::where('number_room', $id)->first();
+
+        $image = '';
+        if($getRoom->image_room){
+            $image =  '/images/'.$getRoom->image_room;
+        }else{
+            $image = '/images/default.jpeg';
+        }
+        // dd($getRoom);
+        // return json_decode($getRoom, true);
+
+        return response()->json(
+            array(
+                'number_room' => $getRoom->number_room,
+                'facility' => $getRoom->facility,
+                'class' => $getRoom->class,
+                'capacity' => $getRoom->capacity,
+                'price' => $getRoom->price,
+                'status' => $getRoom->status,
+                'image_room' => $image,
+                'created_at' => $getRoom->created_at,
+                'updated_at' => $getRoom->updated_at,
+            )
+        );
     }
 
     public function fetchEditRoom($id){
@@ -70,6 +90,8 @@ class RoomController extends Controller
             'capacity' => $room->capacity,
             'price' => $room->price,
             'image_room' => $imag,
+            'created_at' => $room->created_at,
+            'updated_at' => $room->updated_at,
         ));
         //return json_encode($room);
     }
@@ -83,7 +105,6 @@ class RoomController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
         $request->validate([
             'facility' => 'required',
             'class' => 'required|in:Vip,Premium,Reguler',
@@ -170,6 +191,11 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
+        $delroom = Room::where('number_room', $room->number_room)->first();
+        if($delroom->image_room){
+            $img = '/images/'.$delroom->image_room;
+            unlink(public_path($img));
+        }
         Room::destroy($room->number_room);
         return redirect('/rooms')->with('notify', 'Data a Room successfully delete !');
     }

@@ -142,13 +142,6 @@ class AuthController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
-        // User::where('id_user', $request->id_user)->update([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'address' => $request->address,
-        //     'phone_number' => $request->phone_number,
-        //     'gender' => $request->gender,
-        // ]);
 
         return redirect('/userdashboard')->with('notify', 'Congratulation success changes setting account !!');
     }
@@ -171,7 +164,6 @@ class AuthController extends Controller
 
         if($repeat == $passwrd)
         {
-            // return redirect()->back()->withErrors('Inputan Jumlah Siswa 0')->withInput();
             return redirect()->back()->withErrors('Password must match');
         }
 
@@ -187,7 +179,7 @@ class AuthController extends Controller
         $log->action = 'POST';
         $log->description = 'update a password';
         $log->data_old = json_encode($get_last_user);
-        // $log->data_new = json_encode($user);
+        $log->data_new = json_encode($user);
         $log->role = $user->role;
         $log->log_time = $now;
         $log->save();

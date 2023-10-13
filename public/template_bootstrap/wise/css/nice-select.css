@@ -28,6 +28,12 @@
   text-align: left !important;
   white-space: nowrap;
   font-weight: 300;
+
+  /* border: #b1b0b0 solid 2px;
+	margin-bottom: 30px;
+	border-radius: inherit;
+	padding: 16px 19px;
+	color: #cfcece; */
 }
 
 .nice-select:after {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Log;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -24,6 +26,9 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
         $validate =  $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -41,6 +46,17 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'POST';
+        $logs->description = 'add a new user';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode($user);
+        $logs->save();
+
         // User::create([
         //     'name' => $request->name,
         //     'email' => $request->email,
@@ -55,8 +71,11 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update($id, Request $request)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
         $validate =  $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -66,7 +85,9 @@ class UserController extends Controller
             'gender' => 'required',
         ]);
 
-        $update = new User();
+        $old_user = User::where('user_id', $id)->first();
+
+        $update = User::where('user_Id', $id)->first();
         $update->name = $request->name;
         $update->email = $request->email;
         $update->address = $request->address;
@@ -74,6 +95,19 @@ class UserController extends Controller
         $update->phone_number = $request->phone_number;
         $update->gender = $request->gender ;
         $update->save();
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'PUT';
+        $logs->description = 'update a user';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_user);
+        $logs->data_new = json_encode($update);
+        $logs->save();
+
+        return response()->json(['' => '']);
     }
 
     // public function changepassword()

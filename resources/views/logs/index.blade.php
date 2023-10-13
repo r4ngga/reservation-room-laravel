@@ -124,6 +124,10 @@
                     <div class="col">Data New : </div>
                     <div class="col"> <p id="l-datanew"></p> </div>
                 </div>
+                <div class="row">
+                    <div class="col">Created : </div>
+                    <div class="col"> <p id="l-created"></p> </div>
+                </div>
 
             </div>
         </div>
@@ -142,7 +146,7 @@
 @section('scripts')
 <script>
 
-    function fetchlog()
+    /*function fetchlog()
     {
         $.ajax({
             type: 'GET',
@@ -153,7 +157,7 @@
                 console.log(data);
             }
         });
-    }
+    }*/
 
     function fetchShowLog(id)
     {
@@ -174,6 +178,7 @@
                 document.getElementById('l-datanew').innerHTML = parsedata.data_new;
                 document.getElementById('l-nameuser').innerHTML = parsedata.name;
                 document.getElementById('l-role').innerHTML = parsedata.role;
+                document.getElementById('l-created').innerHTML = parsedata.created_at;
                 // document.getElementById('b-pagesbook').innerHTML = data.pages_book;
             }
         });

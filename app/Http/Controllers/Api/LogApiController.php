@@ -133,4 +133,47 @@ class LogApiController extends Controller
 
         return response()->json($data);
     }
+
+    public function fetchLogsByAction(Request $request)
+    {
+        $action = $request->action;
+
+        $logsaction = Log::where('role', $action)->get();
+
+        $countLogsAct = count($logsaction);
+
+        if($countLogsAct > 0){
+            foreach($logsaction as $lg ){
+                $detail = array(
+                    'id' => $lg->id,
+                    'user_id' => $lg->user_id,
+                    'action' => $lg->action,
+                    'description' => $lg->description,
+                    'role' => $lg->role,
+                    'data_old' => $lg->data_old,
+                    'data_new' => $lg->data_new,
+                    'log_time' => $lg->log_time,
+                    'created_at' => $lg->created_at,
+                );
+            }
+
+            $data = array(
+                'status' => true,
+                'code' => 200,
+                'message' => 'success',
+                'counts' => $countLogsAct,
+                'data' => $detail,
+            );
+
+        }else{
+            $data = array(
+                'status' => true,
+                'code' => 200,
+                'message' => 'faill',
+                'counts' => 0,
+            );
+        }
+
+        return response()->json([$data]);
+    }
 }

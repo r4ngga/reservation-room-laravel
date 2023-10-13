@@ -31,6 +31,9 @@ Route::group(['namespace' => 'Api'], function(){
     //Route::get('rooms', 'RoomApiController@getAllRooms');
     //Route::get('rooms-free', 'RoomApiController@getFreeRoom');
     //Route::get('rooms-booked', 'RoomApiController@getBookedRoom');
+
+    //users
+    //Route::get('users', 'UserApiController@getAllUsers');
 });
 
 // Route::get('logs', 'LogApiController@getLogs');

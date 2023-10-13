@@ -38,11 +38,16 @@
     <a href="{{('/rooms/addroom')}}" class="btn btn-primary mb-2">Add a New Room</a>
     <div class="row pb-4">
        <div class="col">
-        @if(session('notify'))
+        {{-- @if(session('notify'))
             <div class="alert alert-success my-2" role="alert">
                 {{session('notify')}}
             </div>
-         @endif
+         @endif --}}
+         <div id="aler-success" class="alert alert-success my-2" role="alert" style="display: none">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <table class="table table-bordered border-1 mb-2">
             <thead>
               <tr>
@@ -61,16 +66,10 @@
                 <td>{{$rm->class ?? ''}}</td>
                 <td>{{$rm->capacity ?? ''}}</td>
                 <td>{{$rm->status ?? ''}}</td>
-                {{-- <th>
-                    @if($rm->image_room == null)
-                    image room not found
-                    @else
-                    <img src="/images/{{$rm->image_room}}" alt="" width="55" height="55">
-                    @endif
-                </th> --}}
+
                 <td>
-                    <a href="{{$rm->number_room}}/#ShowDetailRoom" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailRoom{{$rm->number_room}}">Detail</a>
-                    <a href="/change/{{$rm->number_room}}" class="btn btn-info">Change</a>
+                    <a onclick="fetchShowRoom({{$rm->number_room ?? ''}})" href="javascript:void(0)" data-toggle="modal" data-target="#ShowDetailRoom" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailRoom{{$rm->number_room}}">Detail</a>
+                    <a onclick="fetchEdit({{$rm->number_room ?? ''}} )" href="#" data-toggle="modal" data-target="#editRoom" class="btn btn-info">Change</a>
                     <a href="{{$rm->number_room}}/#DeleteRoom" class="btn btn-danger" data-toggle="modal"  data-target="#DeleteRoom{{$rm->number_room}}">Delete</a>
                 </td>
               </tr>
@@ -122,14 +121,11 @@
                     <div class="col">Image Room : </div>
                     <div class="col"> <img id="r-img" class="mini-img-room" src="" alt=""> </div>
                 </div>
+                <div class="row">
+                    <div class="col">Created at: </div>
+                    <div class="col"> <p id="r-created"></p> </div>
+                </div>
             </div>
-          {{-- <p>Number Rooms : {{$rm->number_room}} <br>
-             Facility     : {{$rm->facility}} <br>
-             Class        : {{$rm->class}} <br>
-             Capacity     : {{$rm->capacity}} <br>
-             Price        : {{$rm->price}} <br>
-             Status       : {{$rm->status}}
-          </p> --}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,19 +172,19 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="" method="POST" enctype="multipart/form-data">
+          <form action="" id="form-edtrm" method="POST" enctype="multipart/form-data">
               {{-- @method('delete') --}}
               @csrf
               <input type="hidden" id="id-room" value="">
 
               <div class="form-group">
                 <label for="facility">Facility</label>
-                <input type="text" class="form-control" name="facility" id="facility-room">
+                <input type="text" class="form-control" name="facility" id="facility-room" style="color: black">
               </div>
               <div class="form-group">
                 <label for="cls">Class</label>
-                <select name="class" class="form-control" id="class-room">
-                    <option value="">Please Select</option>
+                <select aria-label="label for the select" name="class" class="nice-select" id="class-room" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
+                    <option value="" selected>Please Select</option>
                     <option value="vip">VIP</option>
                     <option value="premium">Premium</option>
                     <option value="reguler">Regular</option>
@@ -196,11 +192,11 @@
               </div>
               <div class="form-group">
                 <label for="capacity">Capacity</label>
-                <input type="text" class="form-control" name="capacity" id="capacity-room">
+                <input type="text" class="form-control" name="capacity" id="capacity-room" style="color: black">
               </div>
               <div class="form-group">
                 <label for="price">Price</label>
-                <input type="text" class="form-control" name="price" id="price-room">
+                <input type="text" class="form-control" name="price" id="price-room" style="color: black">
               </div>
 
               <div class="form-group">
@@ -209,7 +205,7 @@
                  <img src="" id="img-rm" class="mini-img-room" alt="" style="margin-top: 2px; margin-bottom: 4px;">
               </div>
 
-              <button type="submit" class="btn btn-primary">Insert</button>
+              <button type="submit" id="btn-edtroom" class="btn btn-primary">Update</button>
           </form>
         </div>
         <div class="modal-footer">
@@ -289,22 +285,29 @@
             // type: 'JSON',
             success:function(data){
                 console.log(data);
+
+                let selectedClass = document.getElementById('class-room');
+                for(let i=0; i < selectedClass.length; i++)
+                {
+                    if(data.class == selectedClass.options[i].value){
+                        selectedClass.options[i].selected = true;
+                        // selecte.leaveCode[i].selected = true;
+                    }
+                }
                 // document.getElementById('id-book').value = data.id_book;
-                // document.getElementById('name-book').value = data.name_book;
-                // document.getElementById('author-book').value = data.author;
-                // document.getElementById('isbn-book').value = data.isbn;
-                // document.getElementById('publisher-book').value = data.publisher;
-                // document.getElementById('timerelease-book').value = data.time_release;
-                // document.getElementById('pages-book').value = data.pages_book;
-                // document.getElementById('language-book').value = data.language;
-                // document.getElementById('img-book').src = data.image_book;
-                // document.getElementById('img-book').value = "";
+                document.getElementById('id-room').value = data.number_room;
+                document.getElementById('capacity-room').value = data.capacity;
+                document.getElementById('facility-room').value = data.facility;
+                document.getElementById('price-room').value = data.price;
+                document.getElementById('image_room').value = '';
+
+                document.getElementById('img-rm').src = data.image_room;
 
             }
         });
     }
 
-    function fetchroom()
+   /* function fetchroom()
     {
         $.ajax({
             type: 'GET',
@@ -315,20 +318,59 @@
                 console.log(data);
             }
         });
-    }
+    }*/
 
     function fetchShowRoom(id)
     {
         $.ajax({
             type: 'GET',
-            url: '/room/'+id,
+            url: '/rooms/'+id,
             processdata: false,
-            // type: 'JSON',
             success:function(data){
                 console.log(data);
+                document.getElementById('r-number').innerHTML = data.number_room;
+                document.getElementById('r-facility').innerHTML = data.facility;
+                document.getElementById('r-class').innerHTML = data.class;
+                document.getElementById('r-capacity').innerHTML = data.capacity;
+                document.getElementById('r-price').innerHTML = data.price;
+                document.getElementById('r-status').innerHTML = data.status;
+                document.getElementById('r-img').src = data.image_room;
+                document.getElementById('r-created').innerHTML = data.created_at;
                 //
             }
         });
     }
+
+    $("#btn-edtroom").click(function(e) {
+        e.preventDefault();
+
+        let room_id = $('#id-room').val();
+        let room_facility = $('#facility-room').val();
+        let room_class = $('#class-room').val();
+        let room_capacity = $('#capacity-room').val();
+        let room_price = $('#price-room').val();
+        let room_img = $('#image_room').val();
+
+        let form_edit =  new FormData($("#form-edtrm")[0]);
+
+        console.log(room_id, room_facility, room_class, room_capacity, room_price, room_img);
+
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: '/room/update/'+room_id ,
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+            dataType: 'json',
+            processdata: false,
+            contentType: false,
+            data: form_edit,
+            success: function(data){
+                $('#editRoom').modal('hide');
+
+            }
+        });
+    });
 </script>
 @endsection
