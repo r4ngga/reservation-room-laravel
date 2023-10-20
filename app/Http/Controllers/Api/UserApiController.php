@@ -49,8 +49,9 @@ class UserApiController extends Controller
     {
         $user = User::findOrFail($id);
         $user = User::where('id_user',  $id)->get();
+        $countusr = count($user);
 
-        if($user){
+        if($countusr > 0){
             foreach($user as $usr){
                 $userData = array(
                     'id_user' => $usr->id_user,
@@ -68,16 +69,49 @@ class UserApiController extends Controller
                 'status' => true,
                 'code' => 200,
                 'message' => 'success',
+                'counts' => $countusr,
                 'data' => $userData,
             );
         }else{
             $data = array(
                 'status' => false,
                 'code' => 404,
-                'message' => 'failed, not found'
+                'message' => 'failed, not found',
+                'counts' => 0,
             );
         }
 
         return response()->json($data);
+    }
+
+    public function fetchUsersByGender(Request $request)
+    {
+        $gender = $request->gender;
+
+        $users = User::where('gender', $gender)->get();
+
+        $countgenders = count($users);
+
+        if($countgenders > 0){
+
+            foreach($users as $usr ){
+                $user = array(
+                    'user_id' => $usr->user_id,
+                    'name' => $usr->name,
+                    'email' => $usr->email,
+                    'address' => $usr->address,
+                    'phone_number' => $usr->phone_number,
+                    'gender' => $usr->gender,
+                    'role' => $usr->role,
+                    'created_at' => $usr->created_at,
+                );
+            }
+
+            $data = array(
+                'status' => true,
+                'code' => 200,
+                'message' => 'success',
+            );
+        }
     }
 }

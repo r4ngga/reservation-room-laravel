@@ -105,6 +105,9 @@ class RoomController extends Controller
 
     public function store(Request $request)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
         $request->validate([
             'facility' => 'required',
             'class' => 'required|in:Vip,Premium,Reguler',
@@ -135,6 +138,17 @@ class RoomController extends Controller
         //     'image_room' => $imgName,
         // ]);
 
+        //create a logs
+        $logs = new Logs();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'POST';
+        $logs->description = 'add a new room';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode($room);
+        $logs->save();
+
         return redirect('/rooms')->with('notify', 'Congratulations, success add a new room !');
     }
 
@@ -145,6 +159,9 @@ class RoomController extends Controller
 
     public function update(Request $request, Room $room)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
         $request->validate([
             'facility' => 'required',
             'class' => 'required|in:Vip,Premium,Reguler',
@@ -152,6 +169,7 @@ class RoomController extends Controller
             'price' => 'required|numeric',
             // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
+        $old_room = Room::where('number_room', $room->number_room)->first();
         $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
         $request->image_room->move(public_path('images'), $imgName);
 
@@ -186,6 +204,18 @@ class RoomController extends Controller
         //     'price' => $request->price,
         //     'image_room' => $imgName,
         // ]);
+
+        //createa a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'PUT';
+        $logs->description = 'change & update data room';
+        $logs->role =  $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_room);
+        $logs->data_new = json_encode($room);
+        $logs->save();
+
         return redirect('/rooms')->with('notify', 'Success save changes update room data');
     }
 

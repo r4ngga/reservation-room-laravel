@@ -28,12 +28,14 @@ Route::group(['namespace' => 'Api'], function(){
     //Route::get('logs-by-role', 'LogApiController@FetchLogsByRole');
 
     //rooms
-    //Route::get('rooms', 'RoomApiController@getAllRooms');
+    Route::get('rooms', 'RoomApiController@getAllRooms');
     //Route::get('rooms-free', 'RoomApiController@getFreeRoom');
     //Route::get('rooms-booked', 'RoomApiController@getBookedRoom');
 
     //users
     //Route::get('users', 'UserApiController@getAllUsers');
+    //Route::get('users/{id}', 'UserApiController@getFetchUsers');
+    //Route::get('users-gender', 'UserApiController@fetchUsersByGender');
 });
 
 // Route::get('logs', 'LogApiController@getLogs');

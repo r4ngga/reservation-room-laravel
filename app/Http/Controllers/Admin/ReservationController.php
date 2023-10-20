@@ -9,6 +9,9 @@ use App\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Log;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -88,44 +91,37 @@ class ReservationController extends Controller
         return view('reservation.temporary_list', ['reservations' => $reservation]);
     }
 
-    // public function paidreservation(Reservation $reservation)
-    // {
-    //     return view('reservation.payment_room', compact('reservation'));
-    // }
-
-    // public function paymentreservation(Request $request) //for action confrmation payment by user
-    // {
-    //     $request->validate([
-    //         'status_payment' => 'required',
-    //         'number_room' => 'required',
-    //         'number_reservation' => 'required',
-    //         'photo_transfer' => 'mimes:jpeg,png,jpg,gif,svg',
-    //     ]);
-    //     $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
-    //     $request->photo_transfer->move(public_path('images'), $imgName);
-    //     Reservation::where('number_reservation', $request->number_reservation)->update([
-    //         'status_payment' => $request->status_payment,
-    //         'photo_transfer' => $imgName,
-    //     ]);
-    //     Room::where('number_room', $request->number_room)->update([
-    //         'status' => 'full',
-    //     ]);
-    //     return redirect('/userdashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
-    // }
-
     public function confirmpaymentreservation(Request $request) //for action confrmation payment by admin
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
         $request->validate([
             'status_payment' => 'required',
             'number_room' => 'required',
             'number_reservation' => 'required',
         ]);
-        Reservation::where('number_reservation', $request->number_reservation)->update([
+
+        $old_rsvt = Reservation::where('number_reservation', $request->number_reservation)->get();
+
+        $new_resvt = Reservation::where('number_reservation', $request->number_reservation)->update([
             'status_payment' => $request->status_payment,
         ]);
         Room::where('number_room', $request->number_room)->update([
             'status' => 'full',
         ]);
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'PUT';
+        $logs->description = 'update confirmation payment reservation';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_rsvt);
+        $logs->data_new = json_encode($new_resvt);
+        $logs->save();
+
         return redirect('/reservation')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
     }
 

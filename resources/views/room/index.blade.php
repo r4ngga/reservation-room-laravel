@@ -368,7 +368,7 @@
             data: form_edit,
             success: function(data){
                 $('#editRoom').modal('hide');
-
+                $("#aler-success").css("display", "block");
             }
         });
     });

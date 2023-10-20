@@ -110,35 +110,4 @@ class UserController extends Controller
         return response()->json(['' => '']);
     }
 
-    // public function changepassword()
-    // {
-    //     $getUserPassword = Auth::user();
-    //     return view('change_password', compact('getUserPassword'));
-    // }
-
-    // public function updatechangepassword(Request $request)
-    // {
-    //     $request->validate([
-    //         'password' => 'required',
-    //         'repeat_password' => 'required'
-    //     ]);
-    //     $repeat = $request->repeat_password;
-    //     $passwrd = $request->password;
-
-    //     if($repeat == $passwrd){
-    //         // return redirect()->back()->withErrors('Inputan Jumlah Siswa 0')->withInput();
-    //         return redirect()->back()->withErrors('Password must match');
-    //     }
-
-    //     $user = User::wher('id_user', $request->id_user)->first();
-    //     $user->password = bcrypt($request->password);
-    //     $user->save();
-
-    //     return redirect()->back()->with('notify', 'Success change a password');
-    // }
-
-    // public function userdashboard()
-    // {
-    //     return view('user.dashboard');
-    // }
 }
