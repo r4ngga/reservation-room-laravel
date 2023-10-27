@@ -107,7 +107,7 @@ class UserController extends Controller
         $logs->data_new = json_encode($update);
         $logs->save();
 
-        return response()->json(['' => '']);
+        return response()->json(['notify' => 'Success update information user']);
     }
 
 }

@@ -33,7 +33,7 @@ Route::group(['namespace' => 'Api'], function(){
     //Route::get('rooms-booked', 'RoomApiController@getBookedRoom');
 
     //users
-    //Route::get('users', 'UserApiController@getAllUsers');
+    Route::get('users', 'UserApiController@getAllUsers');
     //Route::get('users/{id}', 'UserApiController@getFetchUsers');
     //Route::get('users-gender', 'UserApiController@fetchUsersByGender');
 });

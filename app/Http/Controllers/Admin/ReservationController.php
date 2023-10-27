@@ -143,18 +143,4 @@ class ReservationController extends Controller
         return view('reservation.confirmationpayment', ['reservations' => $reservation]);
     }
 
-    // public function loghistory()
-    // {
-    //     $auth = Auth::user();
-    //     $reservation = DB::table('reservations')
-    //         ->join('users', 'reservations.user_id', '=', 'users.id_user')
-    //         ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-    //         ->select('reservations.*', 'users.*', 'rooms.*')
-    //         ->where('users.id_user', auth()->user()->id_user)
-    //         ->orderBy('reservations.number_reservation', 'desc')
-    //         ->orderBy('reservations.status_payment', 'desc')
-    //         ->get();
-
-    //     return view('reservation.history', ['reservations' => $reservation]);
-    // }
 }

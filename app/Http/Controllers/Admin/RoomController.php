@@ -197,13 +197,6 @@ class RoomController extends Controller
         }
         $room->image_room = isset($request->image_room) ? $imgName : null;
         $room->save();
-        // Room::where('number_room', $room->number_room)->update([
-        //     'facility' => $request->facility,
-        //     'class' => $request->class,
-        //     'capacity' => $request->capacity,
-        //     'price' => $request->price,
-        //     'image_room' => $imgName,
-        // ]);
 
         //createa a logs
         $logs = new Log();

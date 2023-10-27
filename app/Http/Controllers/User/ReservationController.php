@@ -48,8 +48,9 @@ class ReservationController extends Controller
     public function reservation($id)
     {
         $room = Room::findOrFaill($id);
+        $random_string = $this->generateRandomString(10);
         $set_value = Str::random(7);
-        return view('reservation.booking', compact('room', 'set_value'));
+        return view('reservation.booking', compact('room', 'set_value', 'random_string'));
     }
 
     public function booking(Request $request)
@@ -115,12 +116,18 @@ class ReservationController extends Controller
 
     public function paymentreservation(Request $request) //for action confrmation payment by user
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
         $request->validate([
             'status_payment' => 'required',
             'number_room' => 'required',
             'number_reservation' => 'required',
             'photo_transfer' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        $old_data_rsvt = Reservation::where('number_reservation', $request->number_reservation)->first();
+
         if($request->photo_transfer)
         {
             $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
@@ -129,13 +136,26 @@ class ReservationController extends Controller
         $check_img = isset($request->photo_transfer) ? $imgName : null;
         // $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
         // $request->photo_transfer->move(public_path('images'), $imgName);
-        Reservation::where('number_reservation', $request->number_reservation)->update([
+        $rsvt = Reservation::where('number_reservation', $request->number_reservation)->update([
             'status_payment' => $request->status_payment,
             'photo_transfer' => $check_img,
         ]);
         Room::where('number_room', $request->number_room)->update([
             'status' => 'full',
         ]);
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'PUT';
+        $logs->description = 'update confirmation payment reservation';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_data_rsvt);
+        $logs->data_new = json_encode($rsvt);
+        $logs->save();
+        //create a logs
+
         return redirect('/userdashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
     }
 
@@ -173,5 +193,17 @@ class ReservationController extends Controller
         //     ->get();
 
         return view('reservation.history', compact('reservation'));
+    }
+
+    private function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
     }
 }

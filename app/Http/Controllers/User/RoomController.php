@@ -20,7 +20,9 @@ class RoomController extends Controller
     public function fetchShowRoom(Request $request)
     {
         $rooms = Room::where('status', 'free')->get();
-        json_decode($rooms, true);
+        // json_decode($rooms, true);
+
+        return response()->json($rooms);
     }
 
     public function fetchFilterRoom(Request $request)
@@ -31,8 +33,9 @@ class RoomController extends Controller
                         ->orwhere('price', $filter)
                         ->orwhere('class')->get();
 
-        json_encode($filter_room);
-    }
+        // json_encode($filter_room);
 
+        return response()->json($filter_room);
+    }
 
 }
