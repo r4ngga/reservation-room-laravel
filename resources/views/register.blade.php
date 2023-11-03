@@ -44,6 +44,10 @@
                       </div>
                       <div class="col-sm-12">
                         <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" id="regis_phone_number" name="phone_number">
+                        <span id="nomer-wa" class="text-sm text-gray-600 " style="display: none;">
+                            <i class="fas fa-circle" aria-hidden="true"></i>
+                            &nbsp;<p id="response"></p>
+                        </span>
                       @error('phone_number')
                         <div class="invalid-feedback">{{$message}}</div>
                       @enderror
@@ -83,5 +87,32 @@
 <script>
     const regist_phone_number = document.querySelector('#regis_phone_number');
 
+    regist_phone_number.addEventListener("blur", (event) => {
+        event.preventDefault();
+
+        let number ;
+        let url;
+
+        url = "{{ route('validation-phone') }}";
+        number = regist_phone_number.value;
+
+        $.ajax({
+            type: 'POST',
+            data: {number:number, _token:'{{ csrf_token() }}'},
+            url: url,
+            success: function(e){
+                if(e.status != true){
+                    document.getElementById('nomer-wa').style.display = 'block';
+                    document.getElementById('nomer-wa').style.color = '#e90f10';
+                    const responseMessage = document.getElementById("nomer-wa");
+                    responseMessage.textContent = e.message;
+                }else{
+                    document.getElementById('nomer-wa').style.display = 'none';
+                }
+
+            },
+        });
+
+    });
 </script>
 @endsection

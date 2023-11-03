@@ -29,7 +29,7 @@ class RoomApiController extends Controller
             );
         }
 
-        if($rooms > 0 ){
+        if($countrooms > 0 ){
             $data = array(
                 'status' => 200,
                 'message' => 'success',

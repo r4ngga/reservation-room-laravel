@@ -45,6 +45,18 @@ class AuthController extends Controller
             'gender' => 'required',
         ]);
 
+        $checkUseremail = User::where('email', $request->email)->first();
+
+        if($checkUseremail){
+            return redirect()->back()->withErrors('Email sudah terdaftar sebelumnya')->withInput();
+        }
+
+        $checkUserphone = User::where('phone_number', $request->phone_number)->first();
+
+        if($checkUserphone){
+            return redirect()->back()->withErrors('Nomor Telepon telah terdaftar');
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;

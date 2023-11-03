@@ -37,7 +37,7 @@ Route::get('/register', [Authentication\AuthController::class, 'register'])->nam
 Route::post('/register', [Authentication\AuthController::class, 'store']);
 //Route::post('/register', [Authentication\AuthController::class, 'store']);->name('regist')
 
-//Route::post('validation-phone-number', [Authentication\AuthController::class, 'validationPhoneNumber'])->name('validation-phone'); //checking email phone number
+Route::post('validation-phone-number', [Authentication\AuthController::class, 'validationPhoneNumber'])->name('validation-phone'); //checking email phone number
 //Route::post('validation-email', [Authentication\AuthController::class, 'validationEmail'])->name('validation-email'); //checking email
 
 Route::group(['middleware' => ['auth']], function () {
