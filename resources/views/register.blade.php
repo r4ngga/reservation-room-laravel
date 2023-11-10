@@ -25,7 +25,7 @@
                        @enderror
                       </div>
                       <div class="col-sm-12">
-                        <input class="form-control @error('email') is-invalid @enderror" placeholder="Email" type="text" name="email">
+                        <input class="form-control @error('email') is-invalid @enderror" placeholder="Email" type="text" name="email" id="regis_email">
                       @error('email')
                         <div class="invalid-feedback">{{$message}}</div>
                       @enderror
@@ -63,6 +63,10 @@
                             @error('gender')
                             <div class="invalid-feedback">{{$message}}</div>
                             @enderror
+                            <span id="email-msg" class="text-sm text-gray-600 one-number" style="display: none;">
+                              <i class="fas fa-circle" aria-hidden="true"></i>
+                              &nbsp;<p id="response-email"></p>
+                            </span>
                         </div>
                       </div>
                       <div class="col-sm-12">
@@ -108,11 +112,45 @@
                     responseMessage.textContent = e.message;
                 }else{
                     document.getElementById('nomer-wa').style.display = 'none';
+                    document.getElementById('nomer-wa').style.color = '#e90f10';
+                    const responseMessage = document.getElementById("nomer-wa");
+                    responseMessage.textContent = e.message;
                 }
 
             },
         });
 
+    });
+
+    const regis_email = document.querySelector('#regis_email');
+
+    regis_email.addEventListener("blur", (event) => {
+        event.preventDefault();
+
+        let email;
+        let url_email ;
+
+        url_email = "{{ route('validation-email') }}";
+        email = regis_email.value;
+
+        $.ajax({
+            type: 'POST',
+            data: {email:email, _token:'{{ csrf_token() }}'},
+            url:url_email,
+            success: function(e){
+                  if(e.status == true){
+                      document.getElementById('email-msg').style.display = 'block';
+                      document.getElementById('email-msg').style.color = '#02b502';
+                      const responseMessage = document.getElementById('email-msg');
+                      responseMessage.textContent = e.message;
+                  }else{
+                      document.getElementById('email-msg').style.display = 'none';
+                      document.getElementById('email-msg').style.color = '#e90f10';
+                      const responseMessage = document.getElementById('email-msg');
+                      responseMessage.textContent = e.message;
+                  }
+            },
+        });
     });
 </script>
 @endsection

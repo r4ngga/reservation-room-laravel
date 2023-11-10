@@ -24,17 +24,15 @@
                    <div class="row">
                       <div class="col-sm-12">
                          <input class="contactus" placeholder="Email" type="text" name="email">
-
                       </div>
                       <div class="col-sm-12">
                          <input class="contactus" placeholder="Password" type="password" name="password">
-
                       </div>
                       <div class="col-sm-12" style="margin-bottom: 2px;">
-                         <a href="" style="padding-bottom: 4px;">Forget a Password, Reset Password Here</a>
+                         Do you have a account ? let's to login <a href="" style="padding-bottom: 4px;">Here</a>
                       </div>
                       <div class="col-sm-12">
-                         <button type="submit" class="send">Login</button>
+                         <button type="submit" class="send">Submit</button>
                       </div>
                       <div class="col-sm-12">
                           &nbsp;
