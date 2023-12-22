@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Log;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {

@@ -29,6 +29,10 @@
                       @error('email')
                         <div class="invalid-feedback">{{$message}}</div>
                       @enderror
+                      <span id="email-msg" class="text-sm text-gray-600 one-number" style="display: none;">
+                        <i class="fas fa-circle" aria-hidden="true"></i>
+                        &nbsp;<p id="response-email"></p>
+                      </span>
                      </div>
                       <div class="col-sm-12">
                          <input class="form-control @error('password') is-invalid @enderror" placeholder="Password" type="password" name="password">
@@ -63,10 +67,6 @@
                             @error('gender')
                             <div class="invalid-feedback">{{$message}}</div>
                             @enderror
-                            <span id="email-msg" class="text-sm text-gray-600 one-number" style="display: none;">
-                              <i class="fas fa-circle" aria-hidden="true"></i>
-                              &nbsp;<p id="response-email"></p>
-                            </span>
                         </div>
                       </div>
                       <div class="col-sm-12">

@@ -25,7 +25,7 @@ Route::group(['namespace' => 'Api'], function(){
     //logs
     Route::get('logs', 'LogApiController@getLogs');
     Route::get('logs/{id}', 'LogApiController@getFetchLogs');
-    //Route::get('logs-by-role', 'LogApiController@FetchLogsByRole');
+    Route::get('logs-by-role', 'LogApiController@FetchLogsByRole');
 
     //rooms
     Route::get('rooms', 'RoomApiController@getAllRooms');

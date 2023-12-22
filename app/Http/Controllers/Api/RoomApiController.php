@@ -17,7 +17,7 @@ class RoomApiController extends Controller
         $room = array();
 
         foreach($rooms as $rm){
-            $room = array(
+            $room[] = array(
                 'number_room' => $rm->number_room,
                 'status' => $rm->status,
                 'facility' => $rm->facility,
@@ -96,7 +96,7 @@ class RoomApiController extends Controller
         $room = array();
 
         foreach($rooms as $rm){
-            $room = array(
+            $room[] = array(
                 'number_room' => $rm->number_room,
                 'status' => $rm->status,
                 'facility' => $rm->facility,
@@ -134,7 +134,7 @@ class RoomApiController extends Controller
         $countrooms = count($rooms);
 
         foreach($rooms as $rm){
-            $room = array(
+            $room[] = array(
                 'number_room' => $rm->number_room,
                 'status' => $rm->status,
                 'facility' => $rm->facility,

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Room;
+use App\Log;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
@@ -120,7 +123,7 @@ class RoomController extends Controller
             $request->image_room->move(public_path('images'), $imgName);
         }
 
-        dd($imgName);
+        // dd($imgName);
 
         $room = new Room();
         $room->facility = $request->facility;
@@ -129,14 +132,6 @@ class RoomController extends Controller
         $room->price = $request->price;
         $room->image_room = !empty($request->image_room) ? $imgName : null;
         $room->save();
-
-        // Room::create([
-        //     'facility' => $request->facility,
-        //     'class' => $request->class,
-        //     'capacity' => $request->capacity,
-        //     'price' => $request->price,
-        //     'image_room' => $imgName,
-        // ]);
 
         //create a logs
         $logs = new Logs();
