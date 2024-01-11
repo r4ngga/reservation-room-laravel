@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\AdminController;
-use App\Http\Controller\User;
+use App\Http\Controllers\User;
 use App\Http\Controllers\Auth as Authentication; // because conflict with Illuminate\Support\Facades\Auth
 
 use App\Http\Controllers\Admin\UserController;
@@ -31,11 +30,11 @@ Route::get('/login', [Authentication\AuthController::class, 'loginpage'])->name(
 // Route::post('/login', [Authentication\AuthController::class, 'login']);
 Route::post('/login', [Authentication\AuthController::class, 'login'])->name('login-act');
 
+Route::get('/forgot-password', [Authentication\AuthController::class, 'forgotPassword'])->name('forgot-password');
+
 // Route::get('/register', [Authentication\AuthController::class, 'register']);
 Route::get('/register', [Authentication\AuthController::class, 'register'])->name('register');
-// Route::post('/register', [UserController::class, 'store']);
-Route::post('/register', [Authentication\AuthController::class, 'store']);
-//Route::post('/register', [Authentication\AuthController::class, 'store']);->name('regist')
+Route::post('/register', [Authentication\AuthController::class, 'store'])->name('regist');
 
 Route::post('validation-phone-number', [Authentication\AuthController::class, 'validationPhoneNumber'])->name('validation-phone'); //checking email phone number
 Route::post('validation-email', [Authentication\AuthController::class, 'validationEmail'])->name('validation-email'); //checking email
@@ -79,7 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
-        Route::get('/userdashboard', [ReservationController::class, 'reservationlist']);
+        Route::get('/userdashboard', [User\ReservationController::class, 'reservationlist']);
         //Route::get('/userdashboard', [ReservationController::class, 'reservationlist'])->name('user');
         Route::get('/userdashboard/{reservation}', [ReservationController::class, 'paidreservation']);
         Route::post('/paymentroom', [ReservationController::class, 'paymentreservation']);

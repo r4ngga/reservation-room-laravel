@@ -5,7 +5,7 @@
 <!-- reset -->
 <div id="testimonial" class="testimonial">
     <div class="container">
-       <div class="row justify-content-center">
+       <div class="row justify-content-center py-4">
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
              <div class="contact">
@@ -23,16 +23,16 @@
                     @csrf
                    <div class="row">
                       <div class="col-sm-12">
-                         <input class="contactus" placeholder="Email" type="text" name="email">
+                         <input class="contactus" placeholder="Email Type Here" type="text" name="email">
                       </div>
-                      <div class="col-sm-12">
+                      {{-- <div class="col-sm-12">
                          <input class="contactus" placeholder="Password" type="password" name="password">
-                      </div>
+                      </div> --}}
                       <div class="col-sm-12" style="margin-bottom: 2px;">
-                         Do you have a account ? let's to login <a href="" style="padding-bottom: 4px;">Here</a>
+                         Do you have a account ? let's to login <a href="{{url('/login')}}" style="padding-bottom: 4px;">Here</a>
                       </div>
                       <div class="col-sm-12">
-                         <button type="submit" class="send">Submit</button>
+                         <button type="submit" class="send" style="border-radius: 5px;">Submit</button>
                       </div>
                       <div class="col-sm-12">
                           &nbsp;

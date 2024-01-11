@@ -34,8 +34,8 @@ Route::group(['namespace' => 'Api'], function(){
 
     //users
     Route::get('users', 'UserApiController@getAllUsers');
-    //Route::get('users/{id}', 'UserApiController@getFetchUsers');
-    //Route::get('users-gender', 'UserApiController@fetchUsersByGender');
+    Route::get('users/{id}', 'UserApiController@getFetchUsers');
+    Route::get('users-gender', 'UserApiController@fetchUsersByGender');
 });
 
 // Route::get('logs', 'LogApiController@getLogs');

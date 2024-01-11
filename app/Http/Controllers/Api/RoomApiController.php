@@ -82,7 +82,6 @@ class RoomApiController extends Controller
             );
         }
 
-        dd($room);
 
         return response()->json($data_room);
     }

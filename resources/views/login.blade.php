@@ -31,10 +31,10 @@
 
                       </div>
                       <div class="col-sm-12" style="margin-bottom: 2px;">
-                         <a href="" style="padding-bottom: 4px;">Forget a Password, Reset Password Here</a>
+                        Forget a Password, Reset Password <a href="{{ route('forgot-password') }}" style="padding-bottom: 4px;">Here</a>
                       </div>
                       <div class="col-sm-12">
-                         <button type="submit" class="send">Login</button>
+                         <button type="submit" class="send" style="border-radius: 5px;">Login</button>
                       </div>
                       <div class="col-sm-12">
                           &nbsp;

@@ -15,7 +15,7 @@
                     {{session('notify')}}
                 </div>
                  @endif
-                <form method="POST" action="/register" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('regist') }}" enctype="multipart/form-data">
                     @csrf
                    <div class="row">
                       <div class="col-sm-12">
@@ -30,8 +30,7 @@
                         <div class="invalid-feedback">{{$message}}</div>
                       @enderror
                       <span id="email-msg" class="text-sm text-gray-600 one-number" style="display: none;">
-                        <i class="fas fa-circle" aria-hidden="true"></i>
-                        &nbsp;<p id="response-email"></p>
+                        <p id="response-email"></p>
                       </span>
                      </div>
                       <div class="col-sm-12">
@@ -49,7 +48,6 @@
                       <div class="col-sm-12">
                         <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" id="regis_phone_number" name="phone_number">
                         <span id="nomer-wa" class="text-sm text-gray-600 " style="display: none;">
-                            <i class="fas fa-circle" aria-hidden="true"></i>
                             &nbsp;<p id="response"></p>
                         </span>
                       @error('phone_number')
@@ -70,7 +68,7 @@
                         </div>
                       </div>
                       <div class="col-sm-12">
-                         <button type="submit" class="send">Register</button>
+                         <button type="submit" class="send" style="border-radius: 5px;">Register</button>
                       </div>
                       <div class="col-sm-12">
                           &nbsp;
@@ -108,12 +106,12 @@
                 if(e.status != true){
                     document.getElementById('nomer-wa').style.display = 'block';
                     document.getElementById('nomer-wa').style.color = '#e90f10';
-                    const responseMessage = document.getElementById("nomer-wa");
+                    const responseMessage = document.getElementById("response");
                     responseMessage.textContent = e.message;
                 }else{
                     document.getElementById('nomer-wa').style.display = 'none';
                     document.getElementById('nomer-wa').style.color = '#e90f10';
-                    const responseMessage = document.getElementById("nomer-wa");
+                    const responseMessage = document.getElementById("response");
                     responseMessage.textContent = e.message;
                 }
 
@@ -139,14 +137,14 @@
             url:url_email,
             success: function(e){
                   if(e.status == true){
-                      document.getElementById('email-msg').style.display = 'block';
+                      document.getElementById('email-msg').style.display = 'none';
                       document.getElementById('email-msg').style.color = '#02b502';
-                      const responseMessage = document.getElementById('email-msg');
+                      const responseMessage = document.getElementById('response-email');
                       responseMessage.textContent = e.message;
                   }else{
-                      document.getElementById('email-msg').style.display = 'none';
+                      document.getElementById('email-msg').style.display = 'block';
                       document.getElementById('email-msg').style.color = '#e90f10';
-                      const responseMessage = document.getElementById('email-msg');
+                      const responseMessage = document.getElementById('response-email');
                       responseMessage.textContent = e.message;
                   }
             },
