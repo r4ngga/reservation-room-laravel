@@ -65,7 +65,7 @@ class LogApiController extends Controller
         $countlog = count($log);
         // dd(count($log));
         foreach($log as $lg){
-            $detail = [
+            $detail[] = [
                 'id' => $lg->id,
                 'user_id' => $lg->user_id,
                 'action' => $lg->action,
@@ -103,7 +103,7 @@ class LogApiController extends Controller
         $countrole = count($role_logs);
 
         foreach($role_logs as $rl){
-            $detail = array(
+            $detail[] = array(
                 'id' => $rl->id,
                 'user_id' => $rl->user_id,
                 'action' => $rl->action,
@@ -138,7 +138,7 @@ class LogApiController extends Controller
     {
         $action = $request->action;
 
-        $logsaction = Log::where('role', $action)->get();
+        $logsaction = Log::where('action', $action)->get();
 
         $countLogsAct = count($logsaction);
 

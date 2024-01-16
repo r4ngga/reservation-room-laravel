@@ -97,16 +97,16 @@ class AuthController extends Controller
             if (auth()->user()->role == 2) { //role pengguna (user) 2
 
                 //create log
-                // $user = Auth::user();
-                // $log = new Log();
-                // $log->user_id = $user->id_user;
-                // $log->action = 'POST';
-                // $log->description = 'login system';
-                // $log->data_old = '-';
-                // $log->data_new = '-';
-                // $log->role = $user->role;
-                // $log->log_time = $now;
-                // $log->save();
+                $user = Auth::user();
+                $log = new Log();
+                $log->user_id = $user->id_user;
+                $log->action = 'POST';
+                $log->description = 'login system';
+                $log->data_old = '-';
+                $log->data_new = '-';
+                $log->role = $user->role;
+                $log->log_time = $now;
+                $log->save();
 
                 return redirect('/userdashboard');
             } elseif (auth()->user()->role == 1) { //role admin 1

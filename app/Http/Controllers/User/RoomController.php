@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Room;
-
+use App\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
+use App\Http\Controllers\Controller;
 
 class RoomController extends Controller
 {

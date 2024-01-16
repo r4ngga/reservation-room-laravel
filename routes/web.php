@@ -79,15 +79,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['cek_login:2']], function () {
         Route::get('/userdashboard', [User\ReservationController::class, 'reservationlist']);
-        //Route::get('/userdashboard', [ReservationController::class, 'reservationlist'])->name('user');
-        Route::get('/userdashboard/{reservation}', [ReservationController::class, 'paidreservation']);
+        //Route::get('client-dashboard', [ReservationController::class, 'reservationlist'])->name('client');
+        Route::get('/userdashboard/{reservation}', [User\ReservationController::class, 'paidreservation']);
         Route::post('/paymentroom', [ReservationController::class, 'paymentreservation']);
 
         Route::get('/roomsdashboard', [ReservationController::class, 'index']);
+        //Route::get('rooms', [User\RoomController::class, 'index'])->name('rooms');
         Route::post('/roomsdashboard', [ReservationController::class, 'filter']);
+        //Route::post('filter');  ///untuk filter ruangan
         Route::get('/bookingrooms/{id}', [ReservationController::class, 'reservation']);
+        //Route::get('booking-rooms/{id}'[User\ReservationController::class, 'reservation'])->name('');
         Route::post('/bookingrooms', [ReservationController::class, 'booking']);
+        //Route::post('booking-rooms', [User\ReservationController::class, 'booking'])->name('');
 
         Route::get('/history', [ReservationController::class, 'loghistory']);
+        //Route::get('history', [User\ReservationController::class, 'loghistory'])->name('history');
     });
 });
