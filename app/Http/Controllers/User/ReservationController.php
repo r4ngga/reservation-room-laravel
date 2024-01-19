@@ -26,22 +26,20 @@ class ReservationController extends Controller
     {
         $search = $request->search;
         if ($search == "cost_low_to_high") {
-            $rooms = Room::query()->orderBy('price', 'asc')->get();
+            $rooms = Room::orderBy('price', 'asc')->get();
             $information = "Price Low to High";
-            return view('reservation.index', ['rooms' => $rooms, 'information' => $information]);
+            return view('reservation.index', compact('rooms', 'information'));
         } else if ($search == "cost_high_to_low") {
-            $rooms = Room::query()->orderBy('price', 'desc')->get();
+            $rooms = Room::orderBy('price', 'desc')->get();
             $information = "Price Low to High";
-            return view('reservation.index', ['rooms' => $rooms, 'information' => $information]);
+            return view('reservation.index', compact('rooms', 'information'));
         } else if ($search == "free") {
-            $rooms = Room::where('status', 'free')->get();
+            $rooms = Room::where('status', 0)->get();
             if (count($rooms) == 0) {
                 $information = "All Room has been booked, or full";
             } else {
                 $information = "Status Room Free";
             }
-            // $information = "Status Room Free";
-            // return view('reservation.index', ['rooms' => $rooms, 'information' => $information]);
             return view('reservation.index', compact('rooms', 'information'));
         }
     }
@@ -78,7 +76,7 @@ class ReservationController extends Controller
         ]);
 
         Room::where('number_room', $request->number_room)->update([
-            'status' => 'full',
+            'status' => 2,
         ]);
 
         //create a logs
@@ -97,17 +95,27 @@ class ReservationController extends Controller
 
     public function reservationlist()
     {
-        $reservation = DB::table('reservations')
-            ->join('users', 'reservations.user_id', '=', 'users.id_user')
+        $user = Auth::user();
+        // $reservation = DB::table('reservations')
+        //     ->join('users', 'reservations.user_id', '=', 'users.id_user')
+        //     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
+        //     ->select('reservations.*', 'users.*', 'rooms.*')
+        //     ->where('users.id_user', $user->id)
+        //     ->where('reservations.status_payment', '=', 'unpaid')
+        //     ->orderBy('reservations.number_reservation', 'desc')
+        //     ->orderBy('reservations.status_payment', 'desc')
+        //     ->get();
+
+        $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
             ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
             ->select('reservations.*', 'users.*', 'rooms.*')
-            ->where('users.id_user', auth()->user()->id_user)
+            ->where('users.id_user', $user->id)
             ->where('reservations.status_payment', '=', 'unpaid')
             ->orderBy('reservations.number_reservation', 'desc')
             ->orderBy('reservations.status_payment', 'desc')
             ->get();
 
-        return view('reservation.temporary_list', ['reservations' => $reservation]);
+        return view('reservation.temporary_list', compact('reservations'));
     }
 
     public function paidreservation(Reservation $reservation)
@@ -135,14 +143,13 @@ class ReservationController extends Controller
             $request->photo_transfer->move(public_path('images'), $imgName);
         }
         $check_img = isset($request->photo_transfer) ? $imgName : null;
-        // $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
-        // $request->photo_transfer->move(public_path('images'), $imgName);
+
         $rsvt = Reservation::where('number_reservation', $request->number_reservation)->update([
             'status_payment' => $request->status_payment,
             'photo_transfer' => $check_img,
         ]);
         Room::where('number_room', $request->number_room)->update([
-            'status' => 'full',
+            'status' => 1,
         ]);
 
         //create a logs
@@ -169,14 +176,14 @@ class ReservationController extends Controller
             ->orderBy('reservations.number_reservation', 'desc')
             // ->orderBy('reservations.status_payment', 'unpaid')
             ->get();
-        return view('reservation.confirmationpayment', ['reservations' => $reservation]);
+        return view('reservation.confirmationpayment', compact('reservations'));
     }
 
     public function loghistory()
     {
         $auth = Auth::user();
 
-        $reservation = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
+        $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
                     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
                     ->select('reservations.*', 'users.*', 'rooms.*')
                     ->where('users.id_user', $auth)
@@ -184,16 +191,8 @@ class ReservationController extends Controller
                     ->orderBy('reservations.status_payment', 'desc')
                     ->get();
 
-        // $reservation = DB::table('reservations')
-        //     ->join('users', 'reservations.user_id', '=', 'users.id_user')
-        //     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-        //     ->select('reservations.*', 'users.*', 'rooms.*')
-        //     ->where('users.id_user', $auth)
-        //     ->orderBy('reservations.number_reservation', 'desc')
-        //     ->orderBy('reservations.status_payment', 'desc')
-        //     ->get();
 
-        return view('reservation.history', compact('reservation'));
+        return view('reservation.history', compact('reservations'));
     }
 
     private function generateRandomString($length = 10)

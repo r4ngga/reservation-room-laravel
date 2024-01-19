@@ -33,21 +33,28 @@
            </div>
        </div>
        <div class="row">
+        @php $list = ['Free', 'Full', 'Booked']; @endphp
            @foreach ($rooms as $rm)
                 <div class="col-md-3 mt-2">
                     <div class="card h-100">
                         <div class="card-body">
-                            <img src="/images/{{$rm->image_room}}" class="card-img-top img-fluid" alt="{{$rm->image_room}}" style="height:auto;
+                            <img @if ($rm->image_room)
+                            src="/images/{{$rm->image_room}}"
+                            alt="{{$rm->image_room}}"
+                            @else
+                            src="/images/default.jpeg"
+                            alt="images-room"
+                            @endif  class="card-img-top img-fluid"  style="height:auto;
                             width:auto;
                             max-width:200px;
                             max-height: 200px;">
                             <h4>Room Number {{$rm->number_room}}</h4>
                             <p>
-                                Facility : {{$rm->facility}} <br>
-                                Capacity : {{$rm->capacity}} <br>
-                                Price    : {{$rm->price}} <br>
-                                Status   : {{$rm->status}} <br>
-                                @if($rm->status == 'full')
+                                Facility : {{$rm->facility ?? '-'}} <br>
+                                Capacity : {{$rm->capacity ?? '-'}} <br>
+                                Price    : {{$rm->price ?? '-'}} <br>
+                                Status   : {{ $list[$rm->status] }} <br>
+                                @if($rm->status == 1 || $rm->status == 2)
                                 <button class="btn btn-outline-dark" disabled="disabled">Can't order this room</button>
                                 @else
                                 <a href="/bookingrooms/{{$rm->number_room}}" class="btn btn-success">Booking</a>

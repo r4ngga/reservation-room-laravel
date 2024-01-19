@@ -12,15 +12,15 @@ class RoomController extends Controller
 {
     public function index(Request $request)
     {
-        $rooms = Room::where('status', 'free')->get();
-        return view('room.index', ['rooms' => $rooms]);
+        $rooms = Room::where('status', 0)->get();
+        return view('room.index', compact('rooms'));
 
         // json_encode($rooms);
     }
 
     public function fetchShowRoom(Request $request)
     {
-        $rooms = Room::where('status', 'free')->get();
+        $rooms = Room::where('status', 0)->get();
         // json_decode($rooms, true);
 
         return response()->json($rooms);

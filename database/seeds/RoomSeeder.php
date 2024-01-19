@@ -18,7 +18,7 @@ class RoomSeeder extends Seeder
             'class' => 'reguler',
             'capacity' => 2,
             'price' => 10000,
-            'status' => 'free',
+            'status' => 0, //0 free, 1 full, 2 booked
             'image_room' => null,
         ]);
         //

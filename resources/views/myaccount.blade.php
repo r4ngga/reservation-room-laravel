@@ -11,11 +11,11 @@
                         <h5 class="card-title">My Account</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Number Registration {{auth()->user()->id_user}}</h6>
                         <p>
-                            Your Name Account : {{$getUser->name ?? '-'}} <br>
-                            Email             : {{$getUser->email ?? '-'}} <br>
-                            Address           : {{$getUser->address ?? '-'}} <br>
-                            Number Phone      : {{$getUser->phone_number ?? '-'}} <br>
-                            Gender            : {{$getUser->gender ?? '-'}} <br>
+                            Your Name Account : {{$account->name ?? '-'}} <br>
+                            Email             : {{$account->email ?? '-'}} <br>
+                            Address           : {{$account->address ?? '-'}} <br>
+                            Number Phone      : {{$account->phone_number ?? '-'}} <br>
+                            Gender            : {{$account->gender ?? '-'}} <br>
                             @if(auth()->user()->role == "admin")
                             Back to Admin Dashboard <a href="{{('/admindashboard')}}">Here</a>
                             @endif

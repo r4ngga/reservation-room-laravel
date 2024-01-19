@@ -78,21 +78,22 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
-        Route::get('/userdashboard', [User\ReservationController::class, 'reservationlist']);
-        //Route::get('client-dashboard', [ReservationController::class, 'reservationlist'])->name('client');
+        // Route::get('/userdashboard', [User\ReservationController::class, 'reservationlist']);
+        Route::get('client-dashboard', [ReservationController::class, 'reservationlist'])->name('client');
         Route::get('/userdashboard/{reservation}', [User\ReservationController::class, 'paidreservation']);
+        //Route::get('client-dashboard/{reservation}', [User\ReservationController::class, 'paidreservation'])->name('paidreservation');
         Route::post('/paymentroom', [ReservationController::class, 'paymentreservation']);
 
-        Route::get('/roomsdashboard', [ReservationController::class, 'index']);
-        //Route::get('rooms', [User\RoomController::class, 'index'])->name('rooms');
+        // Route::get('/roomsdashboard', [ReservationController::class, 'index']);
+        Route::get('rooms', [User\ReservationController::class, 'index'])->name('rooms');
         Route::post('/roomsdashboard', [ReservationController::class, 'filter']);
-        //Route::post('filter');  ///untuk filter ruangan
+        //Route::post('filter', [User\ReservationController::class, 'filter'])->name('filter');  ///untuk filter ruangan
         Route::get('/bookingrooms/{id}', [ReservationController::class, 'reservation']);
         //Route::get('booking-rooms/{id}'[User\ReservationController::class, 'reservation'])->name('');
         Route::post('/bookingrooms', [ReservationController::class, 'booking']);
-        //Route::post('booking-rooms', [User\ReservationController::class, 'booking'])->name('');
+        //Route::post('booking-rooms', [User\ReservationController::class, 'booking'])->name('bookingroom');
 
-        Route::get('/history', [ReservationController::class, 'loghistory']);
-        //Route::get('history', [User\ReservationController::class, 'loghistory'])->name('history');
+        //Route::get('log', [User\ReservationController::class, 'log'])->name('log');
+        Route::get('history', [User\ReservationController::class, 'loghistory'])->name('history');
     });
 });

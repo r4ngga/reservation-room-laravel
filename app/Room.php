@@ -16,7 +16,7 @@ class Room extends Model
     ];
 
     protected $attributes = [
-        'status' => 'free'
+        'status' => 0
     ];
 
     public function reservation()

@@ -58,15 +58,6 @@ class UserController extends Controller
         $logs->data_new = json_encode($user);
         $logs->save();
 
-        // User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => bcrypt($request['password']),
-        //     'address' => $request->address,
-        //     'phone_number' => $request->phone_number,
-        //     'gender' => $request->gender,
-        // ]);
-
         if ($validate) {
             return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
         }

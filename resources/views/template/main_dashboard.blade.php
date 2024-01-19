@@ -100,7 +100,8 @@
                               <li><a href="{{('logs')}}">Logs</a></li>
                               @elseif(auth()->user()->role=="2")
                               <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li>
-                              <li> <a href="{{('/roomsdashboard')}}">Reservation</a> </li>
+                              {{-- <li> <a href="{{ route('client') }}">My Reservation</a> </li> --}}
+                              <li> <a href="{{ route('rooms') }}">Reservation</a> </li>
                               @endif
                               <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">

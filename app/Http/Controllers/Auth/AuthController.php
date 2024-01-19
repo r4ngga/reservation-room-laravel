@@ -108,7 +108,7 @@ class AuthController extends Controller
                 $log->log_time = $now;
                 $log->save();
 
-                return redirect('/userdashboard');
+                return redirect('client-dashboard');
             } elseif (auth()->user()->role == 1) { //role admin 1
 
                 //create log
