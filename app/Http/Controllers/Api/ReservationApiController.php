@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Reservation;
-use App\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;

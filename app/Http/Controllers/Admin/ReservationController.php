@@ -91,6 +91,7 @@ class ReservationController extends Controller
         $logs->save();
 
         return redirect('/reservation')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
+        //return  redirect()->back()->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
     }
 
     public function confirmationbooking()
@@ -102,6 +103,7 @@ class ReservationController extends Controller
                     ->get();
 
         return view('reservation.confirmationpayment', ['reservations' => $reservation]);
+        //return view('reservation.confirmationpayment', compact('reservation'));
     }
 
 }
