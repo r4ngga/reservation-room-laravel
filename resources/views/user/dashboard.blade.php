@@ -5,31 +5,36 @@
 <div class="container mt-4 mb-4">
     <div class="row">
         <div class="col">
-            <p>USER...logoout here <br>  <a href="{{('/logout')}}"> Logout</a></p>
+            <h2>Dashboard</h2>
         </div>
+    </div>
+    <div class="row">
+        {{-- <div class="col"> --}}
+            {{-- <p>USER...logoout here <br>  <a href="{{('/logout')}}"> Logout</a></p> --}}
+        {{-- </div> --}}
         <div class="col">
             <div class="card h-70 bg-success">
                 <div class="card-body">
                     <h4 style="color:white">Total Free Rooms</h4>
-                    <h1 id="user-counts" style="color:white">  </h1>
+                    <h1 id="room-counts" style="color:white">  </h1>
                 </div>
             </div>
         </div>
 
         <div class="col">
-            <div class="card h-70 bg-success">
+            <div class="card h-70 bg-warning">
                 <div class="card-body">
-                    <h4 style="color:white">Total Reservation</h4>
-                    <h1 id="user-count" style="color:white">  </h1>
+                    <h4 style="color:black">Total Reservation</h4>
+                    <h1 id="reservation-count" style="color:white">  </h1>
                 </div>
             </div>
         </div>
 
         <div class="col">
-            <div class="card h-70 bg-success">
+            <div class="card h-70 bg-gray border-md border-info">
                 <div class="card-body">
-                    <h4 style="color:white">Total Reservation Unpaid</h4>
-                    <h1 id="user-count" style="color:white">  </h1>
+                    <h4 style="color:black">Total Reservation Unpaid</h4>
+                    <h1 id="unpaid-count" style="color:black"> 0 </h1>
                 </div>
             </div>
         </div>
@@ -42,10 +47,18 @@
 <script type="text/javascript">
     $.ajax({
         type: 'GET',
-        url: 'count-users',
+        url: 'count-room',
         success:function(data){
-            document.getElementById('user-counts').innerHTML = data;
+            document.getElementById('room-counts').innerHTML = data.countroom;
         },
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: 'count-reservation',
+        success:function(data){
+            document.getElementById('reservation-count').innerHTML = data.countreservation;
+        }
     });
 </script>
 

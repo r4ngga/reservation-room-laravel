@@ -14,8 +14,8 @@ class UserDashboardController extends Controller
 {
     public function index()
     {
-        $getUser = Auth::user();
-        $countReservation = Reservation::where('');
+        // $getUser = Auth::user();
+        // $countReservation = Reservation::where('');
         // return view('myaccount', compact('getUser'));
         return view('user.dashboard');
     }
@@ -42,7 +42,7 @@ class UserDashboardController extends Controller
                        ->get();
 
         $countrsv = count($reservation);
-        return response()->json(['countresevation' => $countrsv]);
+        return response()->json(['countreservation' => $countrsv]);
     }
 
     public function countUnpaid()
