@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('client-dashboard', [User\UserDashboardController::class, 'index'])->name('client');
         Route::get('count-room', [User\UserDashboardController::class, 'countRooms'])->name('count-room');
         Route::get('count-reservation', [User\UserDashboardController::class, 'countReservations'])->name('count-reservation');
-        //Route::get('count-unpaid', [User\UserDashboardController::class, 'countUnpaid'])->name('count-unpaid');
+        Route::get('count-unpaid', [User\UserDashboardController::class, 'countUnpaid'])->name('count-unpaid');
         Route::get('/userdashboard/{reservation}', [User\ReservationController::class, 'paidreservation']);
         //Route::get('client-dashboard/{reservation}', [User\ReservationController::class, 'paidreservation'])->name('paidreservation');
         Route::post('/paymentroom', [ReservationController::class, 'paymentreservation']);

@@ -19,7 +19,7 @@ class ReservationController extends Controller
     {
         $rooms = Room::all();
         // return view('reservation.index', ['rooms' => $rooms]);
-        return view('reservation.index', compact('rooms'));
+        return view('client.reservation.index', compact('rooms'));
     }
 
     public function filter(Request $request)
@@ -28,11 +28,11 @@ class ReservationController extends Controller
         if ($search == "cost_low_to_high") {
             $rooms = Room::orderBy('price', 'asc')->get();
             $information = "Price Low to High";
-            return view('reservation.index', compact('rooms', 'information'));
+            return view('client.reservation.index', compact('rooms', 'information'));
         } else if ($search == "cost_high_to_low") {
             $rooms = Room::orderBy('price', 'desc')->get();
             $information = "Price Low to High";
-            return view('reservation.index', compact('rooms', 'information'));
+            return view('client.reservation.index', compact('rooms', 'information'));
         } else if ($search == "free") {
             $rooms = Room::where('status', 0)->get();
             if (count($rooms) == 0) {
@@ -40,7 +40,7 @@ class ReservationController extends Controller
             } else {
                 $information = "Status Room Free";
             }
-            return view('reservation.index', compact('rooms', 'information'));
+            return view('client.reservation.index', compact('rooms', 'information'));
         }
     }
 
@@ -49,7 +49,7 @@ class ReservationController extends Controller
         $room = Room::findOrFaill($id);
         $random_string = $this->generateRandomString(10);
         $set_value = Str::random(7);
-        return view('reservation.booking', compact('room', 'set_value', 'random_string'));
+        return view('client.reservation.booking', compact('room', 'set_value', 'random_string'));
     }
 
     public function booking(Request $request)
@@ -115,12 +115,12 @@ class ReservationController extends Controller
             ->orderBy('reservations.status_payment', 'desc')
             ->get();
 
-        return view('reservation.temporary_list', compact('reservations'));
+        return view('client.reservation.temporary_list', compact('reservations'));
     }
 
     public function paidreservation(Reservation $reservation)
     {
-        return view('reservation.payment_room', compact('reservation'));
+        return view('client.reservation.payment_room', compact('reservation'));
     }
 
     public function paymentreservation(Request $request) //for action confrmation payment by user
@@ -176,7 +176,7 @@ class ReservationController extends Controller
             ->orderBy('reservations.number_reservation', 'desc')
             // ->orderBy('reservations.status_payment', 'unpaid')
             ->get();
-        return view('reservation.confirmationpayment', compact('reservations'));
+        return view('client.reservation.confirmationpayment', compact('reservations'));
     }
 
     public function loghistory()
@@ -192,7 +192,7 @@ class ReservationController extends Controller
                     ->get();
 
 
-        return view('reservation.history', compact('reservations'));
+        return view('client.reservation.history', compact('reservations'));
     }
 
     private function generateRandomString($length = 10)

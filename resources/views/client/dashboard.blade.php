@@ -31,8 +31,8 @@
         </div>
 
         <div class="col">
-            <div class="card h-70 bg-gray border-md border-info">
-                <div class="card-body">
+            <div class="card h-70 bg-gray border-lg border-info">
+                <div class="card-body" style="background-color: #C0C0C0">
                     <h4 style="color:black">Total Reservation Unpaid</h4>
                     <h1 id="unpaid-count" style="color:black"> 0 </h1>
                 </div>

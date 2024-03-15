@@ -18,7 +18,7 @@ class ReservationController extends Controller
     public function index()
     {
         $rooms = Room::all();
-        return view('reservation.index', ['rooms' => $rooms]);
+        return view('admin.reservation.index', ['rooms' => $rooms]);
     }
 
     public function filter(Request $request)
@@ -27,11 +27,11 @@ class ReservationController extends Controller
         if ($search == "cost_low_to_high") {
             $rooms = Room::orderBy('price', 'asc')->get();
             $information = "Price Low to High";
-            return view('reservation.index', compact('rooms', 'information'));
+            return view('admin.reservation.index', compact('rooms', 'information'));
         } else if ($search == "cost_high_to_low") {
             $rooms = Room::orderBy('price', 'desc')->get();
             $information = "Price Low to High";
-            return view('reservation.index', compact('rooms', 'information'));
+            return view('admin.reservation.index', compact('rooms', 'information'));
         } else if ($search == "free") {
             $rooms = Room::where('status', 0)->get();
             if (count($rooms) == 0) {
@@ -40,24 +40,9 @@ class ReservationController extends Controller
                 $information = "Status Room Free";
             }
             // $information = "Status Room Free";
-            return view('reservation.index', compact('rooms', 'information'));
+            return view('admin.reservation.index', compact('rooms', 'information'));
         }
     }
-
-    // public function reservationlist()
-    // {
-    //     $reservation = DB::table('reservations')
-    //         ->join('users', 'reservations.user_id', '=', 'users.id_user')
-    //         ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-    //         ->select('reservations.*', 'users.*', 'rooms.*')
-    //         ->where('users.id_user', auth()->user()->id_user)
-    //         ->where('reservations.status_payment', '=', 'unpaid')
-    //         ->orderBy('reservations.number_reservation', 'desc')
-    //         ->orderBy('reservations.status_payment', 'desc')
-    //         ->get();
-
-    //     return view('reservation.temporary_list', ['reservations' => $reservation]);
-    // }
 
     public function confirmpaymentreservation(Request $request) //for action confrmation payment by admin
     {
@@ -102,8 +87,8 @@ class ReservationController extends Controller
                     ->orderBy('reservations.number_reservation', 'desc')
                     ->get();
 
-        return view('reservation.confirmationpayment', ['reservations' => $reservation]);
-        //return view('reservation.confirmationpayment', compact('reservation'));
+        // return view('reservation.confirmationpayment', ['reservations' => $reservation]);
+        return view('admin.reservation.confirmationpayment', compact('reservation'));
     }
 
 }

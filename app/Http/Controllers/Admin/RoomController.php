@@ -15,15 +15,17 @@ class RoomController extends Controller
 {
     public function index()
     {
-        // $rooms = Room::all();
         $rooms = Room::where('status', 'free')
                     ->orWhere('status', 'Free')->get();
         return view('room.index', compact('rooms'));
+        //return view('admin.room.index', compact('rooms'));
     }
 
     public function insert()
     {
-        return view('room.add_room');
+        //return view('room.add_room');
+
+        return view('admin.room.add_room');
     }
 
     public function fetchRoom(Request $request)
@@ -103,7 +105,8 @@ class RoomController extends Controller
     {
         $rooms = Room::all();
         // return view('room.index', ['rooms' => $rooms]);
-        return view('room.index', compact('rooms'));
+        // return view('room.index', compact('rooms'));
+        return view('admin.room.index', compact('rooms'));
     }
 
     public function store(Request $request)
@@ -149,7 +152,7 @@ class RoomController extends Controller
 
     public function edit(Room $room)
     {
-        return view('room.change_room', compact('room'));
+        return view('admin.room.change_room', compact('room'));
     }
 
     public function update(Request $request, Room $room)
