@@ -70,8 +70,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('reservation', [Admin\ReservationController::class, 'confirmationbooking'])->name('reservation');
         Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
         //Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation'])->name('confirmation-reservation');
-        // Route::get('/users', [Admin\UserController::class, 'show_all_user']);
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
+        //Route::get('users/{id}', [Admin\UserController::class, 'fetchDetailUser'])->name('users.show');
 
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
         Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');

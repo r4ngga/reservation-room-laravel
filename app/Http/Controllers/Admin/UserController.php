@@ -26,6 +26,23 @@ class UserController extends Controller
         // return view('user.all_user', ['users' => $users]);
     }
 
+    public function fetchDetailUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        $data = array(
+            'id' => $user->id_user,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+            'address' => $user->address,
+            'gender' => $user->gender,
+            'role' => $user->role,
+        );
+
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         $auth = Auth::user();
@@ -46,6 +63,7 @@ class UserController extends Controller
         $user->password =  bcrypt($request['password']);
         $user->phone_number = $request->phone_number;
         $user->gender = $request->gender;
+        $user->role = 2;
         $user->save();
 
         //create a logs

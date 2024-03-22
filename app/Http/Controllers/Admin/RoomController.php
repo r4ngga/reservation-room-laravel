@@ -17,8 +17,8 @@ class RoomController extends Controller
     {
         $rooms = Room::where('status', 'free')
                     ->orWhere('status', 'Free')->get();
-        return view('room.index', compact('rooms'));
-        //return view('admin.room.index', compact('rooms'));
+        // return view('room.index', compact('rooms'));
+        return view('admin.room.index', compact('rooms'));
     }
 
     public function insert()

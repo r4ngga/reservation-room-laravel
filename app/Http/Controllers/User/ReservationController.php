@@ -90,21 +90,13 @@ class ReservationController extends Controller
         $logs->data_new = json_encode($reservation_create);
         $logs->save();
 
-        return redirect('/roomsdashboard')->with('notify', 'Congratulation, you success booking a room');
+        //return redirect('/roomsdashboard')->with('notify', 'Congratulation, you success booking a room');
+        return redirect()->route('client-dashboard')->with('notify', 'Congratulation, you success booking a room');
     }
 
     public function reservationlist()
     {
         $user = Auth::user();
-        // $reservation = DB::table('reservations')
-        //     ->join('users', 'reservations.user_id', '=', 'users.id_user')
-        //     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-        //     ->select('reservations.*', 'users.*', 'rooms.*')
-        //     ->where('users.id_user', $user->id)
-        //     ->where('reservations.status_payment', '=', 'unpaid')
-        //     ->orderBy('reservations.number_reservation', 'desc')
-        //     ->orderBy('reservations.status_payment', 'desc')
-        //     ->get();
 
         $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
             ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
@@ -164,7 +156,8 @@ class ReservationController extends Controller
         $logs->save();
         //create a logs
 
-        return redirect('/userdashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
+        //return redirect('/userdashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
+        return redirect()->route('client-dashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
     }
 
     public function confirmationbooking()

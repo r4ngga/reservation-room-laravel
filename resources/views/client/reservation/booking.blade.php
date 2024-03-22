@@ -25,19 +25,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="codereservation">Code Random Reservation</label>
-                                <input type="text" class="form-control" id="code_reservation" name="code_reservation" value="{{$set_value}}" readonly>
+                                <input type="text" class="form-control" id="code_reservation" name="code_reservation" value="{{$set_value ?? ''}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="numberroom">Number Room</label>
-                                <input type="text" class="form-control" id="number_room" name="number_room" value="{{$room->number_room}}" readonly>
+                                <input type="text" class="form-control" id="number_room" name="number_room" value="{{$room->number_room ?? ''}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="idguest">ID User</label>
-                                <input type="text" class="form-control" id="id_user" name="id_user" value="{{auth()->user()->id_user}}" readonly>
+                                <input type="text" class="form-control" id="id_user" name="id_user" value="{{auth()->user()->id_user ?? ''}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="nameguest">Name Guest</label>
-                                <input type="text" class="form-control" id="name_guest" name="name" value="{{auth()->user()->name}}">
+                                <input type="text" class="form-control" id="name_guest" name="name" value="{{auth()->user()->name ?? ''}}">
                             </div>
                             <div class="form-group">
                                 <label for="datebooking">Date Booking</label>
