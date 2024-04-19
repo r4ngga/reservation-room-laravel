@@ -212,6 +212,11 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
+        $find = Room::where('number_room', $room->number_room)->first();
+        if(!$find)
+        {
+            return redirect('/rooms')->with('notify', 'Failed delete data room !');
+        }
         $delroom = Room::where('number_room', $room->number_room)->first();
         if($delroom->image_room){
             $img = '/images/'.$delroom->image_room;

@@ -38,6 +38,7 @@ class UserController extends Controller
             'address' => $user->address,
             'gender' => $user->gender,
             'role' => $user->role,
+            'created_at' => $user->created_at,
         );
 
         return response()->json($data);
@@ -96,9 +97,19 @@ class UserController extends Controller
             'gender' => 'required',
         ]);
 
+        $find = User::where('user_id', $id)->first();
+
+        if(!$find)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed update data user because not found'
+            ]);
+        }
+
         $old_user = User::where('user_id', $id)->first();
 
-        $update = User::where('user_Id', $id)->first();
+        $update = User::where('user_id', $id)->first();
         $update->name = $request->name;
         $update->email = $request->email;
         $update->address = $request->address;
@@ -119,6 +130,42 @@ class UserController extends Controller
         $logs->save();
 
         return response()->json(['notify' => 'Success update information user']);
+    }
+
+    public function delete($id)
+    {
+        $auth = Auth::user();
+        $now = Carbon::now();
+        $find = User::where('id_user', $id)->first();
+
+        $old_data = User::where('id_user', $id)->first();
+        dd($find);
+
+        if(!$find)
+        {
+            return response()->json([
+                'message' => 'Failed delete this users, because not found',
+                'status' => false,
+            ], 404);
+        }
+
+        User::destroy($id);
+
+        //create logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'delete';
+        $logs->description = 'delete a user';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = $old_data;
+        $logs->data_new = '-';
+        $logs->save();
+
+        return response()->json([
+            'message' => 'Success delete user',
+            'status' => true,
+        ]);
     }
 
 }

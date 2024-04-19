@@ -11,6 +11,10 @@
                 {{session('notify')}}
             </div>
          @endif
+
+         <div id="succes-del-usr" class="alert alert-success my-2" role="alert" style="display: none">
+            Success delete a user
+        </div>
         <table class="table">
             <thead>
               <tr>
@@ -34,8 +38,8 @@
                 {{-- <th>{{$usr->gender}}</th> --}}
                 {{-- <th>{{$usr->role}}</th> --}}
                 <th>
-                    <a href="" class="btn btn-success">Detail</a>
-                    <a href="" class="btn btn-danger">Delete</a>
+                    <a href="#" onclick="fetchShowUser({{ $usr->id_user ?? 0}})" data-toggle="modal" data-target="#detailUsers" class="btn btn-success">Detail</a>
+                    <a href="#" data-toggle="modal" data-id="{{ $usr->id_user ??  0}}" data-target="#delUsers" class="btn btn-danger">Delete</a>
                 </th>
               </tr>
               {{-- @endif --}}
@@ -46,7 +50,7 @@
     </div>
 </div>
 
-<div class="modal" id="" tabindex="-1">
+<div class="modal" id="detailUsers" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -66,6 +70,10 @@
                 <div class="col"> <p id="u-name"></p> </div>
             </div>
             <div class="row">
+                <div class="col"> Email : </div>
+                <div class="col"> <p id="u-email"></p> </div>
+            </div>
+            <div class="row">
                 <div class="col"> Address : </div>
                 <div class="col"> <p id="u-adrs"></p> </div>
             </div>
@@ -81,8 +89,12 @@
                 <div class="col"> Role : </div>
                 <div class="col"> <p id="u-role"></p> </div>
             </div>
+            <div class="row">
+                <div class="col"> Created At : </div>
+                <div class="col"> <p id="u-created"></p> </div>
+            </div>
         </div>
-        <p>Modal body text goes here.</p>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -92,17 +104,88 @@
   </div>
 </div>
 
+
+<div class="modal" id="delUsers" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Users</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+              <div class="row">
+                <div class="col">
+                 <form action="" id="" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id_users" id="id-users">
+                    <input type="hidden" name="" id="token" value="{{ csrf_token() }}">
+                    <button id="btn-delete-usr" class="btn btn-danger">Delete</button>
+                 </form>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
 
-    function fetchShowUser(){
+    function fetchShowUser(id){
         let url = '';
         $.ajax({
             type: 'GET',
-            url: '',
+            url: '/users/' + id,
             processdata: false,
+            contentType: false,
+            success:function(data){
+                console.log(data);
+                document.getElementById('u-id').innerHTML = data.id;
+                document.getElementById('u-name').innerHTML = data.name;
+                document.getElementById('u-email').innerHTML = data.email;
+                document.getElementById('u-adrs').innerHTML = data.address;
+                document.getElementById('u-phone').innerHTML = data.phone_number;
+                document.getElementById('u-gender').innerHTML = data.gender;
+                document.getElementById('u-role').innerHTML = data.role;
+                document.getElementById('u-created').innerHTML = data.created_at;
+            }
+        });
+    }
+
+    $("#btn-delete-usr").click( function() {
+        let idusr = $(this).data("id");
+        let token = document.getElementById('token').val();
+
+        $.ajax({
+            type: 'POST',
+            url: `users/delete/` + idusr,
+            dataType: 'JSON',
+            processdata: true,
+            contentType: false,
+            success:function(data){
+                console.log(data);
+                $('#delUsers').modal('hide');
+                $('#succes-del-usr').css("display", "block");
+            }
+        });
+
+    });
+
+
+    function deleteUser(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '',
+            processdata: true,
             contentType: false,
             success:function(data){
                 console.log(data);
