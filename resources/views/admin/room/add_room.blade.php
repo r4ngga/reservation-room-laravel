@@ -37,9 +37,9 @@
 
                                 <select aria-label="label for the select" class="nice-select" id="" name="class" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
                                     <option selected>Please Select</option>
-                                    <option value="Vip">Vip</option>
-                                    <option value="Premium">Premium</option>
-                                    <option value="Reguler">Reguler</option>
+                                    <option value="1">Vip</option>
+                                    <option value="2">Premium</option>
+                                    <option value="3">Reguler</option>
                                 </select>
                             </div>
 

@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Reservation::class);
     }
+
+    public function religions()
+    {
+        //return $this->belongsTo(Religions::class);
+        //return $this->hasToMany();
+    }
 }

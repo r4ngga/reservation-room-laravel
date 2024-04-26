@@ -56,16 +56,33 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="man" name="gender" value="man" class="custom-control-input @error('gender') is-invalid @enderror">
+                            <input type="radio" id="man" name="gender" value="1" class="custom-control-input @error('gender') is-invalid @enderror">
                             <label class="custom-control-label" for="man">Man</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="woman" name="gender" value="woman" class="custom-control-input @error('gender') is-invalid @enderror">
+                            <input type="radio" id="woman" name="gender" value="2" class="custom-control-input @error('gender') is-invalid @enderror">
                             <label class="custom-control-label" for="woman">Woman</label>
                             @error('gender')
                             <div class="invalid-feedback">{{$message}}</div>
                             @enderror
                         </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <select class="form-control @error('religion_id') is-invalid @enderror" name="religion_id" id="religionid">
+                            <option value="">Please Select Religion</option>
+                            @if (!count($religions) == 0)
+
+                                @foreach ($religions as $religion)
+                                <option value="{{ $religion->id }}">{{ $religion->name ?? '' }}</option>
+                                @endforeach
+
+                            @endif
+                            {{-- <option value=""></option> --}}
+                        </select>
+                        <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" id="religion_id" name="religion_id">
+                        @error('religion_id')
+                            <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
                       </div>
                       <div class="col-sm-12">
                          <button type="submit" class="send" style="border-radius: 5px;">Register</button>

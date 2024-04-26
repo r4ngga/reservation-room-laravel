@@ -70,7 +70,7 @@
                 <td>
                     <a onclick="fetchShowRoom({{$rm->number_room ?? ''}})" href="javascript:void(0)" data-toggle="modal" data-target="#ShowDetailRoom" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailRoom{{$rm->number_room}}">Detail</a>
                     <a onclick="fetchEdit({{$rm->number_room ?? ''}} )" href="#" data-toggle="modal" data-target="#editRoom" class="btn btn-info">Change</a>
-                    <a href="{{$rm->number_room}}/#DeleteRoom" class="btn btn-danger" data-toggle="modal"  data-target="#DeleteRoom{{$rm->number_room}}">Delete</a>
+                    <a href="#" class="btn btn-danger" data-toggle="modal"  data-target="#DeleteRoom{{$rm->number_room}}">Delete</a>
                 </td>
               </tr>
               @endforeach
@@ -185,9 +185,9 @@
                 <label for="cls">Class</label>
                 <select aria-label="label for the select" name="class" class="nice-select" id="class-room" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
                     <option value="" selected>Please Select</option>
-                    <option value="vip">VIP</option>
-                    <option value="premium">Premium</option>
-                    <option value="reguler">Regular</option>
+                    <option value="1">VIP</option>
+                    <option value="2">Premium</option>
+                    <option value="3">Regular</option>
                 </select>
               </div>
               <div class="form-group">

@@ -15,7 +15,7 @@ class RoomSeeder extends Seeder
         DB::table('rooms')->insert([
             'number_room' => 1,
             'facility' => '2 bed, ac, bathroom',
-            'class' => 'reguler',
+            'class' => 1,
             'capacity' => 2,
             'price' => 10000,
             'status' => 0, //0 free, 1 full, 2 booked

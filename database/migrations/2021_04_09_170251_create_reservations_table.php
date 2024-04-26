@@ -14,7 +14,8 @@ class CreateReservationsTable extends Migration
     public function up()
     {
         Schema::create('reservations', function (Blueprint $table) {
-            $table->bigIncrements('code_reservation');
+            $table->bigIncrements('id');
+            $table->string('code_reservation');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('room_id');
             $table->date('time_booking');

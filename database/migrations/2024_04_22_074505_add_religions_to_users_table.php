@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCodeReservationInReservationsTable extends Migration
+class AddReligionsToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCodeReservationInReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->string('code_reservation')->after('number_reservation');
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('religions_id')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddCodeReservationInReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('religions_id');
         });
     }
 }

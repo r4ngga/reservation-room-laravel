@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Log;
+use App\Religions;
 use Carbon\Carbon;
 
 class AuthController extends Controller
@@ -31,7 +32,8 @@ class AuthController extends Controller
 
     public function register()
     {
-        return view('register');
+        $religions = Religions::all();
+        return view('register',compact('religions'));
     }
 
     public function store(Request $request)
@@ -42,7 +44,7 @@ class AuthController extends Controller
             'password' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric',
-            'gender' => 'required',
+            'gender' => 'required|in:1,2',
         ]);
 
         $checkUseremail = User::where('email', $request->email)->first();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameCodeReservationInReservationsTable extends Migration
+class CreateReligionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class RenameCodeReservationInReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->renameColumn('code_reservation', 'number_reservation');
+        Schema::create('religions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class RenameCodeReservationInReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->renameColumn('number_reservation', 'code_reservation');
-        });
+        Schema::dropIfExists('religions');
     }
 }

@@ -55,7 +55,7 @@ class UserController extends Controller
             'password' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric',
-            'gender' => 'required',
+            'gender' => 'required|in:1,2',
         ]);
 
         $user = new User();
@@ -94,7 +94,7 @@ class UserController extends Controller
             'password' => 'required',
             'address' => 'required',
             'phone_number' => 'required|numeric',
-            'gender' => 'required',
+            'gender' => 'required|in:1,2',
         ]);
 
         $find = User::where('user_id', $id)->first();
