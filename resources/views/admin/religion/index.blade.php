@@ -67,8 +67,8 @@
                      <td>{{$rg->status ?? ''}}</td>
 
                      <td>
-                         <a onclick="fetchEdit({{$rm->id ?? ''}}, {{ $rm->name ?? '' }}, {{ $rm->description ?? '' }} )" href="#" data-toggle="modal" data-name="{{$rg->name}}" data-description="{{$rg->description ?? ''}}" data-target="#editReligion" class="btn btn-info">Change</a>
-                         <a href="{{$rm->number_room}}/#DeleteRoom" class="btn btn-danger" data-toggle="modal"  data-target="#DeleteRoom{{$rm->number_room}}">Delete</a>
+                         <a href="#" onclick="fetchEdit({{$rg->id ?? ''}}, {{ $rm->name ?? '' }}, {{ $rm->description ?? '' }} )" href="#" data-toggle="modal" data-name="{{$rg->name}}" data-description="{{$rg->description ?? ''}}" data-target="#editReligion" class="btn btn-info">Change</a>
+                         <a href="#" onclick="deleteRelg({{$rg->id}})" class="btn btn-danger" data-toggle="modal" data-target="#delRlg">Delete</a>
                      </td>
                    </tr>
                    @endforeach

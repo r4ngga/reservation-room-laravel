@@ -95,7 +95,7 @@
                                     <div class="dropdown-menu" >
                                       <a href="{{('room')}}">Rooms Data</a>
                                       <a href="{{('users')}}">Users Data</a>
-                                      <a href="">Religions</a>
+                                      <a href="{{ ('religions') }}">Religions</a>
                                     </div>
                               </li>
                               <li><a href="{{('reservation')}}">Confirmation</a></li>

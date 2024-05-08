@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('logs', [Admin\LogController::class, 'index'])->name('logs');
         Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
 
-        //Route::get('religions', [Admin\ReligionController::class, 'index'])->name('religions');
+        Route::get('religions', [Admin\ReligionController::class, 'index'])->name('religions');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {
