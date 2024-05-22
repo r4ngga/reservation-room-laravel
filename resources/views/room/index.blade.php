@@ -141,7 +141,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Detail Room</h5>
+          <h5 class="modal-title">Delete Room</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -150,8 +150,9 @@
           <form action="" method="POST">
               @method('delete')
               @csrf
+              <input type="hidden" name="id_room" id="id-room">
               <p>Are you sure delete data room with number {{$rm->number_room}}  ? <br></p>
-              <button type="submit" class="btn btn-danger">Delete</button>
+              <button type="submit" id="btn-delete-room" class="btn btn-danger">Delete</button>
           </form>
         </div>
         <div class="modal-footer">
@@ -370,6 +371,18 @@
                 $('#editRoom').modal('hide');
                 $("#aler-success").css("display", "block");
             }
+        });
+    });
+
+    $("#btn-delete-room").click(function(e) {
+
+        e.preventDefault();
+
+        let idrm = $("#id-room").val();
+        $.ajax({
+            type: 'DELETE',
+            enctype: 'multipart/form-data',
+            url: '/rooms/'
         });
     });
 </script>

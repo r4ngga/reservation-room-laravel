@@ -128,7 +128,7 @@
               <div class="row">
                 <div class="col">
                  <form action="" id="" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_users" id="id-users">
+                    <input type="hidden" name="id_religion" id="id-religion">
                     <input type="hidden" name="" id="token" value="{{ csrf_token() }}">
                     <button id="btn-delete-rlg" class="btn btn-danger">Delete</button>
                  </form>
@@ -150,15 +150,18 @@
 
     function fetchEdit(id, name, description)
     {
-        //let namereligion = name;
-        //let description = description;
+        let namereligion = name;
+        let description = description;
 
-        //document.getElementById('name-religion').value = namereligion;
-        //document.getElementById('description-religion').value = description;
+        document.getElementById('name-religion').value = namereligion;
+        document.getElementById('description-religion').value = description;
     }
 
-    ("#btn-delete-rlg").click( function() {
-        let idrlg = '';
+    ("#btn-delete-rlg").click( function(e) {
+        e.preventDefault();
+
+        let idrlg = $('#id-religion').val();
+        // let namerlg = $
     });
 
 

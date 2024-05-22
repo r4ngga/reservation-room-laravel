@@ -45,6 +45,22 @@ class ReligionController extends Controller
 
         return redirect()->back()->with('notify', 'Success add data religions ');
     }
+
+    public function update(Request $request, $id)
+    {
+        $auth = Auth::user();
+        $now = Carbn::now();
+
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => '',
+        ]);
+
+        $lastdata = Log::where('id', $id)->first();
+        $lastdata->name = $request->name;
+        $lastdata->description = $request->description ?? null;
+        $lastdata->save();
+    }
 }
 
 
