@@ -56,10 +56,31 @@ class ReligionController extends Controller
             'description' => '',
         ]);
 
-        $lastdata = Log::where('id', $id)->first();
-        $lastdata->name = $request->name;
-        $lastdata->description = $request->description ?? null;
-        $lastdata->save();
+        $lastdata = Religions::where('id', $id)->first();
+
+        $rlg = Religions::where('id', $id)->first();
+        $rlg->name = $request->name;
+        $rlg->description = $request->description ?? null;
+        $rlg->save();
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->action = 'PUT';
+        $logs->description = 'change & update data religion';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($lastdata);
+        $logs->data_new = json_encode($rlg);
+        $logs->save();
+        //create a logs
+
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => 'Success update a data religion',
+            'data' => json_encode($rlg),
+        ]);
     }
 }
 
