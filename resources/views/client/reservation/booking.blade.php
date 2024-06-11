@@ -49,6 +49,16 @@
                                 <input type="text" class="form-control" id="time_spend" name="time_spend" onkeyup="countpayment()">
                             </div>
                             <div class="form-group">
+                                <label for="Use Promotion">Promotion</label>
+                                {{-- <input type="text" name="" id=""> --}}
+                                <select name="promotion_id" id="promotion_id">
+                                    <option value="">Pilih Promotion</option>
+                                    @foreach ($promotions as $promotion)
+                                        <option value="{{ $promotion->id ?? '' }}">{{$promotion->name ?? ''}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="payment">Payment (Time Spend x Price)</label>
                                 <input type="text" class="form-control" id="payment" name="payment" onkeyup="countpayment()">
                             </div>

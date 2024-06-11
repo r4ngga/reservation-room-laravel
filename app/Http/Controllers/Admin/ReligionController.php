@@ -82,6 +82,34 @@ class ReligionController extends Controller
             'data' => json_encode($rlg),
         ]);
     }
+
+    public function delete($id)
+    {
+        $auth = Auth::user();
+        $now = Carbon::now();
+        $find = Religions::where('id', $id)->first();
+
+        if(!$find)
+        {
+            return redirect('/religions')->with('notify', 'Failed delete data religion !');
+        }
+
+        $delrlg = Religions::where('id', $id)->first();
+        Religions::deleted($delrlg->id);
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->description = 'delete data religion';
+        $logs->action = `DELETE`;
+        $logs->role = $auth->role;
+        $logs->log_time = $now();
+        $logs->data_old = json_decode($find);
+        $logs->data_new = '-';
+        $logs->save();
+
+        return redirect('/religions')->with('notify', 'Data a Religion successfully delete');
+    }
 }
 
 

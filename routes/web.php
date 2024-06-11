@@ -80,6 +80,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
 
         Route::get('religions', [Admin\ReligionController::class, 'index'])->name('religions');
+
+        //Route::get('promotions', [Admin\PromotionController::class, 'index'])->name('promotions');
+        //Route::post('promotions-add', [Admin\PromotionController::class, 'add'])->name('promotions.add');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

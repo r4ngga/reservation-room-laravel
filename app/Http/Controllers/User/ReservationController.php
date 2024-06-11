@@ -49,7 +49,11 @@ class ReservationController extends Controller
         $room = Room::findOrFaill($id);
         $random_string = $this->generateRandomString(10);
         $set_value = Str::random(7);
-        return view('client.reservation.booking', compact('room', 'set_value', 'random_string'));
+        $promotions = DB::table('promotions')
+        ->where('status', 1)
+        ->where('enable', 1)
+        ->get();
+        return view('client.reservation.booking', compact('room', 'set_value', 'random_string', 'promotions'));
     }
 
     public function booking(Request $request)
