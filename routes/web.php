@@ -80,8 +80,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('fetchlogs/{id}', [Admin\LogController::class, 'fetchDetail'])->name('logs.fetchlog');
 
         Route::get('religions', [Admin\ReligionController::class, 'index'])->name('religions');
+        //Route::post('religions-add', [Admin\ReligionController::class, 'add'])->name('religions.add');
+        //Route::post('religions-update', [Admin\ReligionController::class, 'update'])->name('religions.update');
+        //Route::delete('religions-delete/{id}', [Admin\ReligionController::class, 'delete'])->name('religions.delete');
 
         //Route::get('promotions', [Admin\PromotionController::class, 'index'])->name('promotions');
+        //Route::get('promotions/{id}', [Admin\PromotionController::class, 'show'])->name('promotions.show');
         //Route::post('promotions-add', [Admin\PromotionController::class, 'add'])->name('promotions.add');
     });
 

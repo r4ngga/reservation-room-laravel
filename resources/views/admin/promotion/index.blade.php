@@ -168,7 +168,12 @@
 @section('scripts')
 <script type="text/javascript">
 
-    function fetchEdit(id, name, description, start_date, end_date)
+    function fetchShowPromot(id)
+    {
+
+    }
+
+    function fetchEditPromot(id, name, description, start_date, end_date)
     {
         let namepromotion = name;
         let description = description;
@@ -186,6 +191,12 @@
         e.preventDefault();
 
         let idrlg = $('#id-promotion').val();
+
+        $.ajax({
+            type: 'DELETE',
+            enctype: 'multipart/form-data',
+            url: '/promotions/',
+        });
         // let namerlg = $
     });
 
