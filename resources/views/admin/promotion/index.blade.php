@@ -81,6 +81,59 @@
     </div>
  </div>
 
+ <div class="modal fade" id="ShowDetailPromotion" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Promotion</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col">Name Promotion :  </div>
+                    <div class="col"> <p id="p-name"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Description : </div>
+                    <div class="col"> <p id="p-description"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Enable : </div>
+                    <div class="col"> <p id="p-enable"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Status : </div>
+                    <div class="col"> <p id="p-status"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Price : </div>
+                    <div class="col"> <p id="p-price"></p> </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">Start Promot : </div>
+                    <div class="col"> <p id="p-start-price"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">End Promot : </div>
+                    <div class="col"> <p id="p-end-price"></p> </div>
+                </div>
+                <div class="row">
+                    <div class="col">Created at: </div>
+                    <div class="col"> <p id="p-created"></p> </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
  <div class="modal fade" id="editPromotion" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -112,6 +165,11 @@
                     <option value="">Enable</option>
                     <option value="">Disable</option>
                 </select>
+              </div>
+
+              <div class="form-group">
+                 <label for="pricepromotion">Price</label>
+                 <input type="text" name="price" class="form-control" id="price-promotion" style="color: black">
               </div>
 
               <div class="form-group">
@@ -170,7 +228,22 @@
 
     function fetchShowPromot(id)
     {
-
+        $.ajax({
+            type: 'GET',
+            url: '/promotions/'+id,
+            processdata: false,
+            success:function(data){
+                console.log(data);
+                document.getElementById('p-name').innerHTML = data.name;
+                document.getElementById('p-description').innerHTML = data.description;
+                document.getElementById('p-enable').innerHTML = data.enable;
+                document.getElementById('p-status').innerHTML = data.status;
+                document.getElementById('p-price').innerHTML = data.price;
+                document.getElementById('p-start-price').innerHTML = data.start_date;
+                document.getElementById('p-end-price').innerHTML = data.end_date;
+                document.getElementById('p-created').innerHTML = data.created_at;
+            }
+        });
     }
 
     function fetchEditPromot(id, name, description, start_date, end_date)

@@ -84,9 +84,11 @@ Route::group(['middleware' => ['auth']], function () {
         //Route::post('religions-update', [Admin\ReligionController::class, 'update'])->name('religions.update');
         //Route::delete('religions-delete/{id}', [Admin\ReligionController::class, 'delete'])->name('religions.delete');
 
-        //Route::get('promotions', [Admin\PromotionController::class, 'index'])->name('promotions');
+        Route::get('promotions', [Admin\PromotionController::class, 'index'])->name('promotions');
         //Route::get('promotions/{id}', [Admin\PromotionController::class, 'show'])->name('promotions.show');
         //Route::post('promotions-add', [Admin\PromotionController::class, 'add'])->name('promotions.add');
+        //Route::get('promotions-update/{id}', [Admin\PromotionController::class, 'update'])->name('promotions.update);
+        //Route::delete('promotions-delete/{id}', [Admin\PromotionController::class, 'delete'])->name('promotions.delete');
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

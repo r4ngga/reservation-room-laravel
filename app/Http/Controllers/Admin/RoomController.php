@@ -212,6 +212,8 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
         $find = Room::where('number_room', $room->number_room)->first();
         if(!$find)
         {
@@ -223,6 +225,19 @@ class RoomController extends Controller
             unlink(public_path($img));
         }
         Room::destroy($room->number_room);
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->role = $auth->role;
+        $logs->description = 'delete data room';
+        $logs->action = 'delete';
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($find);
+        $logs->data_new = '-';
+        $logs->save();
+        //create a logs
+
         return redirect('/rooms')->with('notify', 'Data a Room successfully delete !');
     }
 }

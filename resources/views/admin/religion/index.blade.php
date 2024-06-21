@@ -34,8 +34,8 @@
 
 @section('container')
 
-<div id="testimonial" class="testimonial">
-    <div class="container">
+{{-- <div id="testimonial" class="testimonial"> --}}
+    <div class="container py-5 mt-2 mb-2">
         <div class="row pb-4">
             <div class="col">
              {{-- @if(session('notify'))
@@ -53,7 +53,7 @@
                    <tr>
                      <th scope="col">#</th>
                      <th scope="col">Name</th>
-                     <th scope="col">Description</th>
+                     {{-- <th scope="col">Description</th> --}}
                      <th scope="col">Status</th>
                      <th scope="col">Action</th>
                    </tr>
@@ -63,7 +63,7 @@
                    <tr>
                      <td scope="row">{{$key ?? ''}}</td>
                      <td>{{$rg->name ?? ''}}</td>
-                     <td>{{$rg->description ?? ''}}</td>
+                     {{-- <td>{{$rg->description ?? ''}}</td> --}}
                      <td>{{$rg->status ?? ''}}</td>
 
                      <td>
@@ -77,7 +77,7 @@
             </div>
          </div>
     </div>
- </div>
+ {{-- </div> --}}
 
  <div class="modal fade" id="editReligion" tabindex="-1">
     <div class="modal-dialog">

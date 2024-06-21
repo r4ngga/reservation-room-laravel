@@ -137,4 +137,36 @@ class PromotionController extends Controller
         return redirect('/promotions')->with('notify', 'Success save changes update promotion data');
 
     }
+
+    public function delete($id)
+    {
+        $auth = Auth::user();
+        $now = Carbon::now();
+
+        $old_data = DB::table('promotions')->where('id', $id)->first();
+
+        if(!$old_data)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Can`t Delete, Promotion Not Found'
+            ], 404);
+        }
+
+        $delete = DB::table('promotions')->where('id', $id)->delete();
+
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->user_id;
+        $logs->role = $auth->role;
+        $logs->description = 'delete a promotion';
+        $logs->action = 'delete';
+        $logs->log_time = $now;
+        $logs->data_old = json_encode($old_data);
+        $logs->data_new = '-';
+        $logs->save();
+        //create a logs
+
+        return redirect('/promotions')->with('notify', 'Success delete a promotions');
+    }
 }

@@ -13,9 +13,9 @@ class ReligionController extends Controller
 {
     public function index()
     {
-        $religions = Religions::where('');
+        $religions = Religions::where('deleted_at', null)->get();
 
-        //return view('admin.religion.index', compact('religions'));
+        return view('admin.religion.index', compact('religions'));
     }
 
     public function add(Request $request)

@@ -158,7 +158,7 @@ class UserController extends Controller
         $logs->description = 'delete a user';
         $logs->role = $auth->role;
         $logs->log_time = $now;
-        $logs->data_old = $old_data;
+        $logs->data_old = json_encode($old_data);
         $logs->data_new = '-';
         $logs->save();
 

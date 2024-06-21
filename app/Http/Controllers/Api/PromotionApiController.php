@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Promotions;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PromotionApiController extends Controller
 {
@@ -28,5 +29,31 @@ class PromotionApiController extends Controller
             'message' => 'Success show all promotions',
             'data' => $promotions,
         ], 200);
+    }
+
+    public function fetchDetailPromotions($id)
+    {
+        $find = Promotions::where('id', $id)->first();
+
+        if(!$find)
+        {
+            return response()->json([
+                'status' => false,
+                'code' => 404,
+                'message' => 'Not Found a Promotions',
+            ]);
+        }
+
+        $promotion = DB::table('promotions')
+        ->where('id', $id)
+        ->where('deleted_at', null)
+        ->first();
+
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => 'Success show a promotions',
+            'data' => $promotion,
+        ],200);
     }
 }
