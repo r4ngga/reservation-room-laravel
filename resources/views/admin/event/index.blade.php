@@ -1,6 +1,6 @@
 @extends('template/main_dashboard')
 
-@section('title','Promotion Data')
+@section('title','Event Data')
 
 @section('style')
 <style>
@@ -60,17 +60,17 @@
                    </tr>
                  </thead>
                  <tbody>
-                   @foreach($promotions as $key => $pr)
+                   @foreach($events as $key => $ev)
                    <tr>
                      <td scope="row">{{$key ?? ''}}</td>
-                     <td>{{$pr->name ?? ''}}</td>
-                     <td>{{$pr->enable ?? ''}}</td>
-                     <td>{{$pr->start_date ?? ''}}</td>
-                     <td>{{$pr->end_date ?? '' }}</td>
+                     <td>{{$ev->name ?? ''}}</td>
+                     <td>{{$ev->enable ?? ''}}</td>
+                     <td>{{$ev->start_date ?? ''}}</td>
+                     <td>{{$ev->end_date ?? '' }}</td>
 
                      <td>
-                         <a href="#" onclick="fetchEditPromot({{$pr->id ?? ''}}, {{ $pr->name ?? '' }}, {{ $pr->description ?? '' }}, {{ $pr->start_date ?? ''}}, {{ $pr->end_date ?? ''}} )" href="#" data-toggle="modal" data-name="{{$pr->name}}" data-description="{{$pr->description ?? ''}}" data-target="#editPromotion" class="btn btn-info">Change</a>
-                         <a href="#" onclick="deletePromot({{$rg->id}})" class="btn btn-danger" data-toggle="modal" data-target="#delPrmt">Delete</a>
+                         <a href="#" onclick="fetchEditEvent({{$ev->id ?? ''}}, {{ $ev->name ?? '' }}, {{ $ev->description ?? '' }}, {{ $ev->start_date ?? ''}}, {{ $ev->end_date ?? ''}} )" href="#" data-toggle="modal" data-name="{{$ev->name}}" data-description="{{$ev->description ?? ''}}" data-target="#editEvent" class="btn btn-info">Change</a>
+                         <a href="#" onclick="deleteEvent({{$ev->id}})" class="btn btn-danger" data-toggle="modal" data-target="#delEvt">Delete</a>
                      </td>
                    </tr>
                    @endforeach
@@ -81,11 +81,11 @@
     </div>
  </div>
 
- <div class="modal fade" id="ShowDetailPromotion" tabindex="-1">
+ <div class="modal fade" id="ShowDetailEvent" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Detail Promotion</h5>
+          <h5 class="modal-title">Detail Event</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -93,7 +93,7 @@
         <div class="modal-body">
             <div class="container">
                 <div class="row">
-                    <div class="col">Name Promotion :  </div>
+                    <div class="col">Name Event :  </div>
                     <div class="col"> <p id="p-name"></p> </div>
                 </div>
                 <div class="row">
@@ -114,11 +114,11 @@
                 </div>
 
                 <div class="row">
-                    <div class="col">Start Promot : </div>
+                    <div class="col">Start Event : </div>
                     <div class="col"> <p id="p-start-price"></p> </div>
                 </div>
                 <div class="row">
-                    <div class="col">End Promot : </div>
+                    <div class="col">End Event : </div>
                     <div class="col"> <p id="p-end-price"></p> </div>
                 </div>
                 <div class="row">
@@ -134,33 +134,33 @@
     </div>
 </div>
 
- <div class="modal fade" id="editPromotion" tabindex="-1">
+ <div class="modal fade" id="editEvent" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit a Data Promotion</h5>
+          <h5 class="modal-title">Edit a Data Event</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="" id="form-edtprmt" method="POST" enctype="multipart/form-data">
+          <form action="" id="form-edtevt" method="POST" enctype="multipart/form-data">
               {{-- @method('delete') --}}
               @csrf
-              <input type="hidden" id="id-promotion" value="">
+              <input type="hidden" id="id-event" value="">
 
               <div class="form-group">
-                <label for="namepromotion">Name Promotion</label>
-                <input type="text" class="form-control" name="name" id="name-promotion" style="color: black">
+                <label for="namevent">Name Event</label>
+                <input type="text" class="form-control" name="name" id="name-event" style="color: black">
               </div>
 
               <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" class="form-control" name="description" id="description-promotion" style="color: black">
+                <input type="text" class="form-control" name="description" id="description-event" style="color: black">
               </div>
 
               <div class="form-group">
-                <label for="enablepromotion">Toggle Promotion</label>
+                <label for="enableevent">Toggle Event</label>
                 <select name="" id="">
                     <option value="1">Enable</option>
                     <option value="0">Disable</option>

@@ -73,7 +73,7 @@
                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
                   <div class="full">
                      <div class="center-desk">
-                        @if(auth()->user()->role=="1")
+                        @if(auth()->user()->role=="1" || auth()->user()->role==1)
                         <div class="logo"> <a href="{{('/admin-dashboard')}}">MyRR</a> </div>
                         @else
                         <div class="logo"> <a href="{{('/userdashboard')}}">MyRR</a> </div>
@@ -87,7 +87,7 @@
                         <nav class="main-menu">
                            <ul class="menu-area-main">
                               <li> <a href="{{('/myaccount')}}">My Account</a></li>
-                              @if(auth()->user()->role=="1")
+                              @if(auth()->user()->role=="1" || auth()->user()->role==1)
                               <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                                       Manage Data
@@ -96,11 +96,13 @@
                                       <a href="{{('room')}}">Rooms Data</a>
                                       <a href="{{('users')}}">Users Data</a>
                                       <a href="{{ ('religions') }}">Religions</a>
+                                      <a href="#">Promotions Data</a>
+                                      <a href="#">Events Data</a>
                                     </div>
                               </li>
                               <li><a href="{{('reservation')}}">Confirmation</a></li>
                               <li><a href="{{('logs')}}">Logs</a></li>
-                              @elseif(auth()->user()->role=="2")
+                              @elseif(auth()->user()->role=="2" || auth()->user()->role==2)
                               <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li>
                               {{-- <li> <a href="{{ route('client') }}">My Reservation</a> </li> --}}
                               <li> <a href="{{ route('rooms') }}">Reservation</a> </li>
@@ -110,7 +112,7 @@
                                       Account
                                     </a>
                                     <div class="dropdown-menu" >
-                                    @if(auth()->user()->role=="2")
+                                    @if(auth()->user()->role=="2" || auth()->user()->role==2)
                                       <a href="{{('/history')}}">My History</a>
                                     @endif
                                       <a href="{{('/setting')}}">Setting</a>
