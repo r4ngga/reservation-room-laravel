@@ -130,11 +130,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="editRoom" tabindex="-1">
+<div class="modal fade" id="edituser" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit a Room</h5>
+          <h5 class="modal-title">Edit a User</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -149,10 +149,10 @@
                 <label for="nameusr">Name</label>
                 <input type="text" class="form-control" name="name" id="name-usr" style="color: black">
               </div>
-              <div class="form-group">
+              {{-- <div class="form-group">
                 <label for="facility">Facility</label>
                 <input type="text" class="form-control" name="facility" id="facility-room" style="color: black">
-              </div>
+              </div> --}}
               <div class="form-group">
                 <label for="gender">Gender</label>
                 <select aria-label="label for the select" name="gender" class="nice-select" id="class-room" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
@@ -170,11 +170,11 @@
                 <input type="text" class="form-control" name="number_phone" id="numberphone-usr" style="color: black">
               </div>
 
-              <div class="form-group">
+              {{-- <div class="form-group">
                  <label for="img-rm">Image Room</label>
                  <input type="file" name="image_room" id="image_room" onchange="previewImage(event);">
                  <img src="" id="img-rm" class="mini-img-room" alt="" style="margin-top: 2px; margin-bottom: 4px;">
-              </div>
+              </div> --}}
 
               <button type="submit" id="btn-edtroom" class="btn btn-primary">Update</button>
           </form>

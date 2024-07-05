@@ -19,6 +19,7 @@ class PromotionApiController extends Controller
             $query->where('promotions.name', 'like', '%'. strtolower($keyword) . '%')
                   ->orWhere('promotions.status', $keyword);
         })
+        ->where('promotions.enable', 1)
         ->take($limit)
         ->offset($offset)
         ->get();

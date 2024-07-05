@@ -62,5 +62,19 @@ class EventController extends Controller
     public function show($id)
     {
         $auth = Auth::user();
+        $evnt = DB::table('events')->where('id', $id)->first();
+
+        if(!$evnt){
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed show a detail data event !',
+            ], 404);
+        }
+
+        $data = array(
+            'id' => $evnt->id,
+            'name' => $evnt->name,
+        );
+
     }
 }

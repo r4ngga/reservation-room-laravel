@@ -30,11 +30,11 @@
                             @if($reservations->count() > 0)
                             @foreach ($reservations as $rsv)
                             <tr>
-                                <td>{{$rsv->name}}</td>
-                                <td>{{$rsv->code_reservation}}</td>
-                                <td>{{$rsv->time_booking}}</td>
-                                <td>{{$rsv->number_room}}</td>
-                                <td>{{$rsv->status_payment}}</td>
+                                <td>{{$rsv->name ?? ''}}</td>
+                                <td>{{$rsv->code_reservation ?? ''}}</td>
+                                <td>{{$rsv->time_booking ?? ''}}</td>
+                                <td>{{$rsv->number_room ?? ''}}</td>
+                                <td>{{$rsv->status_payment ?? ''}}</td>
                             </tr>
                             @endforeach
                             @else

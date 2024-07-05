@@ -30,16 +30,16 @@
                     <tbody>
                         @foreach ($reservations as $rsv)
                             <tr>
-                                <td>{{$rsv->code_reservation}}</td>
-                                <td>{{$rsv->number_room}}</td>
-                                <td>{{$rsv->name}}</td>
-                                <td>{{$rsv->class}}</td>
-                                <td>{{$rsv->time_booking}}</td>
-                                <td>{{$rsv->payment}}</td>
-                                <td>{{$rsv->status_payment}}</td>
+                                <td>{{$rsv->code_reservation ?? ''}}</td>
+                                <td>{{$rsv->number_room ?? ''}}</td>
+                                <td>{{$rsv->name ?? ''}}</td>
+                                <td>{{$rsv->class ?? ''}}</td>
+                                <td>{{$rsv->time_booking ?? ''}}</td>
+                                <td>{{$rsv->payment ?? ''}}</td>
+                                <td>{{$rsv->status_payment ?? ''}}</td>
                                 <td>
-                                    @if($rsv->status_payment == "unpaid")
-                                    <a href="{{$rsv->number_reservation}}/#ShowConfirmation" data-toggle="modal" data-target="#ShowConfirmation{{$rsv->number_reservation}}" class="btn btn-success">Confirmation</a>
+                                    @if($rsv->status_payment == 0 || $rsv->status_payment == "0")
+                                    <a href="#ShowConfirmation" onclick="showConfirmation({{$rsv->number_reservation ?? ''}}, {{$rsv->code_reservation ?? ''}}, {{$rsv->number_room ?? ''}}, {{$rsv->status_payment ?? ''}})" data-toggle="modal" data-target="#ShowConfirmation" class="btn btn-success">Confirmation</a>
                                     @else
                                     Payment has valid
                                     @endif
@@ -53,8 +53,8 @@
     </div>
 </div>
 
-@foreach($reservations as $rsv)
-<div class="modal fade" id="ShowConfirmation{{$rsv->number_reservation}}" tabindex="-1">
+{{-- @foreach($reservations as $rsv) --}}
+<div class="modal fade" id="ShowConfirmation" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,25 +72,25 @@
                   @csrf
                   <div class="form-group" hidden>
                     <label for="numberreservation">Number Reservation</label>
-                    <input type="text" class="form-control" name="number_reservation" id="number_reservation" value="{{$rsv->number_reservation}}">
+                    <input type="text" class="form-control" name="number_reservation" id="number_reservation" value="">
                   </div>
                   <div class="form-group" hidden>
                     <label for="codereservation">Code Reservation</label>
-                    <input type="text" class="form-control" name="code_reservation" id="code_reservation" value="{{$rsv->code_reservation}}">
+                    <input type="text" class="form-control" name="code_reservation" id="code_reservation" value="">
                   </div>
                   <div class="form-group" hidden>
                      <label for="numberroom">Room Number</label>
-                     <input type="text" class="form-control" name="number_room" id="number_room" value="{{$rsv->number_room}}">
+                     <input type="text" class="form-control" name="number_room" id="number_room" value="">
                   </div>
                   <div class="form-group" hidden>
                     <label for="statuspayment">Status Payment</label>
-                    <input type="text" class="form-control" name="status_payment" id="status_payment" value="paid off">
+                    <input type="text" class="form-control" name="status_payment" id="status_payment" value="">
                   </div>
                   <div class="form-group">
 
                   </div>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success">Yes</button>
+                    <button type="submit" id="btn-confrm-pymnt" class="btn btn-success">Yes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                   </div>
               </form>
@@ -101,6 +101,24 @@
         </div>
     </div>
 </div>
-@endforeach
+{{-- @endforeach --}}
+
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+  function showConfirmation(number_reservation, code_reservation, number_room, status_payment)
+  {
+    let number_rsv = number_reservation;
+    let code_rsv = code_reservation;
+    let number_rm = number_room;
+    let status_pymnt = status_payment;
+    console.log(number_rsv, code_rsv, number_rm, status_pymnt);
+    document.getElementById('number_reservation').value = number_rsv;
+    document.getElementById('code_reservation').value = code_rsv;
+    document.getElementById('number_room').value = number_rm;
+    document.getElementById('status_payment').value = status_pymnt;
+  }
+</script>
 
 @endsection
