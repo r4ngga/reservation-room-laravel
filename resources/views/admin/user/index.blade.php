@@ -12,6 +12,11 @@
             </div>
          @endif
 
+         <div id="ntf-success" class="alert alert-success my-2" role="alert" style="display: none">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
          <div id="succes-del-usr" class="alert alert-success my-2" role="alert" style="display: none">
             Success delete a user
         </div>
@@ -130,6 +135,90 @@
     </div>
 </div>
 
+<div class="modal fade" id="insert-user" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Insert a new user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-2">
+          <form action="{{ route('users.store') }}" method="POST">
+              @csrf
+              {{-- @method('delete') --}}
+              {{-- <div class="form-group">
+                          <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
+                          <input type="text" class="form-control" id="validation" name="validation" placeholder="Type here">
+              </div> --}}
+              <div class="form-group">
+                  <label for="name">Name</label> <span style="color: red;">*</span>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Type Name Here" required>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email</label> <span style="color: red;">*</span>
+                  <input type="text" name="email" id="add-email" class="form-control" placeholder="Email Here" required>
+                  <span id="msg-email" class="text-sm text-gray-600 one-number" style="display: none;">
+                      <i class="fas fa-circle" aria-hidden="true"></i>
+                      &nbsp;<p id="response-email"></p>
+                  </span>
+              </div>
+              <div class="form-group">
+                  <label for="phonenumber">Phone Number</label> <span style="color: red;">*</span>
+                  <input type="number" name="phone_number" id="add_phone_number" class="form-control" placeholder="Phone Number Here" required>
+                  <span id="msg-phone" class="text-sm text-gray-600 one-number" style="display: none;">
+                      <i class="fas fa-circle" aria-hidden="true"></i>
+                      &nbsp;<p id="response-phone"></p>
+                  </span>
+              </div>
+              <div class="form-group">
+                  <label for="adress">Address</label> <span style="color: red;">*</span>
+                  <input type="text" name="address" id="address" class="form-control" placeholder="Type Address Here" required>
+              </div>
+              <div class="form-group">
+                <label for="rlgion">Religion</label>
+                <select name="religion_id" id="religion-id">
+                  <option value="">Select Religion</option>
+                  @foreach ($religions as $rlg )
+                      <option value="{{ $rlg->id ?? '' }}">{{ $rlg->name ??''}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group">
+                  <label for="gender">Gender</label> <span style="color: red;">*</span>
+                  <select aria-label="label for the select" name="gender" class="nice-select" id="gender-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
+                    <option value="" selected>Please Select</option>
+                    <option value="1">Man</option>
+                    <option value="2">Woman</option>
+                  </select>
+                  {{-- <div class="form-check">
+                      <input type="radio" id="man" name="add_gender" value="man" class="form-check-input" required>
+                      <label for="man">Man</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" id="woman" name="add_gender" value="woman" class="form-check-input">
+                      <label  for="woman">Woman</label>
+                    </div> --}}
+              </div>
+              <div class="form-group">
+                  <label for="password">Password</label> <span style="color: red;">*</span>
+                  <input type="password" name="password" id="password" class="form-control">
+              </div>
+              {{-- <div class="form-group">
+                  <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
+              </div> --}}
+              <button id="button-submit" type="submit"  class="btn btn-primary" >Confirm</button>
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="edituser" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -146,19 +235,28 @@
               <input type="hidden" id="id-usr" value="">
 
               <div class="form-group">
-                <label for="nameusr">Name</label>
+                <label for="nameusr">Name</label> <span style="color: red;">*</span>
                 <input type="text" class="form-control" name="name" id="name-usr" style="color: black">
               </div>
-              {{-- <div class="form-group">
-                <label for="facility">Facility</label>
-                <input type="text" class="form-control" name="facility" id="facility-room" style="color: black">
-              </div> --}}
               <div class="form-group">
-                <label for="gender">Gender</label>
-                <select aria-label="label for the select" name="gender" class="nice-select" id="class-room" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
+                <label for="emailusr">Email</label> <span style="color: red;">*</span>
+                <input type="text" class="form-control" name="email" id="email-usr" style="color: black">
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender</label> <span style="color: red;">*</span>
+                <select aria-label="label for the select" name="gender" class="nice-select" id="gender-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
                     <option value="" selected>Please Select</option>
                     <option value="1">Man</option>
                     <option value="2">Woman</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="lblregligion">Releigion</label>
+                <select aria-label="label for the select" name="gender" class="nice-select" id="gender-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
+                    <option value="" selected>Please Select Religion</option>
+                    @foreach ($religions as $rlg)
+                        <option value="{{ $rlg->id }}" >{{ $rlg->name ?? ''}}</option>
+                    @endforeach
                 </select>
               </div>
               <div class="form-group">
@@ -169,14 +267,16 @@
                 <label for="numberphone">Number Phone</label>
                 <input type="text" class="form-control" name="number_phone" id="numberphone-usr" style="color: black">
               </div>
+              <div class="form-group">
+                <label for="textpassword">Password</label>
+                <input type="password" class="form-control" name="password" id="password-usr" style="color: black">
+              </div>
+              <div class="form-group">
+                <p>Password dapat dikosongi apabila tidak diganti</p>
+              </div>
 
-              {{-- <div class="form-group">
-                 <label for="img-rm">Image Room</label>
-                 <input type="file" name="image_room" id="image_room" onchange="previewImage(event);">
-                 <img src="" id="img-rm" class="mini-img-room" alt="" style="margin-top: 2px; margin-bottom: 4px;">
-              </div> --}}
 
-              <button type="submit" id="btn-edtroom" class="btn btn-primary">Update</button>
+              <button type="submit" id="btn-edtusr" class="btn btn-primary">Update</button>
           </form>
         </div>
         <div class="modal-footer">
@@ -241,6 +341,57 @@
             contentType: false,
             success:function(data){
                 console.log(data);
+            }
+        });
+    }
+
+    $("#btn-edtusr").click(function(e) {
+        e.preventDefault();
+
+        let user_id = $('#id-usr').val();
+        let user_nm = $('#name-usr').val();
+        let user_email = $('#email-usr').val();
+        let user_gender = $('#gender-usr').val();
+        let user_address = $('#address-usr').val();
+        let user_phone = $('#numberphone-usr').val();
+        let user_pass = $('#password-usr').val();
+
+        console.log(user_id, user_nm, user_email, user_gender, user_address, user_phone);
+
+        $.ajax({
+            type: 'POST',
+            url: 'users/update/'+user_id,
+            dataType: 'json',
+            processdata: false,
+            contentType: false,
+            data: {
+                _token:"{{ csrf_token() }}",
+                id_user: user_id,
+                name: user_nm,
+                email: user_email,
+                gender: user_gender,
+                address: user_address,
+                phone_number: user_phone,
+                password: user_pass,
+            },
+            success: function(dt){
+                $('#edituser').modal('hide');
+                $('#ntf-success').css("display", "block");
+                $("#ntf-success").append(data.data);
+                fetchuser();
+            }
+        });
+    });
+
+    function fetchuser()
+    {
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('user.fetch-index') }}',
+            processdata: false,
+            success: function(dt)
+            {
+                console.log(dt);
             }
         });
     }

@@ -56,8 +56,9 @@ Route::group(['middleware' => ['auth']], function () {
         // Route::get('fetchroom', [Admin\RoomController::class, 'fetchRoom'])->name('fetchroom');
         Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
         Route::get('rooms/{id}', [Admin\RoomController::class, 'fetchDetailRoom'])->name('rooms.show');
-        Route::post('/rooms', [Admin\RoomController::class, 'store']);
+        Route::post('rooms', [Admin\RoomController::class, 'store'])->name('rooms.store');
         //Route::post('/rooms', [Admin\RoomController::class, 'store'])->name('room.store');
+        Route::get('fetchroom', [Admin\RoomController::class, 'fetchRoom'])->name('room.fetch-index');
         Route::get('fetchedit/{id}', [Admin\RoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
         // Route::get('/change/{id}', [Admin\RoomController::class, 'edit']);
         Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
@@ -71,6 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
         //Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation'])->name('confirmation-reservation');
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
+        //Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('user-fetch-index');
         Route::get('users/{id}', [Admin\UserController::class, 'fetchDetailUser'])->name('users.show');
 
         Route::post('users/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');

@@ -43,7 +43,7 @@
                 {{session('notify')}}
             </div>
          @endif --}}
-         <div id="aler-success" class="alert alert-success my-2" role="alert" style="display: none">
+         <div id="aler-success" class="alert alert-success my-3" role="alert" style="display: none">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -60,12 +60,14 @@
               </tr>
             </thead>
             <tbody>
+                @php $status = ['Free', 'Full', 'Booking']; @endphp
+                @php $class = ['','Vip', 'Premium', 'Reguler']; @endphp
               @foreach($rooms as $rm)
               <tr>
                 <td scope="row">{{$rm->number_room ?? ''}}</td>
-                <td>{{$rm->class ?? ''}}</td>
+                <td>{{ $class[$rm->class] ?? ''}}</td>
                 <td>{{$rm->capacity ?? ''}}</td>
-                <td>{{$rm->status ?? ''}}</td>
+                <td>{{ $status[$rm->status] ?? ''}}</td>
 
                 <td>
                     <a onclick="fetchShowRoom({{$rm->number_room ?? ''}})" href="javascript:void(0)" data-toggle="modal" data-target="#ShowDetailRoom" class="btn btn-success" data-toggle="modal" data-target="#ShowDetailRoom{{$rm->number_room}}">Detail</a>
@@ -179,24 +181,24 @@
 
               <div class="form-group">
                 <label for="facility">Facility</label>
-                <input type="text" class="form-control" name="facility" id="facility-room" style="color: black">
+                <input type="text" class="form-control py-1" name="facility" id="facility-room" style="color: black">
               </div>
               <div class="form-group">
                 <label for="cls">Class</label>
                 <select aria-label="label for the select" name="class" class="nice-select" id="class-room" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
                     <option value="" selected>Please Select</option>
-                    <option value="vip">VIP</option>
-                    <option value="premium">Premium</option>
-                    <option value="reguler">Regular</option>
+                    <option value="1">VIP</option>
+                    <option value="2">Premium</option>
+                    <option value="3">Regular</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="capacity">Capacity</label>
-                <input type="text" class="form-control" name="capacity" id="capacity-room" style="color: black">
+                <input type="text" class="form-control py-1" name="capacity" id="capacity-room" style="color: black">
               </div>
               <div class="form-group">
                 <label for="price">Price</label>
-                <input type="text" class="form-control" name="price" id="price-room" style="color: black">
+                <input type="text" class="form-control py-1" name="price" id="price-room" style="color: black">
               </div>
 
               <div class="form-group">
@@ -307,18 +309,18 @@
         });
     }
 
-   /* function fetchroom()
+    function fetchroom()
     {
         $.ajax({
             type: 'GET',
-            url: '',
+            url: '{{ route('room.fetch-index') }}',
             processdata: false,
             success: function(data)
             {
                 console.log(data);
             }
         });
-    }*/
+    }
 
     function fetchShowRoom(id)
     {
@@ -351,26 +353,56 @@
         let room_price = $('#price-room').val();
         let room_img = $('#image_room').val();
 
-        let form_edit =  new FormData($("#form-edtrm")[0]);
+        // let form_edit =  new FormData($("#form-edtrm")[0]);
+        let form_edit = {
+            _token:"{{ csrf_token() }}",
+            facility: room_facility,
+            class: room_class,
+            capacity: room_capacity,
+            price: room_price,
+            image_room: room_img,
+        };
+
+        // let form_edit = JSON.stringify({facility:room_facility,class:room_class,capacity:room_capacity,price:room_price,image_room:room_img});
 
         console.log(room_id, room_facility, room_class, room_capacity, room_price, room_img);
 
         $.ajax({
             type: 'POST',
             enctype: 'multipart/form-data',
-            url: '/room/update/'+room_id ,
+            url: '/rooms/update/'+room_id ,
             headers: {
                 'X-CSRF-Token': '{{ csrf_token() }}',
             },
-            dataType: 'json',
-            processdata: false,
-            contentType: false,
-            data: form_edit,
+            // dataType: 'json',
+            // processdata: false,
+            // contentType: false,
+            data:  {
+            _token:"{{ csrf_token() }}",
+            facility: room_facility,
+            class: room_class,
+            capacity: room_capacity,
+            price: room_price,
+            image_room: room_img,
+            },
             success: function(data){
                 $('#editRoom').modal('hide');
                 $("#aler-success").css("display", "block");
+                $("#aler-success").append(data.data);
             }
         });
+    });
+
+    $("#btn-delete-room").click(function(e) {
+
+      e.preventDefault();
+
+      let idrm = $("#id-room").val();
+      $.ajax({
+          type: 'DELETE',
+          enctype: 'multipart/form-data',
+          url: '/rooms/'
+      });
     });
 </script>
 @endsection

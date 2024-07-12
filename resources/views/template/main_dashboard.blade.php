@@ -93,8 +93,8 @@
                                       Manage Data
                                     </a>
                                     <div class="dropdown-menu" >
-                                      <a href="{{('room')}}">Rooms Data</a>
-                                      <a href="{{('users')}}">Users Data</a>
+                                      <a href="{{route('room')}}">Rooms Data</a>
+                                      <a href="{{route('users')}}">Users Data</a>
                                       <a href="{{ ('religions') }}">Religions</a>
                                       <a href="#">Promotions Data</a>
                                       <a href="#">Events Data</a>
@@ -149,7 +149,7 @@
       <!-- end Testimonial -->
       <!--  footer -->
 
-         <div class="fixed-bottom" >
+         <div class="fixed-bottom">
             {{-- <div class="container">
                <div class="row">
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
@@ -190,7 +190,7 @@
                   </div>
                </div>
             </div> --}}
-            <div class="copyright">
+            <div class="copyright" style="padding: 5px 0px;">
                     <p>Copyright &copy; {{date('Y')}} All Right Reserved By Rangga Wisnu Aji M</a></p>
             </div>
         </div>

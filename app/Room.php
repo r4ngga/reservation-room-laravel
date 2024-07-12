@@ -9,10 +9,10 @@ class Room extends Model
 {
     use Notifiable;
 
-    protected $primaryKey = 'number_room';
+    // protected $primaryKey = '';
 
     protected $fillable = [
-        'facility', 'class', 'capacity', 'status', 'price', 'image_room'
+       'number_room', 'facility', 'class', 'capacity', 'status', 'price', 'image_room'
     ];
 
     protected $attributes = [

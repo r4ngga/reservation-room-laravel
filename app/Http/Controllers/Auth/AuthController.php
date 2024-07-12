@@ -140,8 +140,10 @@ class AuthController extends Controller
         return view('setting', compact('getUser'));
     }
 
-    public function updatesettingacc(Request $request, User $user)
+    public function updatesettingacc(Request $request)
     {
+        $auth = Auth::user();
+        $now = Carbon::now();
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -158,8 +160,20 @@ class AuthController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
+        //create a logs
+        $logs = new Log();
+        $logs->user_id = $auth->id_user;
+        $logs->action = 'PUT';
+        $logs->description = 'change & update data account';
+        $logs->role = $auth->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode($user);
+        $logs->save();
 
-        return redirect('/userdashboard')->with('notify', 'Congratulation success changes setting account !!');
+
+        // return redirect('/userdashboard')->with('notify', 'Congratulation success changes setting account !!');
+        return redirect()->back()->with('notify', 'Congratulation success changes setting account !!');
     }
 
     public function changepassword()

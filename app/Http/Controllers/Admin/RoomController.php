@@ -15,7 +15,7 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = Room::where('status', 'free')
+        $room = Room::where('status', 'free')
                     ->orWhere('status', 'Free')->get();
         // return view('room.index', compact('rooms'));
         return view('admin.room.index', compact('rooms'));
@@ -28,22 +28,26 @@ class RoomController extends Controller
         return view('admin.room.add_room');
     }
 
-    public function fetchRoom(Request $request)
+    public function fetchRoom()
     {
-        $rooms = Room::where('status', 'free')
-                    ->orWhere('status', 'Free')->get();
-        // json_encode($rooms);
-        $html = '<tr>';
-        $html .= '<td scope="row">'. $rooms->number_room ?? '' .'</td>';
-        $html .= '<td>'. $rooms->class ?? '' .'</td>';
-        $html .= '<td>'. $rooms->capacity ?? '' .'</td>';
-        $html .= '<td>'. $rooms->status ?? '' .'</td>';
-        $html .= '<td>';
-        $html .= '<a href="#" onclick="fetchShowRoom('.$rooms->number_room.')" data-toggle="modal" data-target="#ShowDetailRoom" class="btn btn-success">Detail</a>';
-        $html .= '<a href="#" onclick="getEdtRoom('.$rooms->number_room.', '.$rooms->facility.', '.$rooms->class.', '.$rooms->capacity.', '.$rooms->price.', '.$rooms->status.')" data-toggle="modal" data-target="#editRoom" class="btn btn-info">Change</a>';
-        $html .= '<a href="#" onclick="deleteRoom('.$rooms->number_room.')" data-toggle="modal" data-target="#DeleteRoom" class="btn btn-danger">Delete</a>';
-        $html .= ' </td>';
-        $html .= '</tr>';
+        $rooms = Room::where('status', 0)
+                    ->orWhere('status', '0')->get(); //0 free, 1 full, 2 booked
+        // json_encode($room);
+        $status = ['free', 'full', 'booking'];
+        $class_type = ['', 'Vip', 'Premium', 'Reguler'];
+        foreach($rooms as $room){
+            $html = '<tr>';
+            $html .= '<td scope="row">'. $room->number_room ?? '' .'</td>';
+            $html .= '<td>'. $class_type[$room->class] ?? '' .'</td>';
+            $html .= '<td>'. $room->capacity ?? '' .'</td>';
+            $html .= '<td>'. $status[$room->status] ?? '' .'</td>';
+            $html .= '<td>';
+            $html .= '<a href="#" onclick="fetchShowRoom('.$room->number_room.')" data-toggle="modal" data-target="#ShowDetailRoom" class="btn btn-success">Detail</a>';
+            $html .= '<a href="#" onclick="fetchEdit(`'.$room->number_room.'`)" data-toggle="modal" data-target="#editRoom" class="btn btn-info">Change</a>';
+            $html .= '<a href="#" onclick="deleteRoom('.$room->number_room.')" data-toggle="modal" data-target="#DeleteRoom" class="btn btn-danger">Delete</a>';
+            $html .= ' </td>';
+            $html .= '</tr>';
+        }
 
         return response()->json(['html' => $html]);
         // return view('room.index', compact('rooms'));
@@ -62,14 +66,16 @@ class RoomController extends Controller
         // dd($getRoom);
         // return json_decode($getRoom, true);
 
+        $status = ['Free', 'Full', 'Booking'];
+        $class_type = ['','Vip', 'Premium', 'Reguler'];
         return response()->json(
             array(
                 'number_room' => $getRoom->number_room,
                 'facility' => $getRoom->facility,
-                'class' => $getRoom->class,
+                'class' => $class_type[$getRoom->class],
                 'capacity' => $getRoom->capacity,
                 'price' => $getRoom->price,
-                'status' => $getRoom->status,
+                'status' => $status[$getRoom->status],
                 'image_room' => $image,
                 'created_at' => $getRoom->created_at,
                 'updated_at' => $getRoom->updated_at,
@@ -103,8 +109,8 @@ class RoomController extends Controller
 
     public function show_all()
     {
-        $rooms = Room::all();
-        // return view('room.index', ['rooms' => $rooms]);
+        $room = Room::all();
+        // return view('room.index', ['rooms' => $room]);
         // return view('room.index', compact('rooms'));
         return view('admin.room.index', compact('rooms'));
     }
@@ -113,10 +119,11 @@ class RoomController extends Controller
     {
         $auth = Auth::user();
         $now = Carbon::now();
+        // dd($request->all());
 
         $request->validate([
             'facility' => 'required',
-            'class' => 'required|in:Vip,Premium,Reguler',
+            'class' => 'required|in:1,2,3',
             'capacity' => 'required|numeric',
             'price' => 'required|numeric',
             // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
@@ -129,6 +136,7 @@ class RoomController extends Controller
         // dd($imgName);
 
         $room = new Room();
+        $room->number_room = $request->number_room;
         $room->facility = $request->facility;
         $room->class = $request->class;
         $room->capacity = $request->capacity;
@@ -136,18 +144,19 @@ class RoomController extends Controller
         $room->image_room = !empty($request->image_room) ? $imgName : null;
         $room->save();
 
+        $last_room = Room::find($room->id);
         //create a logs
-        $logs = new Logs();
-        $logs->user_id = $auth->user_id;
+        $logs = new Log();
+        $logs->user_id = $auth->id_user;
         $logs->action = 'POST';
         $logs->description = 'add a new room';
         $logs->role = $auth->role;
         $logs->log_time = $now;
         $logs->data_old = '-';
-        $logs->data_new = json_encode($room);
+        $logs->data_new = json_encode($last_room);
         $logs->save();
 
-        return redirect('/rooms')->with('notify', 'Congratulations, success add a new room !');
+        return redirect()->back()->with('notify', 'Congratulations, success add a new room !');
     }
 
     public function edit(Room $room)
@@ -155,31 +164,33 @@ class RoomController extends Controller
         return view('admin.room.change_room', compact('room'));
     }
 
-    public function update(Request $request, Room $room)
+    public function update(Request $request, $id)
     {
         $auth = Auth::user();
         $now = Carbon::now();
 
         $request->validate([
             'facility' => 'required',
-            'class' => 'required|in:Vip,Premium,Reguler',
+            'class' => 'required|in:1,2,3',
             'capacity' => 'required|numeric',
             'price' => 'required|numeric',
             // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-        $old_room = Room::where('number_room', $room->number_room)->first();
-        $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
-        $request->image_room->move(public_path('images'), $imgName);
+        $old_room = Room::where('id', $id)->first();
+        // $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
+        // $request->image_room->move(public_path('images'), $imgName);
 
         $oldImg = '';
-        $room = Room::where('number_room', $room->number_room)->first();
+        $room = Room::where('id', $id)->first();
         if($request->image_room){
+            $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
+            $request->image_room->move(public_path('images'), $imgName);
+
             $oldImg = '/images/'.$room->image_room;
             // $oldImg = '/images/'.$book->image_book;
             unlink(public_path($oldImg));
         }
-        dd($oldImg);
-
+        // dd($room);
         // $room = Room::where('number_room', $id)->first();
         if(!empty($request->facility)){
             $room->facility = $request->facility;
@@ -198,7 +209,7 @@ class RoomController extends Controller
 
         //createa a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'PUT';
         $logs->description = 'change & update data room';
         $logs->role =  $auth->role;
@@ -207,7 +218,8 @@ class RoomController extends Controller
         $logs->data_new = json_encode($room);
         $logs->save();
 
-        return redirect('/rooms')->with('notify', 'Success save changes update room data');
+        // return redirect('/rooms')->with('notify', 'Success save changes update room data');
+        return redirect()->json(['notify' => 'success', 'data' => 'Success save changes update room data ! ']);
     }
 
     public function destroy(Room $room)
@@ -228,7 +240,7 @@ class RoomController extends Controller
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->role = $auth->role;
         $logs->description = 'delete data room';
         $logs->action = 'delete';

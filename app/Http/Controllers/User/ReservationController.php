@@ -85,7 +85,7 @@ class ReservationController extends Controller
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'POST';
         $logs->description = 'add a new booking room';
         $logs->role = $auth->role;
@@ -150,7 +150,7 @@ class ReservationController extends Controller
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'PUT';
         $logs->description = 'update confirmation payment reservation';
         $logs->role = $auth->role;

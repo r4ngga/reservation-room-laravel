@@ -168,18 +168,48 @@
             // type: 'JSON',
             success:function(data){
                 let parsedata = JSON.parse(data);
-                console.log(parsedata);
+                console.log(parsedata.data_new);
                 document.getElementById('l-id').innerHTML = parsedata.id;
                 document.getElementById('l-userid').innerHTML = parsedata.user_id;
                 document.getElementById('l-action').innerHTML = parsedata.action;
                 document.getElementById('l-description').innerHTML = parsedata.description;
                 document.getElementById('l-time').innerHTML = parsedata.log_time;
-                document.getElementById('l-dataold').innerHTML = parsedata.data_old;
-                document.getElementById('l-datanew').innerHTML = parsedata.data_new;
+                // document.getElementById('l-dataold').innerHTML = parsedata.data_old;
+                // document.getElementById('l-datanew').innerHTML = parsedata.data_new;
                 document.getElementById('l-nameuser').innerHTML = parsedata.name;
                 document.getElementById('l-role').innerHTML = parsedata.role;
                 document.getElementById('l-created').innerHTML = parsedata.created_at;
                 // document.getElementById('b-pagesbook').innerHTML = data.pages_book;
+
+                if(parsedata.data_new !== null){
+                    console.log('found data');
+                    // let objk = JSON.parse(data.data_new);
+                    let obj = parsedata.data_new;
+                    let line = '<ul>';
+                    for (const key of Object.keys(obj)) {
+                    //   console.log(key, obj[key]);
+                      let value = (obj[key] !== null) ? obj[key] : ' - ';
+                      line += '<li>'+ key + ' : ' + value + '</li>';
+                    }
+                    line += '</ul>';
+                    document.getElementById('l-datanew').innerHTML = line;
+                }else{
+                    document.getElementById('l-datanew').innerHTML = '-';
+                }
+
+                if(parsedata.data_old !== null){
+                    console.log('found data');
+                    let ojb = parsedata.data_old;
+                    let newline = '<ul>';
+                    for (const key of Object.keys(ojb)) {
+                        let val = (ojb[key] !== null) ? ojb[key] : ' - ';
+                        newline += '<li>'+ key + ' : ' + val + '</li>'
+                    }
+                    newline += '</ul>';
+                    document.getElementById('l-dataold').innerHTML = newline;
+                }else{
+                    document.getElementById('l-dataold').innerHTML = '-';
+                }
             }
         });
     }

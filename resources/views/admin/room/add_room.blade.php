@@ -17,20 +17,29 @@
 @section('container')
 <div class="container">
     <div class="row">
-        @if(session('notify'))
-        <div class="alert alert-success my-2" role="alert">
-            {{session('notify')}}
-        </div>
-        @endif
+
        <div class="col">
            <h3 class="mt-2">Insert a New Room</h3>
-            <div class="card mt-3 mb-3">
+           @if(session('notify'))
+           <div class="alert alert-success my-2" role="alert">
+               {{session('notify')}}
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+           @endif
+            <div class="card mt-4 mb-3">
+
                 <div class="card-body">
-                        <form action="{{('/rooms')}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('rooms.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
+                                <label for="nmberrom">Number Room</label>
+                                <input type="text" class="form-control py-1" name="number_room" id="number_room">
+                            </div>
+                            <div class="form-group">
                                 <label for="facility">Facility</label>
-                                <textarea class="form-control" id="facility" name="facility" rows="3"></textarea>
+                                <textarea class="form-control py-1" id="facility" name="facility" rows="2"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="">Class</label><br>
@@ -45,11 +54,11 @@
 
                             <div class="form-group">
                                 <label for="capacity">Capacity</label>
-                                <input type="text" class="form-control" id="capacity" name="capacity">
+                                <input type="text" class="form-control rounded-md py-1" id="capacity" name="capacity">
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="text" class="form-control" id="price" name="price">
+                                <input type="text" class="form-control py-1" id="price" name="price">
                             </div>
                             <div class="form-group">
                                 <label for="image room">Image Room</label>

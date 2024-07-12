@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Log;
+use App\Religions;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -15,8 +16,34 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('role', 2)->get();
+        $religions = Religions::all();
         // return view('user.all_user', compact('users'));
-        return view('admin.user.index', compact('users'));
+        return view('admin.user.index', compact('users', 'religions'));
+    }
+
+    public function fetchIndex()
+    {
+        $users = User::where('role', 2)->get();
+        $html = '';
+        foreach($users as $user){
+            $html .= '<tr>';
+            $html .= '<td>'.$user->id_user ?? ''.'</td>';
+            $html .= '<td>'.$user->name ?? '-' .'</td>';
+            $html .= '<td>'.$user->email ?? ''.'</td>';
+            $html .= '<td>'.$user->phone_number ?? '' .'</td>';
+            // $html .= '<td>'.$user->publisher ?? '' .'</td>';
+            $html .= '<td>'; //act
+                $html .= '<button onclick="getEdit(`'. $user->id_user .'`, `'. $user->name .'`, `'. $user->email .'`, `'.$user->phone_number.'`, `'.$user->address.'`, `'. $user->gender .'`)" data-toggle="modal" data-target="#edit-user" class="btn btn-sm btn-info">Edit</button>';
+
+                $html .= '<a href="#" onclick="confirmDeleteUser('.$user->id_user .')" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ConfirmDeleteUser">Delete</a>';
+
+                $html .= '<button onclick="fetchShowUser('. $user->id_user .')" data-toggle="modal" data-target="#ShowUserModal" class="btn btn-sm btn-warning">Show</button>';
+
+            $html .= '</td>';
+            $html .= '</tr>';
+        }
+
+        return response()->json(['html' => $html]);
     }
 
     public function fetch_all_user()
@@ -65,11 +92,12 @@ class UserController extends Controller
         $user->phone_number = $request->phone_number;
         $user->gender = $request->gender;
         $user->role = 2;
+        $user->religion_id = $request->religion_id;
         $user->save();
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'POST';
         $logs->description = 'add a new user';
         $logs->role = $auth->role;
@@ -97,7 +125,10 @@ class UserController extends Controller
             'gender' => 'required|in:1,2',
         ]);
 
-        $find = User::where('user_id', $id)->first();
+        $find = User::where('id_user', $id)->first();
+
+        $lastUser = DB::table('users')->where('id_user', $id)->first();
+        $lastUserPassword = $lastUser->password;
 
         if(!$find)
         {
@@ -107,20 +138,20 @@ class UserController extends Controller
             ]);
         }
 
-        $old_user = User::where('user_id', $id)->first();
+        $old_user = User::where('id_user', $id)->first();
 
-        $update = User::where('user_id', $id)->first();
+        $update = User::where('id_user', $id)->first();
         $update->name = $request->name;
         $update->email = $request->email;
         $update->address = $request->address;
-        $update->password = bcrypt($request->password) ;
+        $update->password = !empty($request->password) ? bcrypt($request['password']) : $lastUserPassword;
         $update->phone_number = $request->phone_number;
         $update->gender = $request->gender ;
         $update->save();
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'PUT';
         $logs->description = 'update a user';
         $logs->role = $auth->role;
@@ -129,7 +160,7 @@ class UserController extends Controller
         $logs->data_new = json_encode($update);
         $logs->save();
 
-        return response()->json(['notify' => 'Success update information user']);
+        return response()->json(['notify' => 'success', 'data' => ' Success update information user !']);
     }
 
     public function delete($id)
@@ -153,7 +184,7 @@ class UserController extends Controller
 
         //create logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->action = 'delete';
         $logs->description = 'delete a user';
         $logs->role = $auth->role;
