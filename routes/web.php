@@ -72,7 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
         //Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation'])->name('confirmation-reservation');
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
-        //Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('user-fetch-index');
+        Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
+        Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('users.fetch-index');
         Route::get('users/{id}', [Admin\UserController::class, 'fetchDetailUser'])->name('users.show');
 
         Route::post('users/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');

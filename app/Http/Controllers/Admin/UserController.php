@@ -65,6 +65,8 @@ class UserController extends Controller
             'address' => $user->address,
             'gender' => $user->gender,
             'role' => $user->role,
+            'religions' => $user->religions->name,
+            'photo_profile' => $user->photo_profile,
             'created_at' => $user->created_at,
         );
 
@@ -85,6 +87,13 @@ class UserController extends Controller
             'gender' => 'required|in:1,2',
         ]);
 
+        $imgName = '';
+        if($request->photo_profile)
+        {
+            $imgName = $request->photo_profile->getClientOriginalName() . '-' . time() . '.' . $request->photo_profile->extension();
+            $request->photo_profile->move(public_path('images'), $imgName);
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -93,6 +102,7 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->role = 2;
         $user->religion_id = $request->religion_id;
+        //$user->photo_profile = $request->photo_profile;
         $user->save();
 
         //create a logs
@@ -147,6 +157,8 @@ class UserController extends Controller
         $update->password = !empty($request->password) ? bcrypt($request['password']) : $lastUserPassword;
         $update->phone_number = $request->phone_number;
         $update->gender = $request->gender ;
+        $update->religion_id = $request->religion_id;
+        //$update->photo_progile = $imgName;
         $update->save();
 
         //create a logs

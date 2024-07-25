@@ -109,9 +109,8 @@ class RoomController extends Controller
 
     public function show_all()
     {
-        $room = Room::all();
+        $rooms = Room::all();
         // return view('room.index', ['rooms' => $room]);
-        // return view('room.index', compact('rooms'));
         return view('admin.room.index', compact('rooms'));
     }
 
@@ -128,6 +127,7 @@ class RoomController extends Controller
             'price' => 'required|numeric',
             // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
+        $imgName = '';
         if($request->image_room){
             $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
             $request->image_room->move(public_path('images'), $imgName);

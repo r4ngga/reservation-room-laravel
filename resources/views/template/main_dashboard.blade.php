@@ -54,6 +54,10 @@
         .list-navbar{
             padding: 6px 10px 0px 10px !important;
         }
+
+        .form-control {
+            margin-bottom: 10px;
+        }
       </style>
       @yield('style')
    </head>

@@ -56,7 +56,7 @@ class User extends Authenticatable
 
     public function religions()
     {
-        //return $this->belongsTo(Religions::class);
+        return $this->belongsTo(Religions::class);
         //return $this->hasToMany();
     }
 }

@@ -3,7 +3,7 @@
 @section('title','User Data')
 @section('container')
 <div class="container mt-2 mb-2">
-    <a href="{{('/rooms/addroom')}}" class="btn btn-primary mb-2">Add a New User</a>
+    <a href="#"  data-toggle="modal" data-target="#insert-user" class="btn btn-primary mb-2">Add a New User</a>
     <div class="row">
        <div class="col">
         @if(session('notify'))
@@ -91,6 +91,10 @@
                 <div class="col"> <p id="u-role"></p> </div>
             </div>
             <div class="row">
+                <div class="col">Religion</div>
+                <div class="col"> <p id="u-religion"></p> </div>
+            </div>
+            <div class="row">
                 <div class="col"> Created At : </div>
                 <div class="col"> <p id="u-created"></p> </div>
             </div>
@@ -154,11 +158,11 @@
               </div> --}}
               <div class="form-group">
                   <label for="name">Name</label> <span style="color: red;">*</span>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Type Name Here" required>
+                  <input type="text" class="form-control py-1" id="name" name="name" placeholder="Type Name Here" required>
               </div>
               <div class="form-group">
                   <label for="email">Email</label> <span style="color: red;">*</span>
-                  <input type="text" name="email" id="add-email" class="form-control" placeholder="Email Here" required>
+                  <input type="text" name="email" id="add-email" class="form-control py-1" placeholder="Email Here" required>
                   <span id="msg-email" class="text-sm text-gray-600 one-number" style="display: none;">
                       <i class="fas fa-circle" aria-hidden="true"></i>
                       &nbsp;<p id="response-email"></p>
@@ -166,7 +170,7 @@
               </div>
               <div class="form-group">
                   <label for="phonenumber">Phone Number</label> <span style="color: red;">*</span>
-                  <input type="number" name="phone_number" id="add_phone_number" class="form-control" placeholder="Phone Number Here" required>
+                  <input type="number" name="phone_number" id="add_phone_number" class="form-control py-1" placeholder="Phone Number Here" required>
                   <span id="msg-phone" class="text-sm text-gray-600 one-number" style="display: none;">
                       <i class="fas fa-circle" aria-hidden="true"></i>
                       &nbsp;<p id="response-phone"></p>
@@ -174,11 +178,11 @@
               </div>
               <div class="form-group">
                   <label for="adress">Address</label> <span style="color: red;">*</span>
-                  <input type="text" name="address" id="address" class="form-control" placeholder="Type Address Here" required>
+                  <input type="text" name="address" id="address" class="form-control py-1" placeholder="Type Address Here" required>
               </div>
               <div class="form-group">
                 <label for="rlgion">Religion</label>
-                <select name="religion_id" id="religion-id">
+                <select name="religion_id" id="religion-id" class="nice-select"  style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
                   <option value="">Select Religion</option>
                   @foreach ($religions as $rlg )
                       <option value="{{ $rlg->id ?? '' }}">{{ $rlg->name ??''}}</option>
@@ -203,7 +207,7 @@
               </div>
               <div class="form-group">
                   <label for="password">Password</label> <span style="color: red;">*</span>
-                  <input type="password" name="password" id="password" class="form-control">
+                  <input type="password" name="password" id="password" class="form-control py-1">
               </div>
               {{-- <div class="form-group">
                   <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
@@ -308,6 +312,7 @@
                 document.getElementById('u-gender').innerHTML = data.gender;
                 document.getElementById('u-role').innerHTML = data.role;
                 document.getElementById('u-created').innerHTML = data.created_at;
+                document.getElementById('u-religion').innerHTML = data.religion;
             }
         });
     }
@@ -387,7 +392,7 @@
     {
         $.ajax({
             type: 'GET',
-            url: '{{ route('user.fetch-index') }}',
+            url: '{{ route('users.fetch-index') }}',
             processdata: false,
             success: function(dt)
             {

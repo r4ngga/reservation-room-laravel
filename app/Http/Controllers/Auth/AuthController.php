@@ -137,7 +137,8 @@ class AuthController extends Controller
     public function settingaccount()
     {
         $getUser = Auth::user();
-        return view('setting', compact('getUser'));
+        $religions = DB::table('religions')->where('deleted_at', null)->get();
+        return view('setting', compact('getUser', 'religions'));
     }
 
     public function updatesettingacc(Request $request)
@@ -158,6 +159,7 @@ class AuthController extends Controller
         $user->address = $request->address;
         $user->phone_number = $request->phone_number;
         $user->gender = $request->gender;
+        $user->religion_id = $request->religion_id;
         $user->save();
 
         //create a logs

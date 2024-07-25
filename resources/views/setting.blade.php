@@ -50,6 +50,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="rlgion">Religion</label>
+                                <select name="religion_id" id="religion_id" class="form-control">
+                                    <option value="">Select Religion</option>
+                                    @foreach ($religions as $religion)
+                                    <option value="{{ $religion->id ?? '' }}" @if ($getUser->religions_id == $religion->id) selected @endif >{{ $religion->name ?? '' }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </div>
                         </form>
