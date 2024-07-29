@@ -317,6 +317,27 @@
         });
     }
 
+    function fetchEdit(id)
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/fetchedit-user/' + id,
+            processdata: false,
+            success:function(data){
+                console.log(data);
+
+                let selectedClass = document.getElementById('class-room');
+                for(let i=0; i < selectedClass.length; i++)
+                {
+                    if(data.class == selectedClass.options[i].value){
+                        selectedClass.options[i].selected = true;
+                        // selecte.leaveCode[i].selected = true;
+                    }
+                }
+            }
+        });
+    }
+
     $("#btn-delete-usr").click( function() {
         let idusr = $(this).data("id");
         let token = document.getElementById('token').val();

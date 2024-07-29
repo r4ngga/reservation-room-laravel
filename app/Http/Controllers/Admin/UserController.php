@@ -73,6 +73,32 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+    public function fetchEditUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        $pp = '';
+        if($user->photo_profile){
+            $pp = '/images/photo_profile/' . $user->photo_profile;
+        }else{
+            $pp = '/images/photo_profile/default.png';
+        }
+
+        return response()->json(
+            array(
+                'id_user' => $user->id_user,
+                'name' => $user->name,
+                'email' => $user->email,
+                'address' => $user->address,
+                'phone_number' => $user->phone_number,
+                'gender' => $user->gender,
+                'role' => $user->role,
+                'religions_id' => $user->religons_id,
+                'photo_profile' => $pp,
+            )
+        );
+    }
+
     public function store(Request $request)
     {
         $auth = Auth::user();

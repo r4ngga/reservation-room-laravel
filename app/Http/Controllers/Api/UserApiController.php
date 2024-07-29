@@ -24,6 +24,7 @@ class UserApiController extends Controller
                 'phone_number' => $usr->phone_number,
                 'gender' => $usr->gender,
                 'role' => $usr->role,
+                'religions_id' => $usr->religions_id,
             );
         }
 
@@ -61,6 +62,7 @@ class UserApiController extends Controller
                     'phone_number' => $usr->phone_number,
                     'gender' => $usr->gender,
                     'role' => $usr->role,
+                    'religions_id' => $usr->religions_id,
                     'created_at' => $usr->created_at,
                 );
             }
@@ -103,6 +105,7 @@ class UserApiController extends Controller
                     'phone_number' => $usr->phone_number,
                     'gender' => $usr->gender,
                     'role' => $usr->role,
+                    'religions_id' => $usr->religions_id,
                     'created_at' => $usr->created_at,
                 );
             }

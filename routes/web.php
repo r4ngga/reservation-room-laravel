@@ -64,7 +64,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
         // Route::patch('/rooms/{id}', [Admin\RoomController::class, 'update']);
         Route::post('rooms/update/{id}', [Admin\RoomController::class, 'update'])->name('room.update');
-        //Route::get('fetchroom/{id}', [Admin\RoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
         Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
         //Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy'])->name('room.destroy');
 
@@ -74,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
         Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
         Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('users.fetch-index');
+        //Route::get('fetchedit-user/{id}', [Admin\UserController::class, 'fetchEditUser'])->name('users.fetchedit');
         Route::get('users/{id}', [Admin\UserController::class, 'fetchDetailUser'])->name('users.show');
 
         Route::post('users/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');
