@@ -256,7 +256,7 @@
               </div>
               <div class="form-group">
                 <label for="lblregligion">Releigion</label>
-                <select aria-label="label for the select" name="gender" class="nice-select" id="gender-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
+                <select aria-label="label for the select" name="religions_id" class="nice-select" id="religions-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
                     <option value="" selected>Please Select Religion</option>
                     @foreach ($religions as $rlg)
                         <option value="{{ $rlg->id }}" >{{ $rlg->name ?? ''}}</option>
@@ -326,14 +326,20 @@
             success:function(data){
                 console.log(data);
 
-                let selectedClass = document.getElementById('class-room');
+                let selectedClass = document.getElementById('religions-usr');
                 for(let i=0; i < selectedClass.length; i++)
                 {
-                    if(data.class == selectedClass.options[i].value){
+                    if(data.religions_id == selectedClass.options[i].value){
                         selectedClass.options[i].selected = true;
                         // selecte.leaveCode[i].selected = true;
                     }
                 }
+                document.getElementById('id-usr').value = data.id_user;
+                document.getElementById('name-usr').value = data.name;
+                document.getElementById('email-usr').value = data.email;
+                document.getElementById('address-usr').value = data.address;
+                document.getElementById('numberphone-usr').value = data.phone_number;
+                // document.
             }
         });
     }

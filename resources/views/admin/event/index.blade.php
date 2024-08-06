@@ -69,6 +69,7 @@
                      <td>{{$ev->end_date ?? '' }}</td>
 
                      <td>
+                        <a href="#" onclick="fetchShowEvent($ev->id)" class="btn btn-info" data-toggle="modal" data-target="#ShowDetailEvent">Show</a>
                          <a href="#" onclick="fetchEditEvent({{$ev->id ?? ''}}, {{ $ev->name ?? '' }}, {{ $ev->description ?? '' }}, {{ $ev->start_date ?? ''}}, {{ $ev->end_date ?? ''}} )" href="#" data-toggle="modal" data-name="{{$ev->name}}" data-description="{{$ev->description ?? ''}}" data-target="#editEvent" class="btn btn-info">Change</a>
                          <a href="#" onclick="deleteEvent({{$ev->id}})" class="btn btn-danger" data-toggle="modal" data-target="#delEvt">Delete</a>
                      </td>
@@ -94,36 +95,36 @@
             <div class="container">
                 <div class="row">
                     <div class="col">Name Event :  </div>
-                    <div class="col"> <p id="p-name"></p> </div>
+                    <div class="col"> <p id="e-name"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Description : </div>
-                    <div class="col"> <p id="p-description"></p> </div>
+                    <div class="col"> <p id="e-description"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Enable : </div>
-                    <div class="col"> <p id="p-enable"></p> </div>
+                    <div class="col"> <p id="e-enable"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Status : </div>
-                    <div class="col"> <p id="p-status"></p> </div>
+                    <div class="col"> <p id="e-status"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Price : </div>
-                    <div class="col"> <p id="p-price"></p> </div>
+                    <div class="col"> <p id="e-price"></p> </div>
                 </div>
 
                 <div class="row">
                     <div class="col">Start Event : </div>
-                    <div class="col"> <p id="p-start-price"></p> </div>
+                    <div class="col"> <p id="e-start-price"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">End Event : </div>
-                    <div class="col"> <p id="p-end-price"></p> </div>
+                    <div class="col"> <p id="e-end-price"></p> </div>
                 </div>
                 <div class="row">
                     <div class="col">Created at: </div>
-                    <div class="col"> <p id="p-created"></p> </div>
+                    <div class="col"> <p id="e-created"></p> </div>
                 </div>
             </div>
         </div>
@@ -161,7 +162,7 @@
 
               <div class="form-group">
                 <label for="enableevent">Toggle Event</label>
-                <select name="" id="">
+                <select name="enable" id="enable-event">
                     <option value="1">Enable</option>
                     <option value="0">Disable</option>
                 </select>
@@ -174,15 +175,15 @@
 
               <div class="form-group">
                 <label for="startdatepromot">Start Date Promotion</label>
-                <input type="date" name="start_date" id="start-promotion">
+                <input type="date" name="start_date" id="start-event">
               </div>
 
               <div class="form-group">
                 <label for="enddatepromot">End Date Promotion</label>
-                <input type="date" name="end_date" id="end-promotion">
+                <input type="date" name="end_date" id="end-event">
               </div>
 
-              <button type="submit" id="btn-edtroom" class="btn btn-primary">Update</button>
+              <button type="submit" id="btn-edtevnt" class="btn btn-primary">Update</button>
           </form>
         </div>
         <div class="modal-footer">
@@ -192,11 +193,11 @@
     </div>
 </div>
 
-<div class="modal" id="delPrmt" tabindex="-1">
+<div class="modal" id="delEvt" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Delete a Data Promotion</h5>
+          <h5 class="modal-title">Delete a Data Event</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -206,9 +207,9 @@
               <div class="row">
                 <div class="col">
                  <form action="" id="" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_promotion" id="id-promotion">
+                    <input type="hidden" name="id_event" id="id-event-del" value="">
                     <input type="hidden" name="" id="token" value="{{ csrf_token() }}">
-                    <button id="btn-delete-prmt" class="btn btn-danger">Delete</button>
+                    <button id="btn-delete-evnt" class="btn btn-danger">Delete</button>
                  </form>
                 </div>
               </div>
@@ -226,44 +227,50 @@
 @section('scripts')
 <script type="text/javascript">
 
-    function fetchShowPromot(id)
+    function fetchShowEvent(id)
     {
         $.ajax({
             type: 'GET',
-            url: '/promotions/'+id,
+            url: '/events/'+id,
             processdata: false,
             success:function(data){
                 console.log(data);
-                document.getElementById('p-name').innerHTML = data.name;
-                document.getElementById('p-description').innerHTML = data.description;
-                document.getElementById('p-enable').innerHTML = data.enable;
-                document.getElementById('p-status').innerHTML = data.status;
-                document.getElementById('p-price').innerHTML = data.price;
-                document.getElementById('p-start-price').innerHTML = data.start_date;
-                document.getElementById('p-end-price').innerHTML = data.end_date;
-                document.getElementById('p-created').innerHTML = data.created_at;
+                document.getElementById('e-name').innerHTML = data.name;
+                document.getElementById('e-description').innerHTML = data.description;
+                document.getElementById('e-enable').innerHTML = data.enable;
+                document.getElementById('e-status').innerHTML = data.status;
+                document.getElementById('e-price').innerHTML = data.price;
+                document.getElementById('e-start-price').innerHTML = data.start_date;
+                document.getElementById('e-end-price').innerHTML = data.end_date;
+                document.getElementById('e-created').innerHTML = data.created_at;
             }
         });
     }
 
-    function fetchEditPromot(id, name, description, start_date, end_date)
+    function fetchEditEvent(id, name, description, start_date, end_date)
     {
         let namepromotion = name;
         let description = description;
         let startpromotion = start_date;
         let endpromotion = end_date;
 
-        document.getElementById('name-promotion').value = namepromotion;
-        document.getElementById('description-promotion').value = description;
-        document.getElementById('start-promotion').value = startpromotion;
-        document.getElementById('end-promotion').value = endpromotion;
+        document.getElementById('id-event').value = id;
+        document.getElementById('name-event').value = namepromotion;
+        document.getElementById('description-event').value = description;
+        document.getElementById('start-event').value = startpromotion;
+        document.getElementById('end-event').value = endpromotion;
 
     }
 
-    ("#btn-delete-prmt").click( function(e) {
+    function deleteEvent(id)
+    {
+        document.getElementById('id-event-del').value = id;
+    }
+
+    ("#btn-delete-evnt").click( function(e) {
         e.preventDefault();
 
-        let idrlg = $('#id-promotion').val();
+        let idrlg = $('#id-event-del').val();
 
         $.ajax({
             type: 'DELETE',
@@ -271,6 +278,16 @@
             url: '/promotions/',
         });
         // let namerlg = $
+    });
+
+    $("#btn-edtevnt").click( function (ev) {
+        ev.preventDefault();
+
+        let event_id = $('#id-event').val();
+        let event_name = $('#name-event').val();
+        let event_description = $('#description-event').val();
+        let event_enable = $('#enable-event').val();
+        let event_start = $('#start-date').val();
     });
 
 

@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
         Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
         Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('users.fetch-index');
-        //Route::get('fetchedit-user/{id}', [Admin\UserController::class, 'fetchEditUser'])->name('users.fetchedit');
+        Route::get('fetchedit-user/{id}', [Admin\UserController::class, 'fetchEditUser'])->name('users.fetchedit');
         Route::get('users/{id}', [Admin\UserController::class, 'fetchDetailUser'])->name('users.show');
 
         Route::post('users/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');
@@ -93,9 +93,10 @@ Route::group(['middleware' => ['auth']], function () {
         //Route::get('promotions-update/{id}', [Admin\PromotionController::class, 'update'])->name('promotions.update);
         //Route::delete('promotions-delete/{id}', [Admin\PromotionController::class, 'delete'])->name('promotions.delete');
 
-        //Route::get('events', [Admin\EventController::class, 'index'])->name('events');
+        Route::get('events', [Admin\EventController::class, 'index'])->name('events');
         //Route::get('events/{id}', [Admin\EventController::class, 'show'])->name('events.show');
         //Route::post('events-add', [Admin\EventController::class, 'add])->name('events.add');
+        //Route::delete('events-delete/{id}', [Admin\EventController::class, 'delete'])->name(events.delete);
     });
 
     Route::group(['middleware' => ['cek_login:2']], function () {

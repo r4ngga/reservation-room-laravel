@@ -93,7 +93,7 @@ class UserController extends Controller
                 'phone_number' => $user->phone_number,
                 'gender' => $user->gender,
                 'role' => $user->role,
-                'religions_id' => $user->religons_id,
+                'religions_id' => $user->religions_id,
                 'photo_profile' => $pp,
             )
         );
@@ -117,7 +117,7 @@ class UserController extends Controller
         if($request->photo_profile)
         {
             $imgName = $request->photo_profile->getClientOriginalName() . '-' . time() . '.' . $request->photo_profile->extension();
-            $request->photo_profile->move(public_path('images'), $imgName);
+            $request->photo_profile->move(public_path('images/photo_profile'), $imgName);
         }
 
         $user = new User();

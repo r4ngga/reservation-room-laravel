@@ -33,11 +33,14 @@ class EventController extends Controller
             'end_date' => '',
         ]);
 
+        $cekstatus = ($request->enable) ? 1 : 0;
+        // if($cekstatus == )
+
         $add = DB::table('events')->insert([
             'name' => $request->name,
             'description' => $request->description,
             'enable' => $request->enable,
-            'status' => $request->status,
+            'status' => $cekstatus,
             'price' =>  $request->price,
             'implement_with_promotion' => $request->implement,
             'start_date' => $request->start_date,
@@ -74,6 +77,12 @@ class EventController extends Controller
         $data = array(
             'id' => $evnt->id,
             'name' => $evnt->name,
+            'description' => $evnt->description,
+            'enable' => $evnt->enable,
+            'status' => $evnt->status,
+            'implement_with_promotion' => $evnt->implement_with_promotion,
+            'start_date' => $evnt->start_date,
+            'created_at' => $evnt->created_at,
         );
 
     }
