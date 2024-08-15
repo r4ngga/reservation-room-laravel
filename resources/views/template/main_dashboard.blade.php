@@ -65,7 +65,7 @@
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="/template_bootstrap/wise/images/loading.gif" alt="#" /></div>
+         <div class="loader"><img src="template_bootstrap/wise/images/loading.gif" alt="#" /></div>
       </div>
       <!-- end loader -->
       <!-- header -->
