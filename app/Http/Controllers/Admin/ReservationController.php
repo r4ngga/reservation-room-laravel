@@ -81,14 +81,14 @@ class ReservationController extends Controller
 
     public function confirmationbooking()
     {
-        $reservation = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
+        $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
                     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
                     ->select('reservations.*', 'users.*', 'rooms.*')
-                    ->orderBy('reservations.number_reservation', 'desc')
+                    ->orderBy('reservations.id', 'desc')
                     ->get();
 
         // return view('reservation.confirmationpayment', ['reservations' => $reservation]);
-        return view('admin.reservation.confirmationpayment', compact('reservation'));
+        return view('admin.reservation.confirmationpayment', compact('reservations'));
     }
 
 }
