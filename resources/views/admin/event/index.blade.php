@@ -43,11 +43,12 @@
                      {{session('notify')}}
                  </div>
               @endif --}}
-              <div id="aler-success" class="alert alert-success my-2" role="alert" style="display: none">
-                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
-                     <span aria-hidden="true">&times;</span>
-                 </button>
-             </div>
+
+             <div id="ntf-success" class="alert alert-success my-2" role="alert" style="display: none">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
              <table class="table table-bordered border-1 mb-2">
                  <thead>
                    <tr>
@@ -288,8 +289,42 @@
         let event_description = $('#description-event').val();
         let event_enable = $('#enable-event').val();
         let event_start = $('#start-date').val();
+
+        console.log(event_id, event_name, event_description, event_enable, event_start);
+
+        $.ajax({
+            type: 'POST',
+            url: 'users/update/'+user_id,
+            dataType: 'json',
+            processdata: false,
+            contentType: false,
+            data: {
+                _token:"{{ csrf_token() }}",
+                id: event_id,
+                name: event_name,
+                description: event_description,
+                enable: event_enable,
+                start_date: event_start,
+            },
+            success: function(data){
+                $('#editEvent').modal('hide');
+                $('#ntf-success').css("display", "block");
+                $('#ntf-success').append(data.data);
+            }
+        });
     });
 
+    function fetchevent(){
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('users.fetch-index') }}',
+            processdata: false,
+            success: function(data)
+            {
+                console.log(data);
+            }
+        });
+    }
 
 </script>
 

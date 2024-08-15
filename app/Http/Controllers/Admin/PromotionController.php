@@ -22,6 +22,26 @@ class PromotionController extends Controller
         return view('admin.promotion.index', compact('promotions'));
     }
 
+    public function fetchIndex(){
+        $promotions = DB::table('promotions')
+        ->where('deleted_at', null)
+        ->get();
+
+        $html = '';
+        foreach($promotions as $promotion){
+            $html .= '<tr>';
+            $html .= '<td>'.$promotion->id ?? ''.'</td>';
+            $html .= '<td>'.$promotion->name ?? '' . '</td>';
+            $html .= '<td>'. $promotion->enable ?? ''. '</td>';
+            $html .= '<td>'.$promotion->start_date ?? '' .'</td>';
+            $html .= '<td>'.$promotion->end_date ?? '' .'</td>';
+            $html .= '<td>';
+            // $html .= '<a href="#" onclick="fetchEditPromot(`'.$promotion->id. '`, {{ $pr->name ?? '' }}, {{ $pr->description ?? '' }}, {{ $pr->start_date ?? ''}}, {{ $pr->end_date ?? ''}} )" href="#" data-toggle="modal" data-name="{{$pr->name}}" data-description="{{$pr->description ?? ''}}" data-target="#editPromotion" class="btn btn-info">Change</a>';
+            $html .= '</td>';
+            $html .= '</tr>';
+        }
+    }
+
     public function add(Request $request)
     {
         $auth = Auth::user();

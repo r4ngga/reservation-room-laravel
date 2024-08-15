@@ -84,6 +84,6 @@ class EventController extends Controller
             'start_date' => $evnt->start_date,
             'created_at' => $evnt->created_at,
         );
-
+            return response()->json($data);
     }
 }

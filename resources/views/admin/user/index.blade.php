@@ -406,7 +406,7 @@
                 phone_number: user_phone,
                 password: user_pass,
             },
-            success: function(dt){
+            success: function(data){
                 $('#edituser').modal('hide');
                 $('#ntf-success').css("display", "block");
                 $("#ntf-success").append(data.data);
