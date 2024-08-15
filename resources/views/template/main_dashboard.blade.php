@@ -13,21 +13,21 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- bootstrap css -->
-      <link rel="stylesheet" href="../template_bootstrap/wise/css/bootstrap.min.css">
+      <link rel="stylesheet" href="template_bootstrap/wise/css/bootstrap.min.css">
       <!-- style css -->
-      <link rel="stylesheet" type="text/css" href="../template_bootstrap/wise/css/style.css">
+      <link rel="stylesheet" type="text/css" href="template_bootstrap/wise/css/style.css">
       <!-- Responsive-->
-      <link rel="stylesheet" href="../template_bootstrap/wise/css/responsive.css">
+      <link rel="stylesheet" href="template_bootstrap/wise/css/responsive.css">
       <!-- fevicon -->
-      <link rel="icon" href="../template_bootstrap/wise/images/favicon.png" type="image/gif" />
+      <link rel="icon" href="template_bootstrap/wise/images/favicon.png" type="image/gif" />
       <!-- datatables -->
-      <link rel="stylesheet" type="text/css" href="../template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
-      <link rel="stylesheet" type="text/css" href="../template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap.css">
-      <link rel="stylesheet" type="text/css" href="../template_bootstrap/datatables/DataTables-1.13.6/css/jquery.dataTables.min.css">
+      <link rel="stylesheet" type="text/css" href="template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
+      <link rel="stylesheet" type="text/css" href="template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="template_bootstrap/datatables/DataTables-1.13.6/css/jquery.dataTables.min.css">
 
       <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="../template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css">
-      <script type="text/javascript" src="../template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
+      <link rel="stylesheet" href="template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css">
+      <script type="text/javascript" src="template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
