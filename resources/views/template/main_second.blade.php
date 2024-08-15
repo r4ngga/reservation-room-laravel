@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>@yield('title')</title>
+      <title>@yield('title')<title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -93,29 +93,29 @@
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Address</h3>
-                        <i><img src="/template_bootstrap/wise/icon/3.png">Locations</i>
+                        <i><img src="template_bootstrap/wise/icon/3.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Menus</h3>
-                        <i><img src="/template_bootstrap/wise/icon/2.png">Locations</i>
+                        <i><img src="template_bootstrap/wise/icon/2.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Useful Linkes</h3>
-                        <i><img src="/template_bootstrap/wise/icon/1.png">Locations</i>
+                        <i><img src="template_bootstrap/wise/icon/1.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Social Media </h3>
                         <ul class="contant_icon">
-                           <li><img src="/template_bootstrap/wise/icon/fb.png" alt="icon"/></li>
-                           <li><img src="/template_bootstrap/wise/icon/tw.png" alt="icon"/></li>
-                           <li><img src="/template_bootstrap/wise/icon/lin (2).png" alt="icon"/></li>
-                           <li><img src="/template_bootstrap/wise/icon/instagram.png" alt="icon"/></li>
+                           <li><img src="template_bootstrap/wise/icon/fb.png" alt="icon"/></li>
+                           <li><img src="template_bootstrap/wise/icon/tw.png" alt="icon"/></li>
+                           <li><img src="template_bootstrap/wise/icon/lin (2).png" alt="icon"/></li>
+                           <li><img src="template_bootstrap/wise/icon/instagram.png" alt="icon"/></li>
                         </ul>
                      </div>
                   </div>
@@ -156,14 +156,14 @@
       @yield('scripts')
       <!-- end footer -->
       <!-- Javascript files-->
-      <script src="/template_bootstrap/wise/js/jquery.min.js"></script>
-      <script src="/template_bootstrap/wise/js/popper.min.js"></script>
-      <script src="/template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
-      <script src="/template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
-      <script src="/template_bootstrap/wise/js/plugin.js"></script>
+      <script src="template_bootstrap/wise/js/jquery.min.js"></script>
+      <script src="template_bootstrap/wise/js/popper.min.js"></script>
+      <script src="template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
+      <script src="template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
+      <script src="template_bootstrap/wise/js/plugin.js"></script>
       <!-- sidebar -->
-      <script src="/template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="/template_bootstrap/wise/js/custom.js"></script>
+      <script src="template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="template_bootstrap/wise/js/custom.js"></script>
       <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
       <script type="text/javascript">
          $(document).ready(function(){
