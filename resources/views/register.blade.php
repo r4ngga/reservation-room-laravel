@@ -68,21 +68,21 @@
                         </div>
                       </div>
                       <div class="col-sm-12">
-                        <select class="form-control @error('religion_id') is-invalid @enderror" name="religion_id" id="religionid">
-                            <option value="">Please Select Religion</option>
+                        {{-- <select class="form-control @error('religion_id') is-invalid @enderror" name="religion_id" id="religionid"> --}}
+                            {{-- <option value="">Please Select Religion</option>
                             @if (!count($religions) == 0)
 
                                 @foreach ($religions as $religion)
                                 <option value="{{ $religion->id }}">{{ $religion->name ?? '' }}</option>
                                 @endforeach
 
-                            @endif
+                            @endif --}}
                             {{-- <option value=""></option> --}}
-                        </select>
-                        <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" id="religion_id" name="religion_id">
-                        @error('religion_id')
+                        {{-- </select> --}}
+                        {{-- <input class="form-control @error('phone_number') is-invalid @enderror" placeholder="Phone Number" type="text" id="religion_id" name="religion_id"> --}}
+                        {{-- @error('religion_id')
                             <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
+                        @enderror --}}
                       </div>
                       <div class="col-sm-12">
                          <button type="submit" class="send" style="border-radius: 5px;">Register</button>
