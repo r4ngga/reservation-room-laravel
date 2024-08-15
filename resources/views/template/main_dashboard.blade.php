@@ -8,26 +8,26 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>@yield('title')<title>
+      <title>@yield('title')</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- bootstrap css -->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/bootstrap.min.css">
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/bootstrap.min.css')}}">
       <!-- style css -->
-      <link rel="stylesheet" type="text/css" href="template_bootstrap/wise/css/style.css">
+      <link rel="stylesheet" type="text/css" href="{{asset('template_bootstrap/wise/css/style.css')}}">
       <!-- Responsive-->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/responsive.css">
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/responsive.css')}}">
       <!-- fevicon -->
-      <link rel="icon" href="template_bootstrap/wise/images/favicon.png" type="image/gif" />
+      <link rel="icon" href="{{asset('template_bootstrap/wise/images/favicon.png')}}" type="image/gif" />
       <!-- datatables -->
-      <link rel="stylesheet" type="text/css" href="template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
-      <link rel="stylesheet" type="text/css" href="template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap.css">
-      <link rel="stylesheet" type="text/css" href="template_bootstrap/datatables/DataTables-1.13.6/css/jquery.dataTables.min.css">
+      <link rel="stylesheet" type="text/css" href="{{asset('template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{asset('template_bootstrap/datatables/DataTables-1.13.6/css/dataTables.bootstrap.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{asset('template_bootstrap/datatables/DataTables-1.13.6/css/jquery.dataTables.min.css')}}">
 
       <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css">
-      <script type="text/javascript" src="template_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css')}}">
+      <script type="text/javascript" src="{{asset('template_bootstrap/wise/js/jquery-3.0.0.min.js')}}"></script>
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
@@ -65,7 +65,7 @@
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="template_bootstrap/wise/images/loading.gif" alt="#" /></div>
+         <div class="loader"><img src="{{ asset('template_bootstrap/wise/images/loading.gif')}}" alt="#" /></div>
       </div>
       <!-- end loader -->
       <!-- header -->
@@ -78,9 +78,9 @@
                   <div class="full">
                      <div class="center-desk">
                         @if(auth()->user()->role=="1" || auth()->user()->role==1)
-                        <div class="logo"> <a href="{{('/admin-dashboard')}}">MyRR</a> </div>
+                        <div class="logo"> <a href="{{route('admin')}}">MyRR</a> </div>
                         @else
-                        <div class="logo"> <a href="{{('/userdashboard')}}">MyRR</a> </div>
+                        <div class="logo"> <a href="{{route('client')}}">MyRR</a> </div>
                         @endif
                      </div>
                   </div>
@@ -90,7 +90,7 @@
                      <div class="limit-box">
                         <nav class="main-menu">
                            <ul class="menu-area-main">
-                              <li> <a href="{{('/myaccount')}}">My Account</a></li>
+                              <li> <a href="{{route('myaccount')}}">My Account</a></li>
                               @if(auth()->user()->role=="1" || auth()->user()->role==1)
                               <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
@@ -108,7 +108,7 @@
                               <li><a href="{{('logs')}}">Logs</a></li>
                               @elseif(auth()->user()->role=="2" || auth()->user()->role==2)
                               {{-- <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li> --}}
-                              <li> <a href="{{ route('client') }}">My Reservation</a> </li>
+                              {{-- <li> <a href="{{ route('client') }}">My Reservation</a> </li> --}}
                               <li> <a href="{{ route('rooms') }}">Reservation</a> </li>
                               @endif
                               <li class="nav-item dropdown">
@@ -117,10 +117,10 @@
                                     </a>
                                     <div class="dropdown-menu" >
                                     @if(auth()->user()->role=="2" || auth()->user()->role==2)
-                                      <a href="{{('/history')}}">My History</a>
+                                      {{-- <a href="{{('/history')}}">My History</a> --}}
                                     @endif
-                                      <a href="{{('/setting')}}">Setting</a>
-                                      <a href="{{('/logout')}}">Log out</a>
+                                      <a href="{{route('setting')}}">Setting</a>
+                                      <a href="{{route('logout')}}">Log out</a>
                                     </div>
                               </li>
                               {{-- <li> <a href="{{('/logout')}}">Log out</a> </li> --}}
@@ -159,29 +159,29 @@
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Address</h3>
-                        <i><img src="template_bootstrap/wise/icon/3.png">Locations</i>
+                        <i><img src="/template_bootstrap/wise/icon/3.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Menus</h3>
-                        <i><img src="template_bootstrap/wise/icon/2.png">Locations</i>
+                        <i><img src="/template_bootstrap/wise/icon/2.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Useful Linkes</h3>
-                        <i><img src="template_bootstrap/wise/icon/1.png">Locations</i>
+                        <i><img src="/template_bootstrap/wise/icon/1.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Social Media </h3>
                         <ul class="contant_icon">
-                           <li><img src="template_bootstrap/wise/icon/fb.png" alt="icon"/></li>
-                           <li><img src="template_bootstrap/wise/icontw.png" alt="icon"/></li>
-                           <li><img src="template_bootstrap/wise/icon/lin (2).png" alt="icon"/></li>
-                           <li><img src="template_bootstrap/wise/icon/instagram.png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/fb.png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/tw.png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/lin (2).png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/instagram.png" alt="icon"/></li>
                         </ul>
                      </div>
                   </div>
@@ -222,20 +222,20 @@
       <!-- end footer -->
       <!-- Javascript files-->
       <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-      <script type="text/javascript" src="template_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
+      <script type="text/javascript" src="{{asset('template_bootstrap/wise/js/bootstrap.bundle.min.js')}}"></script>
 
-      <script type="text/javascript" src="template_bootstrap/wise/js/jquery.min.js"></script>
-      <script type="text/javascript" src="template_bootstrap/wise/js/popper.min.js"></script>
+      <script type="text/javascript" src="{{asset('template_bootstrap/wise/js/jquery.min.js')}}"></script>
+      <script type="text/javascript" src="{{asset('template_bootstrap/wise/js/popper.min.js')}}"></script>
 
-      {{-- <script src="template_bootstrap/wise/js/plugin.js"></script> --}}
+      {{-- <script src="/template_bootstrap/wise/js/plugin.js"></script> --}}
       <!-- sidebar -->
-      <script type="text/javascript" src="template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script type="text/javascript" src="template_bootstrap/wise/js/custom.js"></script>
+      <script type="text/javascript" src="{{asset('template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+      <script type="text/javascript" src="{{asset('template_bootstrap/wise/js/custom.js')}}"></script>
       <script type="text/javascript" src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
       <script type="text/javascript" src="{{ asset('template_bootstrap/datatables/DataTables-1.13.6/js/dataTables.bootstrap.js') }}"></script>
       <script type="text/javascript" src="{{ asset('template_bootstrap/datatables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js') }}"></script>
 
-      <script src="template_bootstrap/datatables/DataTables-1.13.6/js/jquery.dataTables.min.js"></script>
+      <script src="{{asset('template_bootstrap/datatables/DataTables-1.13.6/js/jquery.dataTables.min.js')}}"></script>
 
       <script type="text/javascript">
 

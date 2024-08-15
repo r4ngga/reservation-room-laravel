@@ -41,9 +41,9 @@ Route::post('validation-email', [Authentication\AuthController::class, 'validati
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth');
-    Route::get('/myaccount', [Authentication\AuthController::class, 'myaccount'])->middleware('auth');
-    Route::get('/setting', [Authentication\AuthController::class, 'settingaccount'])->middleware('auth');
+    Route::get('/logout', [Authentication\AuthController::class, 'logout'])->middleware('auth')->name('logout');
+    Route::get('/myaccount', [Authentication\AuthController::class, 'myaccount'])->middleware('auth')->name('myaccount');
+    Route::get('/setting', [Authentication\AuthController::class, 'settingaccount'])->middleware('auth')->name('setting');
     Route::post('/setting', [Authentication\AuthController::class, 'updatesettingacc'])->middleware('auth');
     Route::get('/changepassword', [Authentication\AuthController::class, 'changepassword'])->middleware('auth');
     Route::post('/changepassword', [Authentication\AuthController::class, 'updatechangepassword'])->middleware('auth');

@@ -8,20 +8,20 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>@yield('title')<itle>
+      <title>@yield('title')</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- bootstrap css -->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/bootstrap.min.css">
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/bootstrap.min.css')}} ">
       <!-- style css -->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/style.css">
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/style.css')}}">
       <!-- Responsive-->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/responsive.css">
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/responsive.css')}}">
       <!-- fevicon -->
-      <link rel="icon" href="template_bootstrap/wise/images/favicon.png" type="image/gif" />
+      <link rel="icon" href="{{asset('template_bootstrap/wise/images/favicon.png')}}" type="image/gif" />
       <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css">
+      <link rel="stylesheet" href="{{asset('template_bootstrap/wise/css/jquery.mCustomScrollbar.min.css')}}">
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
@@ -33,7 +33,7 @@
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="template_bootstrap/wise/images/loading.gif" alt="#" /></div>
+         <div class="loader"><img src="{{ asset('template_bootstrap/wise/images/loading.gif')}}" alt="#" /></div>
       </div>
       <!-- end loader -->
       <!-- header -->
@@ -95,29 +95,29 @@
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Address</h3>
-                        <i><img src="template_bootstrap/wise/icon/3.png">Locations</i>
+                        <i><img src="/template_bootstrap/wise/icon/3.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Menus</h3>
-                        <i><img src="emplate_bootstrap/wise/icon/2.png">Locations</i>
+                        <i><img src="/template_bootstrap/wise/icon/2.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Useful Linkes</h3>
-                        <i><img src="emplate_bootstrap/wise/icon/1.png">Locations</i>
+                        <i><img src="/template_bootstrap/wise/icon/1.png">Locations</i>
                      </div>
                   </div>
                   <div class="col-lg-2 col-md-6 col-sm-12 width">
                      <div class="address">
                         <h3>Social Media </h3>
                         <ul class="contant_icon">
-                           <li><img src="emplate_bootstrap/wise/icon/fb.png" alt="icon"/></li>
-                           <li><img src="emplate_bootstrap/wise/icon/tw.png" alt="icon"/></li>
-                           <li><img src="emplate_bootstrap/wise/icon/lin (2).png" alt="icon"/></li>
-                           <li><img src="emplate_bootstrap/wise/icon/instagram.png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/fb.png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/tw.png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/lin (2).png" alt="icon"/></li>
+                           <li><img src="/template_bootstrap/wise/icon/instagram.png" alt="icon"/></li>
                         </ul>
                      </div>
                   </div>
@@ -155,14 +155,14 @@
       </footer>
       <!-- end footer -->
       <!-- Javascript files-->
-      <script src="emplate_bootstrap/wise/js/jquery.min.js"></script>
-      <script src="emplate_bootstrap/wise/js/popper.min.js"></script>
-      <script src="emplate_bootstrap/wise/js/bootstrap.bundle.min.js"></script>
-      <script src="emplate_bootstrap/wise/js/jquery-3.0.0.min.js"></script>
-      <script src="emplate_bootstrap/wise/js/plugin.js"></script>
+      <script src="{{asset('template_bootstrap/wise/js/jquery.min.js')}}"></script>
+      <script src="{{asset('template_bootstrap/wise/js/popper.min.js')}}"></script>
+      <script src="{{asset('template_bootstrap/wise/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{asset('template_bootstrap/wise/js/jquery-3.0.0.min.js')}}"></script>
+      <script src="{{asset('template_bootstrap/wise/js/plugin.js')}}"></script>
       <!-- sidebar -->
-      <script src="emplate_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="emplate_bootstrap/wise/js/custom.js"></script>
+      <script src="{{asset('template_bootstrap/wise/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+      <script src="{{asset('template_bootstrap/wise/js/custom.js')}}"></script>
       <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
       <script>
          $(document).ready(function(){
