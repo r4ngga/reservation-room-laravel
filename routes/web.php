@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('count-reservations', [Admin\AdminController::class, 'countReservation'])->name('count-reservations');
         Route::get('room', [Admin\RoomController::class, 'show_all'])->name('room');
         // Route::get('fetchroom', [Admin\RoomController::class, 'fetchRoom'])->name('fetchroom');
-        Route::get('/rooms/addroom', [Admin\RoomController::class, 'insert']);
+        Route::get('rooms/addroom', [Admin\RoomController::class, 'insert'])->name('rooms.add');
         Route::get('rooms/{id}', [Admin\RoomController::class, 'fetchDetailRoom'])->name('rooms.show');
         Route::post('rooms', [Admin\RoomController::class, 'store'])->name('rooms.store');
         //Route::post('/rooms', [Admin\RoomController::class, 'store'])->name('room.store');
