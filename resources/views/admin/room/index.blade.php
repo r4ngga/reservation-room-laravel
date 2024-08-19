@@ -35,7 +35,7 @@
 @section('container')
 <div class="container py-5 mt-2 mb-2">
     {{-- <a href="{{('/rooms/addroom')}}" class="btn btn-primary mb-2">Add a New Room</a> --}}
-    <a href="{{('/rooms/addroom')}}" class="btn btn-primary mb-2">Add a New Room</a>
+    <a href="{{ route('rooms.add')}}" class="btn btn-primary mb-2">Add a New Room</a>
     <div class="row pb-4">
        <div class="col">
         {{-- @if(session('notify'))
