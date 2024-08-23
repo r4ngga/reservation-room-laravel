@@ -62,14 +62,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('fetchedit/{id}', [Admin\RoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
         // Route::get('/change/{id}', [Admin\RoomController::class, 'edit']);
         Route::get('/change/{room}', [Admin\RoomController::class, 'edit'])->name('room.edit');
-        // Route::patch('/rooms/{id}', [Admin\RoomController::class, 'update']);
+
         Route::post('rooms/update/{id}', [Admin\RoomController::class, 'update'])->name('room.update');
-        Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
-        //Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy'])->name('room.destroy');
+        // Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy']);
+        Route::delete('/rooms/{room}', [Admin\RoomController::class, 'destroy'])->name('room.delete');
 
         Route::get('reservation', [Admin\ReservationController::class, 'confirmationbooking'])->name('reservation');
         Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation']);
         //Route::post('/confirmpaymentroom', [Admin\ReservationController::class, 'confirmpaymentreservation'])->name('confirmation-reservation');
+        // Route::get('getimagepayment', [Admin\ReservationController::class, 'getImagePayment']);
         Route::get('users', [Admin\UserController::class, 'index'])->name('users');
         Route::post('users', [Admin\UserController::class, 'store'])->name('users.store');
         Route::get('fetchuser', [Admin\UserController::class, 'fetchIndex'])->name('users.fetch-index');
@@ -110,8 +111,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('count-unpaid', [User\UserDashboardController::class, 'countUnpaid'])->name('count-unpaid');
         // Route::get('/userdashboard/{reservation}', [User\ReservationController::class, 'paidreservation']);
         Route::get('/userdashboard', [User\ReservationController::class, 'paidreservation']);
-        //Route::get('client-dashboard/{reservation}', [User\ReservationController::class, 'paidreservation'])->name('paidreservation');
+        Route::get('client-dashboard/{id}', [User\ReservationController::class, 'paidreservation'])->name('paidreservation');
         Route::post('/paymentroom', [ReservationController::class, 'paymentreservation']);
+        //Route::post('paymentroom', [ReservationController::class, 'paymentreservation'])->name('paymentreservation');
 
         // Route::get('/roomsdashboard', [ReservationController::class, 'index']);
         Route::get('rooms', [User\ReservationController::class, 'index'])->name('rooms');

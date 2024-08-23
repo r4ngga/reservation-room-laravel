@@ -14,10 +14,11 @@
                         Are you sure pay for this transaction ?
                         <br>
                     </p>
-                    <form action="/paymentroom" method="POST" enctype="multipart/form-data">
+                    {{-- <form action="/paymentroom" method="POST" enctype="multipart/form-data"> --}}
+                    <form action="{{ route('paymentroom')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="numberreservation">Upload Your Invoice Transaction Bank</label>
+                            <label for="numberreservation">Upload Your Invoice Transaction Bank</label> <span style="color: red;"> *</span>
                             <input type="file"  id="photo_transfer" name="photo_transfer" >
                         </div>
                         <div class="form-group" hidden>
@@ -34,7 +35,7 @@
                         </div>
                         <div class="form-group" hidden>
                             <label for="statuspayment">Status Payment</label>
-                            <input type="text" class="form-control" id="status_payment" name="status_payment" value="paid off">
+                            <input type="text" class="form-control" id="status_payment" name="status_payment" value="">
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success">Process</button>

@@ -40,6 +40,7 @@
                                 <td>
                                     @if($rsv->status_payment == 0 || $rsv->status_payment == "0")
                                     <a href="#ShowConfirmation" onclick="showConfirmation({{$rsv->number_reservation ?? ''}}, {{$rsv->code_reservation ?? ''}}, {{$rsv->number_room ?? ''}}, {{$rsv->status_payment ?? ''}})" data-toggle="modal" data-target="#ShowConfirmation" class="btn btn-success">Confirmation</a>
+                                    <button data-toggle="modal" data-target="#ShowImgCheck" class="btn btn-primary">Show Payment Check</button>
                                     @else
                                     Payment has valid
                                     @endif
@@ -103,6 +104,31 @@
 </div>
 {{-- @endforeach --}}
 
+<div class="modal fade" id="ShowImgCheck" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Image Transfer Check</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <img src="" alt="" id="imgcheck" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+
+
+            </div>
+            {{-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div> --}}
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -118,6 +144,10 @@
     document.getElementById('code_reservation').value = code_rsv;
     document.getElementById('number_room').value = number_rm;
     document.getElementById('status_payment').value = status_pymnt;
+  }
+
+  function showImg(){
+
   }
 </script>
 

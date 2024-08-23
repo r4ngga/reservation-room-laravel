@@ -91,4 +91,7 @@ class ReservationController extends Controller
         return view('admin.reservation.confirmationpayment', compact('reservations'));
     }
 
+    public function getImagePayment($id)
+    {}
+
 }

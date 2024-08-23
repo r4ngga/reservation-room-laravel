@@ -114,8 +114,31 @@ class ReservationController extends Controller
         return view('client.reservation.temporary_list', compact('reservations'));
     }
 
-    public function paidreservation(Reservation $reservation)
+    public function paidreservation($id)
     {
+        $user = Auth::user();
+        $reservation = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
+        ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
+        ->where('reservations.id', $id)
+        ->select('reservations.id as id',
+        'resevations.code_reservation as code',
+        'reservations.user_id as user_id',
+        'reservations.room_id as room_id',
+        'reservations.time_booking as time_booking',
+        'reservations.payment as payment',
+        'reservations.status_payment as status_payment',
+        'reservations.time_spend as time_spend',
+        'reservations.photo_transfer as photo_transfer',
+        'users.name as name',
+        'users.email as email',
+        'rooms.number_room as number_room',
+        'rooms.facility as facility',
+        'rooms.class as class_room',
+        'rooms.capacity as capacity',
+        'rooms.price as price',
+        'rooms.status as status_room')
+        ->orderBy('reservations.created_at', 'desc')
+        ->get();
         return view('client.reservation.payment_room', compact('reservation'));
     }
 
