@@ -96,10 +96,21 @@ class AuthController extends Controller
         ]);
         $now = Carbon::now();
         if (Auth::attempt($request->only('email', 'password'))) {
-            if (auth()->user()->role == 2) { //role pengguna (user) 2
+            /** @var \App\User $user */
+            $user = Auth::user();
+
+            // JIT Migration: Assign Spatie roles based on legacy 'role' column if missing
+            if ($user->roles->isEmpty()) {
+                if ($user->role == 1) {
+                    $user->assignRole('admin');
+                } elseif ($user->role == 2) {
+                    $user->assignRole('user');
+                }
+            }
+
+            if ($user->hasRole('user')) { //role pengguna (user) 2
 
                 //create log
-                $user = Auth::user();
                 $log = new Log();
                 $log->user_id = $user->id_user;
                 $log->action = 'POST';
@@ -111,10 +122,10 @@ class AuthController extends Controller
                 $log->save();
 
                 return redirect('client-dashboard');
-            } elseif (auth()->user()->role == 1) { //role admin 1
+            } elseif ($user->hasRole('admin')) { //role admin 1
 
                 //create log
-                $user = Auth::user();
+                // $user already defined above
                 $log = new Log();
                 $log->user_id = $user->id_user;
                 $log->action = 'POST';

@@ -13,8 +13,8 @@ class AdminSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('users')->insert([
-            'id_user' => 1,
+        $userId = DB::table('users')->insertGetId([
+            // 'id_user' => 1,
             'name' => 'admin',
             'email' => 'admin@reservation.com',
             'password' => '$2y$10$wNIDxA5tfzPm6XEsjrt0IOS9dbUrhjZSigPvzruq2Rz0BEqudStyK',
@@ -23,5 +23,8 @@ class AdminSeeder extends Seeder
             'gender' => '',
             'role' => 1 //1 untuk admin
         ]);
+
+        $user = \App\User::find($userId);
+        $user->assignRole('admin');
     }
 }
