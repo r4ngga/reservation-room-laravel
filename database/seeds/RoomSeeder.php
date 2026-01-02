@@ -12,15 +12,17 @@ class RoomSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('rooms')->insert([
-            'number_room' => 1,
-            'facility' => '2 bed, ac, bathroom',
-            'class' => 1,
-            'capacity' => 2,
-            'price' => 10000,
-            'status' => 0, //0 free, 1 full, 2 booked
-            'image_room' => null,
-        ]);
+        for ($i = 1; $i <= 11; $i++) {
+            DB::table('rooms')->insert([
+                'number_room' => $i,
+                'facility' => '2 bed, ac, bathroom',
+                'class' => 1,
+                'capacity' => 2,
+                'price' => 10000,
+                'status' => 0, //0 free, 1 full, 2 booked
+                'image_room' => null,
+            ]);
+        }
         //
     }
 }
