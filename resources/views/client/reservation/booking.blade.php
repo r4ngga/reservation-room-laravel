@@ -44,6 +44,22 @@
                                 <input type="date" class="form-control" id="time_booking" name="time_booking">
                             </div>
                             <div class="form-group">
+                                <label for="checkin_time">Check-in Time</label>
+                                <input type="time" class="form-control @error('checkin_time') is-invalid @enderror" id="checkin_time" name="checkin_time" min="13:00" value="{{ old('checkin_time') }}" required>
+                                <small class="text-muted">Minimum check-in time is 1:00 PM (13:00)</small>
+                                @error('checkin_time')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout_time">Checkout Time</label>
+                                <input type="time" class="form-control @error('checkout_time') is-invalid @enderror" id="checkout_time" name="checkout_time" max="12:00" value="{{ old('checkout_time') }}" required>
+                                <small class="text-muted">Maximum checkout time is 12:00 Noon</small>
+                                @error('checkout_time')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="timespend">Time Spend</label>
                                 <input type="text" class="form-control" id="price" name="price" value=" {{$room->price}}" hidden>
                                 <input type="text" class="form-control" id="time_spend" name="time_spend" onkeyup="countpayment()">

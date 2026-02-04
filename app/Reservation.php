@@ -12,7 +12,7 @@ class Reservation extends Model
     protected $primaryKey = 'code_reservation';
 
     protected $fillable = [
-        'code_reservation', 'user_id', 'room_id', 'time_booking', 'payment', 'time_spend'
+        'code_reservation', 'user_id', 'room_id', 'time_booking', 'checkin_time', 'checkout_time', 'payment', 'time_spend'
     ];
 
     protected $attributes = [

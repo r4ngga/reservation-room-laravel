@@ -15,6 +15,10 @@ use App\Http\Controllers\Controller;
 
 class ReservationController extends Controller
 {
+    // Time validation constants
+    const MINIMUM_CHECKIN_HOUR = 13; // 1:00 PM
+    const MAXIMUM_CHECKOUT_HOUR = 12; // 12:00 Noon
+
     public function index()
     {
         $rooms = Room::all();
@@ -68,13 +72,34 @@ class ReservationController extends Controller
             'time_booking' => 'required',
             'payment' => 'required|numeric',
             'time_spend' => 'required|numeric',
+            'checkin_time' => 'required|date_format:H:i',
+            'checkout_time' => 'required|date_format:H:i',
         ]);
+
+        // Validate check-in time (must be >= 1:00 PM)
+        $checkinTime = Carbon::createFromFormat('H:i', $request->checkin_time);
+        if ($checkinTime->hour < self::MINIMUM_CHECKIN_HOUR) {
+            return back()->withErrors([
+                'checkin_time' => 'Check-in time must be at or after 1:00 PM (13:00)'
+            ])->withInput();
+        }
+
+        // Validate checkout time (must be <= 12:00 Noon)
+        $checkoutTime = Carbon::createFromFormat('H:i', $request->checkout_time);
+        if ($checkoutTime->hour > self::MAXIMUM_CHECKOUT_HOUR || 
+            ($checkoutTime->hour == self::MAXIMUM_CHECKOUT_HOUR && $checkoutTime->minute > 0)) {
+            return back()->withErrors([
+                'checkout_time' => 'Checkout time must be at or before 12:00 Noon'
+            ])->withInput();
+        }
 
         $reservation_create = Reservation::create([
             'code_reservation' => $request->code_reservation,
             'user_id' => $request->id_user,
             'room_id' => $request->number_room,
             'time_booking' => $request->time_booking,
+            'checkin_time' => $request->checkin_time,
+            'checkout_time' => $request->checkout_time,
             'payment' => $request->payment,
             'time_spend' => $request->time_spend,
         ]);
@@ -97,6 +122,7 @@ class ReservationController extends Controller
         //return redirect('/roomsdashboard')->with('notify', 'Congratulation, you success booking a room');
         return redirect()->route('client-dashboard')->with('notify', 'Congratulation, you success booking a room');
     }
+
 
     public function reservationlist()
     {
