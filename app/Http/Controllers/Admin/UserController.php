@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Log;
 use App\Religions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -130,6 +131,8 @@ class UserController extends Controller
         $user->religion_id = $request->religion_id;
         //$user->photo_profile = $request->photo_profile;
         $user->save();
+
+        $user->assignRole('user');
 
         //create a logs
         $logs = new Log();

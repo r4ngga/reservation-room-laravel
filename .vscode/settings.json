@@ -3,5 +3,6 @@
     "php.executablePath": "C:\\laragon\\bin\\php\\php-8.3.26-Win32-vs16-x64\\php.exe",
     "terminal.integrated.env.windows": {
         "PATH": "C:\\laragon\\bin\\php\\php-8.3.26-Win32-vs16-x64;${env:PATH}"
-    }
+    },
+    "php.version": "8.3"
 }

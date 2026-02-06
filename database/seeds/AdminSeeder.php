@@ -13,17 +13,19 @@ class AdminSeeder extends Seeder
     public function run()
     {
         //
-        $userId = DB::table('users')->insertGetId([
-            // 'id_user' => 1,
-            'name' => 'admin',
-            'email' => 'admin@reservation.com',
-            'password' => bcrypt('password'),
-            'address' => '',
-            'phone_number' => '',
-            'gender' => '',
-        ]);
+        DB::table('users')->updateOrInsert(
+            ['email' => 'admin@reservation.com'],
+            [
+                'name' => 'admin',
+                'password' => bcrypt('password'),
+                'address' => '',
+                'phone_number' => '',
+                'gender' => '',
+                'role' => 1,
+            ]
+        );
 
-        $user = \App\User::find($userId);
+        $user = \App\User::where('email', 'admin@reservation.com')->first();
         $user->assignRole('admin');
     }
 }

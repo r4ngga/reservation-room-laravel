@@ -69,6 +69,8 @@ class AuthController extends Controller
         $user->role = 2;
         $user->save();
 
+        $user->assignRole('user');
+
         $get_last_user = User::find($user->id_user);
 
         $now = Carbon::now();
