@@ -1,292 +1,236 @@
-@extends('template/main_dashboard')
+@extends('layouts.sidebar_layout')
 
-@section('title','User Data')
-@section('container')
-<div class="container mt-2 mb-2">
-    <a href="#"  data-toggle="modal" data-target="#insert-user" class="btn btn-primary mb-2">Add a New User</a>
-    <div class="row">
-       <div class="col">
-        @if(session('notify'))
-            <div class="alert alert-success my-2" role="alert">
-                {{session('notify')}}
+@section('title', 'User Management')
+@section('page_title', 'Management Users')
+
+@section('content')
+<div class="space-y-6">
+    <!-- Header Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <button data-toggle="modal" data-target="#insert-user" class="inline-flex items-center px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-all shadow-sm">
+            <i class="fas fa-user-plus mr-2 text-sm"></i>
+            Add New User
+        </button>
+        
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                <i class="fas fa-search"></i>
+            </span>
+            <input type="text" placeholder="Search users..." class="pl-10 pr-4 py-2.5 w-full md:w-64 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+        </div>
+    </div>
+
+    <!-- Feedback Alerts -->
+    @if(session('notify'))
+    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-xl shadow-sm animate-fade-in-down">
+         <div class="flex items-center">
+            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+            <p class="text-green-700 font-medium">{{ session('notify') }}</p>
+        </div>
+    </div>
+    @endif
+
+    <div id="ntf-success" class="hidden bg-green-50 border-l-4 border-green-500 p-4 rounded-xl shadow-sm" role="alert">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                <p class="text-green-700 font-medium" id="success-msg-text"></p>
             </div>
-         @endif
-
-         <div id="ntf-success" class="alert alert-success my-2" role="alert" style="display: none">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: black">
-                <span aria-hidden="true">&times;</span>
+            <button type="button" onclick="this.parentElement.parentElement.classList.add('hidden')" class="text-green-500 hover:text-green-700">
+                <i class="fas fa-times"></i>
             </button>
         </div>
-         <div id="succes-del-usr" class="alert alert-success my-2" role="alert" style="display: none">
-            Success delete a user
-        </div>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Id User</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($users as $usr)
-              {{-- @if($usr->role=="user") --}}
-              <tr>
-                <th scope="row">{{$usr->id_user}}</th>
-                <th>{{$usr->name}}</th>
-                <th>{{$usr->address}}</th>
-                <th>{{$usr->phone_number}}</th>
-                <th>
-                    <a href="#" onclick="fetchShowUser({{ $usr->id_user ?? 0}})" data-toggle="modal" data-target="#detailUsers" class="btn btn-success">Detail</a>
-                    <a href="#" data-toggle="modal" data-id="{{ $usr->id_user ??  0}}" data-target="#delUsers" class="btn btn-danger">Delete</a>
-                </th>
-              </tr>
-              {{-- @endif --}}
-              @endforeach
-            </tbody>
-          </table>
-       </div>
     </div>
-</div>
 
-<div class="modal" id="detailUsers" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detail Users</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-            <div class="row">
-                <div class="col"> Id : </div>
-                <div class="col"> <p id="u-id"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Name : </div>
-                <div class="col"> <p id="u-name"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Email : </div>
-                <div class="col"> <p id="u-email"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Address : </div>
-                <div class="col"> <p id="u-adrs"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Phone Number : </div>
-                <div class="col"> <p id="u-phone"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Gender : </div>
-                <div class="col"> <p id="u-gender"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Role : </div>
-                <div class="col"> <p id="u-role"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col">Religion</div>
-                <div class="col"> <p id="u-religion"></p> </div>
-            </div>
-            <div class="row">
-                <div class="col"> Created At : </div>
-                <div class="col"> <p id="u-created"></p> </div>
-            </div>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal" id="delUsers" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Delete Data User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-              <div class="row">
-                <div class="col">
-                 <form action="" id="" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_users" id="id-users">
-                    <input type="hidden" name="" id="token" value="{{ csrf_token() }}">
-                    <button id="btn-delete-usr" class="btn btn-danger">Delete</button>
-                 </form>
-                </div>
-              </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-</div>
-
-<div class="modal fade" id="insert-user" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Insert a new user</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body m-2">
-          <form action="{{ route('users.store') }}" method="POST">
-              @csrf
-              {{-- @method('delete') --}}
-              {{-- <div class="form-group">
-                          <label for="pages">Are you sure delete? Please Type "Delete" or "delete" </label>
-                          <input type="text" class="form-control" id="validation" name="validation" placeholder="Type here">
-              </div> --}}
-              <div class="form-group">
-                  <label for="name">Name</label> <span style="color: red;">*</span>
-                  <input type="text" class="form-control py-1" id="name" name="name" placeholder="Type Name Here" required>
-              </div>
-              <div class="form-group">
-                  <label for="email">Email</label> <span style="color: red;">*</span>
-                  <input type="text" name="email" id="add-email" class="form-control py-1" placeholder="Email Here" required>
-                  <span id="msg-email" class="text-sm text-gray-600 one-number" style="display: none;">
-                      <i class="fas fa-circle" aria-hidden="true"></i>
-                      &nbsp;<p id="response-email"></p>
-                  </span>
-              </div>
-              <div class="form-group">
-                  <label for="phonenumber">Phone Number</label> <span style="color: red;">*</span>
-                  <input type="number" name="phone_number" id="add_phone_number" class="form-control py-1" placeholder="Phone Number Here" required>
-                  <span id="msg-phone" class="text-sm text-gray-600 one-number" style="display: none;">
-                      <i class="fas fa-circle" aria-hidden="true"></i>
-                      &nbsp;<p id="response-phone"></p>
-                  </span>
-              </div>
-              <div class="form-group">
-                  <label for="adress">Address</label> <span style="color: red;">*</span>
-                  <input type="text" name="address" id="address" class="form-control py-1" placeholder="Type Address Here" required>
-              </div>
-              <div class="form-group">
-                <label for="rlgion">Religion</label>
-                <select name="religion_id" id="religion-id" class="nice-select"  style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
-                  <option value="">Select Religion</option>
-                  @foreach ($religions as $rlg )
-                      <option value="{{ $rlg->id ?? '' }}">{{ $rlg->name ??''}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group">
-                  <label for="gender">Gender</label> <span style="color: red;">*</span>
-                  <select aria-label="label for the select" name="gender" class="nice-select" id="gender-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
-                    <option value="" selected>Please Select</option>
-                    <option value="1">Man</option>
-                    <option value="2">Woman</option>
-                  </select>
-                  {{-- <div class="form-check">
-                      <input type="radio" id="man" name="add_gender" value="man" class="form-check-input" required>
-                      <label for="man">Man</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="radio" id="woman" name="add_gender" value="woman" class="form-check-input">
-                      <label  for="woman">Woman</label>
-                    </div> --}}
-              </div>
-              <div class="form-group">
-                  <label for="password">Password</label> <span style="color: red;">*</span>
-                  <input type="password" name="password" id="password" class="form-control py-1">
-              </div>
-              {{-- <div class="form-group">
-                  <label for="label">Password dapat dikosongi apabila, tidak diubah</label>
-              </div> --}}
-              <button id="button-submit" type="submit"  class="btn btn-primary" >Confirm</button>
-          </form>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="edituser" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit a User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="" id="form-edtrm" method="POST" enctype="multipart/form-data">
-              {{-- @method('delete') --}}
-              @csrf
-              <input type="hidden" id="id-usr" value="">
-
-              <div class="form-group">
-                <label for="nameusr">Name</label> <span style="color: red;">*</span>
-                <input type="text" class="form-control" name="name" id="name-usr" style="color: black">
-              </div>
-              <div class="form-group">
-                <label for="emailusr">Email</label> <span style="color: red;">*</span>
-                <input type="text" class="form-control" name="email" id="email-usr" style="color: black">
-              </div>
-              <div class="form-group">
-                <label for="gender">Gender</label> <span style="color: red;">*</span>
-                <select aria-label="label for the select" name="gender" class="nice-select" id="gender-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
-                    <option value="" selected>Please Select</option>
-                    <option value="1">Man</option>
-                    <option value="2">Woman</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="lblregligion">Releigion</label>
-                <select aria-label="label for the select" name="religions_id" class="nice-select" id="religions-usr" style="display:block; width: 100%;color: black; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; background-color: #fff; background-clip: padding-box; margin-bottom: 30px; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;">
-                    <option value="" selected>Please Select Religion</option>
-                    @foreach ($religions as $rlg)
-                        <option value="{{ $rlg->id }}" >{{ $rlg->name ?? ''}}</option>
+    <!-- Users Table Card -->
+    <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-100">
+                        <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest">User ID</th>
+                        <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest">Full Name</th>
+                        <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest">Location</th>
+                        <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest">Phone</th>
+                        <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 tracking-tighter">
+                    @foreach($users as $usr)
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="px-8 py-5">
+                            <span class="text-[10px] font-black bg-gray-100 text-gray-500 px-2 py-0.5 rounded tracking-normal">#{{ $usr->id_user }}</span>
+                        </td>
+                        <td class="px-8 py-5">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm mr-3">
+                                    {{ substr($usr->name, 0, 1) }}
+                                </div>
+                                <span class="text-gray-800 font-bold">{{ $usr->name }}</span>
+                            </div>
+                        </td>
+                        <td class="px-8 py-5">
+                            <span class="text-gray-500 text-sm">{{ Str::limit($usr->address, 30) }}</span>
+                        </td>
+                        <td class="px-8 py-5">
+                            <span class="text-gray-600 font-mono text-xs">{{ $usr->phone_number }}</span>
+                        </td>
+                        <td class="px-8 py-5">
+                            <div class="flex items-center justify-center space-x-2">
+                                <button onclick="fetchShowUser({{ $usr->id_user }})" data-toggle="modal" data-target="#detailUsers" class="p-2 text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button data-toggle="modal" data-id="{{ $usr->id_user }}" data-target="#delUsers" class="p-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     @endforeach
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" name="address" id="address-usr" style="color: black">
-              </div>
-              <div class="form-group">
-                <label for="numberphone">Number Phone</label>
-                <input type="text" class="form-control" name="number_phone" id="numberphone-usr" style="color: black">
-              </div>
-              <div class="form-group">
-                <label for="textpassword">Password</label>
-                <input type="password" class="form-control" name="password" id="password-usr" style="color: black">
-              </div>
-              <div class="form-group">
-                <p>Password dapat dikosongi apabila tidak diganti</p>
-              </div>
-
-
-              <button type="submit" id="btn-edtusr" class="btn btn-primary">Update</button>
-          </form>
+                </tbody>
+            </table>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
+<!-- Ported Modals styled with Tailwind CSS -->
+
+<!-- Detail Modal -->
+<div class="modal fade" id="detailUsers" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content overflow-hidden border-none shadow-2xl rounded-[2rem]">
+            <div class="bg-indigo-600 px-8 py-6 flex items-center justify-between text-white">
+                <h5 class="text-xl font-bold">User Profile Information</h5>
+                <button type="button" class="text-white opacity-80 hover:opacity-100 transition-opacity" data-dismiss="modal">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-8">
+                <div class="flex flex-col items-center mb-8">
+                    <div class="w-24 h-24 rounded-full bg-indigo-50 flex items-center justify-center mb-4 border-4 border-white shadow-lg">
+                        <i class="fas fa-user text-4xl text-indigo-600"></i>
+                    </div>
+                    <h4 id="u-name" class="text-2xl font-bold text-gray-800"></h4>
+                    <p id="u-role" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full mt-2"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="col-span-2 sm:col-span-1">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">User Reference ID</p>
+                        <p id="u-id" class="text-sm font-bold text-gray-800 font-mono"></p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Electronic Mail</p>
+                        <p id="u-email" class="text-sm font-semibold text-gray-800"></p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Residential Address</p>
+                        <p id="u-adrs" class="text-sm text-gray-600"></p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Primary Contact</p>
+                        <p id="u-phone" class="text-sm font-bold text-gray-800"></p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Biological Gender</p>
+                        <p id="u-gender" class="text-sm text-gray-800 font-medium"></p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Faith / Religion</p>
+                        <p id="u-religion" class="text-sm text-gray-800 font-medium"></p>
+                    </div>
+                    <div class="col-span-2 pt-4 border-t border-gray-50">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">System Membership Since</p>
+                        <p id="u-created" class="text-xs text-gray-500 italic"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="px-8 py-6 bg-gray-50 flex justify-end">
+                <button type="button" class="px-6 py-2 bg-white border border-gray-200 text-gray-600 font-bold rounded-xl hover:bg-gray-100 transition-all shadow-sm" data-dismiss="modal">Dismiss</button>
+            </div>
         </div>
-      </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="delUsers" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content overflow-hidden border-none shadow-2xl rounded-[2rem]">
+            <div class="p-10 text-center">
+                <div class="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 transition-transform hover:rotate-12">
+                    <i class="fas fa-user-minus"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-800 mb-2">Delete Account?</h3>
+                <p class="text-gray-500 mb-8 px-6">You are about to remove this user from the system. This action is <span class="text-red-600 font-bold underline decoration-2">irreversible</span>.</p>
+                
+                <form action="" id="form-del-usr" method="POST" class="flex flex-col sm:flex-row gap-3">
+                    <input type="hidden" name="id_users" id="id-users">
+                    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                    <button type="button" data-dismiss="modal" class="w-full py-3 bg-gray-50 text-gray-500 font-bold rounded-xl hover:bg-gray-100 transition-all uppercase tracking-widest text-xs">Stay Back</button>
+                    <button id="btn-delete-usr" type="button" class="w-full py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-all shadow-lg shadow-red-100 uppercase tracking-widest text-xs">Execute Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Insert User Modal -->
+<div class="modal fade" id="insert-user" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered overflow-y-auto">
+        <div class="modal-content overflow-hidden border-none shadow-2xl rounded-[2rem]">
+            <div class="bg-indigo-600 px-8 py-6 flex items-center justify-between text-white">
+                <h5 class="text-xl font-bold">Register New Account</h5>
+                <button type="button" class="text-white opacity-80 hover:opacity-100 transition-opacity" data-dismiss="modal">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <form action="{{ route('users.store') }}" method="POST" class="p-8 space-y-6">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Full Legal Name</label>
+                        <input type="text" name="name" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm" placeholder="John Doe" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Email Address</label>
+                        <input type="email" name="email" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm" placeholder="john@example.com" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Contact Number</label>
+                        <input type="number" name="phone_number" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm" placeholder="081234..." required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Biological Gender</label>
+                        <select name="gender" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm appearance-none cursor-pointer" required>
+                            <option value="">Select Gender</option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2 space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Living Address</label>
+                        <input type="text" name="address" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm" placeholder="St. Avenue 123..." required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Belief System</label>
+                        <select name="religion_id" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm appearance-none cursor-pointer">
+                            <option value="">Select Religion</option>
+                            @foreach ($religions as $rlg)
+                                <option value="{{ $rlg->id }}">{{ $rlg->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Access Password</label>
+                        <input type="password" name="password" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-gray-50 flex justify-end gap-3">
+                    <button type="button" class="px-6 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-xl hover:bg-gray-100 transition-all shadow-sm" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="px-8 py-2.5 bg-indigo-600 text-white font-black rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 uppercase tracking-widest text-xs">Create Member</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -296,14 +240,10 @@
 <script type="text/javascript">
 
     function fetchShowUser(id){
-        let url = '';
         $.ajax({
             type: 'GET',
             url: '/users/' + id,
-            processdata: false,
-            contentType: false,
             success:function(data){
-                console.log(data);
                 document.getElementById('u-id').innerHTML = data.id;
                 document.getElementById('u-name').innerHTML = data.name;
                 document.getElementById('u-email').innerHTML = data.email;
@@ -317,115 +257,32 @@
         });
     }
 
-    function fetchEdit(id)
-    {
-        $.ajax({
-            type: 'GET',
-            url: '/fetchedit-user/' + id,
-            processdata: false,
-            success:function(data){
-                console.log(data);
-
-                let selectedClass = document.getElementById('religions-usr');
-                for(let i=0; i < selectedClass.length; i++)
-                {
-                    if(data.religions_id == selectedClass.options[i].value){
-                        selectedClass.options[i].selected = true;
-                        // selecte.leaveCode[i].selected = true;
-                    }
-                }
-                document.getElementById('id-usr').value = data.id_user;
-                document.getElementById('name-usr').value = data.name;
-                document.getElementById('email-usr').value = data.email;
-                document.getElementById('address-usr').value = data.address;
-                document.getElementById('numberphone-usr').value = data.phone_number;
-                // document.
-            }
-        });
-    }
+    // Pass data-id to modal
+    $('#delUsers').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var modal = $(this);
+        modal.find('#id-users').val(id);
+    });
 
     $("#btn-delete-usr").click( function() {
-        let idusr = $(this).data("id");
-        let token = document.getElementById('token').val();
+        let idusr = $('#id-users').val();
+        let token = $('#token').val();
 
         $.ajax({
             type: 'POST',
-            url: `users/delete/` + idusr,
-            dataType: 'JSON',
-            processdata: true,
-            contentType: false,
-            success:function(data){
-                console.log(data);
-                $('#delUsers').modal('hide');
-                $('#succes-del-usr').css("display", "block");
-            }
-        });
-
-    });
-
-
-    function deleteUser(id)
-    {
-        $.ajax({
-            type: 'POST',
-            url: '',
-            processdata: true,
-            contentType: false,
-            success:function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    $("#btn-edtusr").click(function(e) {
-        e.preventDefault();
-
-        let user_id = $('#id-usr').val();
-        let user_nm = $('#name-usr').val();
-        let user_email = $('#email-usr').val();
-        let user_gender = $('#gender-usr').val();
-        let user_address = $('#address-usr').val();
-        let user_phone = $('#numberphone-usr').val();
-        let user_pass = $('#password-usr').val();
-
-        console.log(user_id, user_nm, user_email, user_gender, user_address, user_phone);
-
-        $.ajax({
-            type: 'POST',
-            url: 'users/update/'+user_id,
-            dataType: 'json',
-            processdata: false,
-            contentType: false,
+            url: `/users/delete/` + idusr,
             data: {
-                _token:"{{ csrf_token() }}",
-                id_user: user_id,
-                name: user_nm,
-                email: user_email,
-                gender: user_gender,
-                address: user_address,
-                phone_number: user_phone,
-                password: user_pass,
+                _token: token,
+                id_users: idusr
             },
-            success: function(data){
-                $('#edituser').modal('hide');
-                $('#ntf-success').css("display", "block");
-                $("#ntf-success").append(data.data);
-                fetchuser();
+            success:function(data){
+                $('#delUsers').modal('hide');
+                $("#success-msg-text").text("User has been successfully purged from the archive.");
+                $("#ntf-success").removeClass("hidden").addClass("flex animate-pulse");
+                setTimeout(() => { location.reload(); }, 1500);
             }
         });
     });
-
-    function fetchuser()
-    {
-        $.ajax({
-            type: 'GET',
-            url: '{{ route('users.fetch-index') }}',
-            processdata: false,
-            success: function(dt)
-            {
-                console.log(dt);
-            }
-        });
-    }
 </script>
 @endsection

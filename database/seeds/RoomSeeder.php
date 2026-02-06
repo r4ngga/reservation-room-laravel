@@ -21,6 +21,8 @@ class RoomSeeder extends Seeder
                 'price' => 10000,
                 'status' => 0, //0 free, 1 full, 2 booked
                 'image_room' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
         //

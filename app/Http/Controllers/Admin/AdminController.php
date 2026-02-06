@@ -16,8 +16,18 @@ class AdminController extends Controller
         $rooms = Room::count();
         $users = User::where('role', 2)->get();
         $userCount = count($users);
-        // return view('admin.dashboard', ['users' => $users, 'rooms' => $rooms, 'reservations' => $reservations]);
-        return view('admin.dashboard', compact('rooms', 'reservations', 'users', 'userCount'));
+        
+        $paidReservations = Reservation::where('status_payment', '!=', '0')->where('status_payment', '!=', 'unpaid')->count();
+        $unpaidReservations = Reservation::where('status_payment', '0')->orWhere('status_payment', 'unpaid')->count();
+        
+        $recentReservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
+                                        ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
+                                        ->select('reservations.*', 'users.name', 'rooms.number_room', 'rooms.class')
+                                        ->orderBy('reservations.created_at', 'desc')
+                                        ->limit(5)
+                                        ->get();
+
+        return view('admin.dashboard', compact('rooms', 'reservations', 'users', 'userCount', 'paidReservations', 'unpaidReservations', 'recentReservations'));
     }
 
     public function countRoom()

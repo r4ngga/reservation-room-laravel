@@ -22,6 +22,8 @@ class AdminSeeder extends Seeder
                 'phone_number' => '',
                 'gender' => '',
                 'role' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         );
 

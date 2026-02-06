@@ -14,7 +14,14 @@ class UserDashboardController extends Controller
 {
     public function index()
     {
-        return view('client.dashboard');
+        $auth = Auth::user();
+        $roomsCount = Room::where('status', 0)->count();
+        $reservationsCount = Reservation::where('user_id', $auth->id_user)->count();
+        $unpaidCount = Reservation::where('user_id', $auth->id_user)
+                                   ->where('status_payment', 0)
+                                   ->count();
+
+        return view('client.dashboard', compact('roomsCount', 'reservationsCount', 'unpaidCount'));
     }
 
     public function myaccount()
