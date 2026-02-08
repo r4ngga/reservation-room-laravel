@@ -127,8 +127,9 @@ class UserController extends Controller
         $user->password =  bcrypt($request['password']);
         $user->phone_number = $request->phone_number;
         $user->gender = $request->gender;
+        $user->address = $request->address;
         $user->role = 2;
-        $user->religion_id = $request->religion_id;
+        $user->religions_id = $request->religion_id;
         //$user->photo_profile = $request->photo_profile;
         $user->save();
 
@@ -147,6 +148,10 @@ class UserController extends Controller
 
         if ($validate) {
             return redirect('/register')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
+        }
+
+        if ($validate) {
+            return redirect('/rooms')->with('notify', 'Congratulations, your account successfully created, let "enjoy !');
         }
     }
 
@@ -211,7 +216,6 @@ class UserController extends Controller
         $find = User::where('id_user', $id)->first();
 
         $old_data = User::where('id_user', $id)->first();
-        dd($find);
 
         if(!$find)
         {

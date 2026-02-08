@@ -6,6 +6,7 @@
     <title>@yield('title') - MYRR</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @yield('style')
 </head>
@@ -51,6 +52,11 @@
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('users*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-users w-5 mr-3"></i>
                             Users
+                        </a>
+                        <a href="{{ route('religions') }}" 
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('religion*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fas fa-pray w-5 mr-3"></i>
+                            Religions
                         </a>
                     @else
                         <!-- User Links -->

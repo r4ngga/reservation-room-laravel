@@ -82,6 +82,12 @@ Route::group(['middleware' => ['auth']], function () {
 
         // Religion Routes
         Route::get('religions', [ReligionController::class, 'index'])->name('religions');
+        Route::get('religions/fetch', [ReligionController::class, 'fetchIndex'])->name('religions.fetch');
+        Route::get('religions/{id}', [ReligionController::class, 'fetchDetail'])->name('religions.show');
+        Route::get('religions-edit/{id}', [ReligionController::class, 'fetchEdit'])->name('religions.edit');
+        Route::post('religions', [ReligionController::class, 'store'])->name('religions.store');
+        Route::post('religions/update/{id}', [ReligionController::class, 'update'])->name('religions.update');
+        Route::delete('religions/{id}', [ReligionController::class, 'delete'])->name('religions.delete');
 
         // Promotion Routes
         Route::get('promotions', [PromotionController::class, 'index'])->name('promotions');

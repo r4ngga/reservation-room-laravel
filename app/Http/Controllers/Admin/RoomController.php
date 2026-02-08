@@ -15,8 +15,7 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $room = Room::where('status', 'free')
-                    ->orWhere('status', 'Free')->get();
+        $rooms = Room::all();
         // return view('room.index', compact('rooms'));
         return view('admin.room.index', compact('rooms'));
     }
@@ -176,12 +175,10 @@ class RoomController extends Controller
             'price' => 'required|numeric',
             // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-        $old_room = Room::where('id', $id)->first();
-        // $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
-        // $request->image_room->move(public_path('images'), $imgName);
-
+        $room = Room::findOrFail($id);
+        $old_room = clone $room;
+        
         $oldImg = '';
-        $room = Room::where('id', $id)->first();
         if($request->image_room){
             $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
             $request->image_room->move(public_path('images'), $imgName);
@@ -219,7 +216,7 @@ class RoomController extends Controller
         $logs->save();
 
         // return redirect('/rooms')->with('notify', 'Success save changes update room data');
-        return redirect()->json(['notify' => 'success', 'data' => 'Success save changes update room data ! ']);
+        return response()->json(['notify' => 'success', 'data' => 'Success save changes update room data ! ']);
     }
 
     public function destroy(Room $room)
@@ -234,9 +231,12 @@ class RoomController extends Controller
         $delroom = Room::where('number_room', $room->number_room)->first();
         if($delroom->image_room){
             $img = '/images/'.$delroom->image_room;
-            unlink(public_path($img));
+            $path = public_path($img);
+            if(file_exists($path)) {
+                unlink($path);
+            }
         }
-        Room::destroy($room->number_room);
+        $room->delete();
 
         //create a logs
         $logs = new Log();
