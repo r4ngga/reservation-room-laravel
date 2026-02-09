@@ -65,6 +65,11 @@
                             <i class="fas fa-bed w-5 mr-3"></i>
                             Book a Room
                         </a>
+                        <a href="{{ route('history') }}" 
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('history*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fas fa-history w-5 mr-3"></i>
+                            Transaction History
+                        </a>
                     @endif
 
                     <div class="pt-4">

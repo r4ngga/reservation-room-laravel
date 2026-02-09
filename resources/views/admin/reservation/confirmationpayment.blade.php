@@ -3,8 +3,52 @@
 @section('title', 'Confirmation Reservation')
 @section('page_title', 'Payment Verification')
 
+@section('style')
+<style>
+    [x-cloak] { display: none !important; }
+    
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .modal-container {
+        background: white;
+        border-radius: 2rem;
+        width: 100%;
+        max-width: 32rem;
+        max-height: calc(100vh - 3rem);
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    }
+    
+    body.modal-prevent-scroll {
+        overflow: hidden !important;
+    }
+</style>
+@endsection
+
 @section('content')
-<div class="space-y-6">
+<div x-data="{ 
+    showConfirmation: false, 
+    showImgCheck: false,
+    selectedRsv: {
+        number: '',
+        code: '',
+        room: '',
+        status: ''
+    },
+    imgSrc: ''
+}" class="space-y-6" x-cloak>
     <!-- Header Summary -->
     <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -76,12 +120,11 @@
                         <td class="px-8 py-5">
                             <div class="flex items-center justify-center space-x-2">
                                 @if($rsv->status_payment == 0 || $rsv->status_payment == "0")
-                                <button onclick="showConfirmation({{ $rsv->number_reservation }}, '{{ $rsv->code_reservation }}', {{ $rsv->number_room }}, '{{ $rsv->status_payment }}')" 
-                                        data-toggle="modal" data-target="#ShowConfirmation" 
+                                <button @click="selectedRsv = { number: {{ $rsv->number_reservation }}, code: '{{ $rsv->code_reservation }}', room: {{ $rsv->number_room }}, status: 'paid off' }; showConfirmation = true" 
                                         class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 uppercase tracking-widest">
                                     Approve
                                 </button>
-                                <button data-toggle="modal" data-target="#ShowImgCheck" 
+                                <button @click="imgSrc = '{{ $rsv->photo_transfer ? asset('images/' . $rsv->photo_transfer) : asset('images/default.jpeg') }}'; showImgCheck = true" 
                                         class="p-2 text-gray-400 bg-gray-50 rounded-xl hover:bg-gray-200 transition-all">
                                     <i class="fas fa-image"></i>
                                 </button>
@@ -100,10 +143,31 @@
     </div>
 </div>
 
-<!-- Modal Approval -->
-<div class="modal fade" id="ShowConfirmation" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content overflow-hidden border-none shadow-2xl rounded-[2rem]">
+    <!-- Modal Approval -->
+    <div x-show="showConfirmation" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="modal-overlay" 
+         x-cloak
+         @keydown.escape.window="showConfirmation = false"
+         x-init="$watch('showConfirmation', val => {
+            if (val) document.body.classList.add('modal-prevent-scroll');
+            else if (!showImgCheck) document.body.classList.remove('modal-prevent-scroll');
+         })">
+        <div @click="showConfirmation = false" class="fixed inset-0"></div>
+        
+        <div x-show="showConfirmation"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-8"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-8"
+             class="modal-container">
             <div class="p-10 text-center">
                 <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 transition-transform hover:scale-110">
                     <i class="fas fa-file-invoice-dollar"></i>
@@ -113,33 +177,53 @@
                 
                 <form action="/confirmpaymentroom" method="POST" class="flex flex-col sm:flex-row gap-3">
                     @csrf
-                    <input type="hidden" name="number_reservation" id="number_reservation">
-                    <input type="hidden" name="code_reservation" id="code_reservation">
-                    <input type="hidden" name="number_room" id="number_room">
-                    <input type="hidden" name="status_payment" id="status_payment">
+                    <input type="hidden" name="number_reservation" :value="selectedRsv.number">
+                    <input type="hidden" name="code_reservation" :value="selectedRsv.code">
+                    <input type="hidden" name="number_room" :value="selectedRsv.room">
+                    <input type="hidden" name="status_payment" :value="selectedRsv.status">
                     
-                    <button type="button" data-dismiss="modal" class="w-full py-3.5 bg-gray-50 text-gray-500 font-bold rounded-2xl hover:bg-gray-100 transition-all uppercase tracking-widest text-[10px]">Review Later</button>
+                    <button type="button" @click="showConfirmation = false" class="w-full py-3.5 bg-gray-50 text-gray-500 font-bold rounded-2xl hover:bg-gray-100 transition-all uppercase tracking-widest text-[10px]">Review Later</button>
                     <button type="submit" class="w-full py-3.5 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 uppercase tracking-widest text-[10px]">Approve Now</button>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Image Modal -->
-<div class="modal fade" id="ShowImgCheck" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content overflow-hidden border-none shadow-2xl rounded-[2rem] bg-gray-900">
-            <div class="p-6 flex items-center justify-between text-white border-b border-white/10">
-                <h5 class="text-sm font-black uppercase tracking-widest">Transfer Proof Verification</h5>
-                <button type="button" class="text-white/50 hover:text-white transition-colors" data-dismiss="modal">
+    <!-- Image Modal -->
+    <div x-show="showImgCheck" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="modal-overlay" 
+         x-cloak
+         @keydown.escape.window="showImgCheck = false"
+         x-init="$watch('showImgCheck', val => {
+            if (val) document.body.classList.add('modal-prevent-scroll');
+            else if (!showConfirmation) document.body.classList.remove('modal-prevent-scroll');
+         })">
+        <div @click="showImgCheck = false" class="fixed inset-0"></div>
+        
+        <div x-show="showImgCheck"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             class="modal-container bg-slate-900 overflow-hidden">
+            <div class="px-6 py-4 flex items-center justify-between text-white border-b border-white/10">
+                <h5 class="text-xs font-black uppercase tracking-widest">Transfer Proof Verification</h5>
+                <button type="button" @click="showImgCheck = false" class="text-white/50 hover:text-white transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="p-4 flex items-center justify-center bg-gray-950 min-h-[300px]">
-                <img src="" alt="Proof of Payment" id="imgcheck" class="max-w-full h-auto rounded-lg shadow-2xl border border-white/5">
+                <img :src="imgSrc" alt="Proof of Payment" class="max-w-full h-auto rounded-lg shadow-2xl border border-white/5">
             </div>
-            <div class="p-6 bg-gray-900 text-center">
+            <div class="p-6 bg-slate-900 text-center">
                 <p class="text-[10px] text-gray-400 italic">Please cross-reference this proof with your internal banking records.</p>
             </div>
         </div>
@@ -148,12 +232,4 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
-  function showConfirmation(number_reservation, code_reservation, number_room, status_payment) {
-    document.getElementById('number_reservation').value = number_reservation;
-    document.getElementById('code_reservation').value = code_reservation;
-    document.getElementById('number_room').value = number_room;
-    document.getElementById('status_payment').value = status_payment;
-  }
-</script>
 @endsection

@@ -50,7 +50,7 @@ class ReservationController extends Controller
 
     public function reservation($id)
     {
-        $room = Room::findOrFaill($id);
+        $room = Room::findOrFail($id);
         $random_string = $this->generateRandomString(10);
         $set_value = Str::random(7);
         $promotions = DB::table('promotions')
@@ -215,7 +215,7 @@ class ReservationController extends Controller
 
     public function confirmationbooking()
     {
-        $reservation = DB::table('reservations')
+        $reservations = DB::table('reservations')
             ->join('users', 'reservations.user_id', '=', 'users.id_user')
             ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
             ->select('reservations.*', 'users.*', 'rooms.*')
@@ -231,12 +231,10 @@ class ReservationController extends Controller
 
         $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
                     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-                    ->select('reservations.*', 'users.*', 'rooms.*')
-                    ->where('users.id_user', $auth)
-                    ->orderBy('reservations.number_reservation', 'desc')
-                    ->orderBy('reservations.status_payment', 'desc')
+                    ->select('reservations.*', 'users.name', 'rooms.number_room', 'rooms.price')
+                    ->where('reservations.user_id', $auth->id_user)
+                    ->orderBy('reservations.created_at', 'desc')
                     ->get();
-
 
         return view('client.reservation.history', compact('reservations'));
     }
