@@ -141,6 +141,11 @@
             </table>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $reservations->links() }}
+    </div>
 </div>
 
     <!-- Modal Approval -->

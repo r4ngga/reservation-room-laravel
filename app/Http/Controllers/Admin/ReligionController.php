@@ -13,7 +13,7 @@ class ReligionController extends Controller
 {
     public function index()
     {
-        $religions = Religions::all();
+        $religions = Religions::paginate(10);
 
         return view('admin.religion.index', compact('religions'));
     }

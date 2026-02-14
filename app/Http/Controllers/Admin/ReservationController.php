@@ -83,9 +83,9 @@ class ReservationController extends Controller
     {
         $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
                     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-                    ->select('reservations.*', 'users.*', 'rooms.*')
+                    ->select('reservations.*', 'users.name', 'users.email', 'rooms.number_room', 'rooms.class') // Selecting specific columns to avoid conflicts if any, but name/email are important
                     ->orderBy('reservations.id', 'desc')
-                    ->get();
+                    ->paginate(10);
 
         // return view('reservation.confirmationpayment', ['reservations' => $reservation]);
         return view('admin.reservation.confirmationpayment', compact('reservations'));

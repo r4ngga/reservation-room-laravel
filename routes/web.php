@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('fetchroom', [AdminRoomController::class, 'fetchRoom'])->name('room.fetch-index');
         Route::get('fetchedit/{id}', [AdminRoomController::class, 'fetchEditRoom'])->name('room.fetchedit');
         Route::get('/change/{room}', [AdminRoomController::class, 'edit'])->name('room.edit');
-        Route::post('rooms/update/{id}', [AdminRoomController::class, 'update'])->name('room.update');
+        Route::put('rooms/update/{id}', [AdminRoomController::class, 'update'])->name('room.update');
         Route::delete('/rooms/{room}', [AdminRoomController::class, 'destroy'])->name('room.delete');
 
         // Reservation Routes (Admin)

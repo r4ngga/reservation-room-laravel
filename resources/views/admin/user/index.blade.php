@@ -150,6 +150,11 @@
         </div>
     </div>
 
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $users->links() }}
+    </div>
+
     <!-- Add User Modal -->
     <div x-show="showAdd" 
          x-transition:enter="transition ease-out duration-300"

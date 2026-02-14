@@ -142,6 +142,11 @@
         </div>
     </div>
 
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $religions->links() }}
+    </div>
+
     <!-- Add Modal -->
     <div x-show="showAdd" class="modal-overlay" x-cloak @keydown.escape.window="showAdd = false"
          x-init="$watch('showAdd', val => {

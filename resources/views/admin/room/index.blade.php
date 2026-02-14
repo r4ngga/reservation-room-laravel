@@ -156,6 +156,11 @@
         </div>
     </div>
 
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $rooms->links() }}
+    </div>
+
     <!-- Modals Section -->
 
     <!-- Add Room Modal -->
@@ -563,7 +568,8 @@
             },
             error: function(err) {
                 console.error("Update failed", err);
-                alert("Logic error: Failed to sync changes.");
+                let msg = err.responseJSON ? (err.responseJSON.message || err.responseJSON.data) : "Logic error: Failed to sync changes.";
+                alert("Operation failed: " + msg);
             }
         });
     }

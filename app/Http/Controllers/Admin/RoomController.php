@@ -15,7 +15,7 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = Room::all();
+        $rooms = Room::paginate(10);
         // return view('room.index', compact('rooms'));
         return view('admin.room.index', compact('rooms'));
     }
@@ -108,7 +108,7 @@ class RoomController extends Controller
 
     public function show_all()
     {
-        $rooms = Room::all();
+        $rooms = Room::paginate(10);
         // return view('room.index', ['rooms' => $room]);
         return view('admin.room.index', compact('rooms'));
     }
@@ -165,58 +165,64 @@ class RoomController extends Controller
 
     public function update(Request $request, $id)
     {
-        $auth = Auth::user();
-        $now = Carbon::now();
+        try {
+            $auth = Auth::user();
+            $now = Carbon::now();
 
-        $request->validate([
-            'facility' => 'required',
-            'class' => 'required|in:1,2,3',
-            'capacity' => 'required|numeric',
-            'price' => 'required|numeric',
-            // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
-        ]);
-        $room = Room::findOrFail($id);
-        $old_room = clone $room;
-        
-        $oldImg = '';
-        if($request->image_room){
-            $imgName = $request->image_room->getClientOriginalName() . '-' . time() . '.' . $request->image_room->extension();
-            $request->image_room->move(public_path('images'), $imgName);
+            $request->validate([
+                'facility' => 'required',
+                'class' => 'required|in:1,2,3',
+                'capacity' => 'required|numeric',
+                'price' => 'required|numeric',
+                // 'image_room' => 'mimes:jpeg,png,jpg,gif,svg',
+            ]);
 
-            $oldImg = '/images/'.$room->image_room;
-            // $oldImg = '/images/'.$book->image_book;
-            unlink(public_path($oldImg));
-        }
-        // dd($room);
-        // $room = Room::where('number_room', $id)->first();
-        if(!empty($request->facility)){
-            $room->facility = $request->facility;
-        }
-        if(!empty($request->class)){
-            $room->class = $request->class;
-        }
-        if(!empty($request->capacity)){
-            $room->capacity = $request->capacity;
-        }
-        if(!empty($request->price)){
-            $room->price = $request->price;
-        }
-        $room->image_room = isset($request->image_room) ? $imgName : null;
-        $room->save();
+            $room = Room::findOrFail($id);
+            $old_room = clone $room;
+            
+            if ($request->hasFile('image_room')) {
+                $file = $request->file('image_room');
+                $imgName = $file->getClientOriginalName() . '-' . time() . '.' . $file->extension();
+                $file->move(public_path('images'), $imgName);
 
-        //createa a logs
-        $logs = new Log();
-        $logs->user_id = $auth->id_user;
-        $logs->action = 'PUT';
-        $logs->description = 'change & update data room';
-        $logs->role =  $auth->role;
-        $logs->log_time = $now;
-        $logs->data_old = json_encode($old_room);
-        $logs->data_new = json_encode($room);
-        $logs->save();
+                if ($room->image_room) {
+                    $oldImagePath = public_path('images/' . $room->image_room);
+                    if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+                $room->image_room = $imgName;
+            }
 
-        // return redirect('/rooms')->with('notify', 'Success save changes update room data');
-        return response()->json(['notify' => 'success', 'data' => 'Success save changes update room data ! ']);
+            if(!empty($request->facility)){
+                $room->facility = $request->facility;
+            }
+            if(!empty($request->class)){
+                $room->class = $request->class;
+            }
+            if(!empty($request->capacity)){
+                $room->capacity = $request->capacity;
+            }
+            if(!empty($request->price)){
+                $room->price = $request->price;
+            }
+            $room->save();
+
+            //createa a logs
+            $logs = new Log();
+            $logs->user_id = $auth->id_user;
+            $logs->action = 'PUT';
+            $logs->description = 'change & update data room';
+            $logs->role =  $auth->role;
+            $logs->log_time = $now;
+            $logs->data_old = json_encode($old_room);
+            $logs->data_new = json_encode($room);
+            $logs->save();
+
+            return response()->json(['notify' => 'success', 'data' => 'Success save changes update room data ! ']);
+        } catch (\Exception $e) {
+            return response()->json(['notify' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 
     public function destroy(Room $room)

@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::where('role', 2)->get();
+        $users = User::where('role', 2)->paginate(10);
         $religions = Religions::all();
         // return view('user.all_user', compact('users'));
         return view('admin.user.index', compact('users', 'religions'));
