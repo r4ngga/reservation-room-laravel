@@ -152,7 +152,7 @@
 
     <!-- Pagination -->
     <div class="mt-6">
-        {{ $users->links() }}
+        {{ $users->links('vendor.pagination.numbered_pagination') }}
     </div>
 
     <!-- Add User Modal -->

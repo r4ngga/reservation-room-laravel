@@ -106,5 +106,10 @@
         </div>
         @endforeach
     </div>
+
+    <!-- Pagination -->
+    <div class="mt-12">
+        {{ $rooms->links('vendor.pagination.numbered_pagination') }}
+    </div>
 </div>
 @endsection

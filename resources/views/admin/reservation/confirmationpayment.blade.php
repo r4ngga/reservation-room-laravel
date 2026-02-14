@@ -144,7 +144,7 @@
 
     <!-- Pagination -->
     <div class="mt-6">
-        {{ $reservations->links() }}
+        {{ $reservations->links('vendor.pagination.numbered_pagination') }}
     </div>
 </div>
 

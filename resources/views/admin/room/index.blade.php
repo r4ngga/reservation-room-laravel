@@ -158,7 +158,7 @@
 
     <!-- Pagination -->
     <div class="mt-6">
-        {{ $rooms->links() }}
+        {{ $rooms->links('vendor.pagination.numbered_pagination') }}
     </div>
 
     <!-- Modals Section -->

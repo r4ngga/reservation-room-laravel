@@ -144,7 +144,7 @@
 
     <!-- Pagination -->
     <div class="mt-6">
-        {{ $religions->links() }}
+        {{ $religions->links('vendor.pagination.numbered_pagination') }}
     </div>
 
     <!-- Add Modal -->

@@ -17,31 +17,35 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $rooms = Room::all();
+        $rooms = Room::paginate(12);
         return view('admin.reservation.index', ['rooms' => $rooms]);
     }
 
     public function filter(Request $request)
     {
         $search = $request->search;
+        $query = Room::query();
+
         if ($search == "cost_low_to_high") {
-            $rooms = Room::orderBy('price', 'asc')->get();
+            $query->orderBy('price', 'asc');
             $information = "Price Low to High";
-            return view('admin.reservation.index', compact('rooms', 'information'));
         } else if ($search == "cost_high_to_low") {
-            $rooms = Room::orderBy('price', 'desc')->get();
-            $information = "Price Low to High";
-            return view('admin.reservation.index', compact('rooms', 'information'));
+            $query->orderBy('price', 'desc');
+            $information = "Price High to Low";
         } else if ($search == "free") {
-            $rooms = Room::where('status', 0)->get();
-            if (count($rooms) == 0) {
-                $information = "All Room has been booked, or full";
-            } else {
-                $information = "Status Room Free";
-            }
-            // $information = "Status Room Free";
-            return view('admin.reservation.index', compact('rooms', 'information'));
+            $query->where('status', 0);
+            $information = "Status Room Free";
+        } else {
+            return redirect('/roomsdashboard');
         }
+
+        $rooms = $query->paginate(12)->appends(['search' => $search]);
+        
+        if ($search == "free" && count($rooms) == 0) {
+            $information = "All rooms have been booked, or are full.";
+        }
+
+        return view('admin.reservation.index', compact('rooms', 'information'));
     }
 
     public function confirmpaymentreservation(Request $request) //for action confrmation payment by admin
