@@ -100,12 +100,12 @@
                                       <a href="{{route('room')}}">Rooms Data</a>
                                       <a href="{{route('users')}}">Users Data</a>
                                       <a href="{{ ('religions') }}">Religions</a>
+                                      <a href="{{route('logs')}}">Audit Trails</a>
                                       <a href="#">Promotions Data</a>
                                       <a href="#">Events Data</a>
                                     </div>
                               </li>
                               <li><a href="{{('reservation')}}">Confirmation</a></li>
-                              <li><a href="{{('logs')}}">Logs</a></li>
                               @elseif(auth()->user()->role=="2" || auth()->user()->role==2)
                               {{-- <li> <a href="{{('/userdashboard')}}">My Reservation</a> </li> --}}
                               <li> <a href="{{ route('client') }}">My Reservation</a> </li>

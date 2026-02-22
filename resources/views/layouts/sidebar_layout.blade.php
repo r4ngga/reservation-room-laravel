@@ -53,10 +53,15 @@
                             <i class="fas fa-users w-5 mr-3"></i>
                             Users
                         </a>
-                        <a href="{{ route('religions') }}" 
+                        <a href="{{ route('religions') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('religion*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-pray w-5 mr-3"></i>
                             Religions
+                        </a>
+                        <a href="{{ route('logs') }}"
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('logs*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fas fa-history w-5 mr-3"></i>
+                            Audit Trails
                         </a>
                     @else
                         <!-- User Links -->
