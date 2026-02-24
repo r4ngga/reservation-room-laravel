@@ -100,7 +100,10 @@ Route::group(['middleware' => ['auth']], function () {
         // Event Routes
         Route::get('events', [EventController::class, 'index'])->name('events');
         Route::get('events/{id}', [EventController::class, 'show'])->name('events.show');
+        Route::get('events-edit/{id}', [EventController::class, 'edit'])->name('events.edit');
         Route::post('events-add', [EventController::class, 'add'])->name('events.add');
+        Route::post('events-update/{id}', [EventController::class, 'update'])->name('events.update');
+        Route::delete('events/{id}', [EventController::class, 'delete'])->name('events.delete');
     });
 
     // User Routes
