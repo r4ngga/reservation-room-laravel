@@ -11,6 +11,15 @@ class Promotions extends Model
 
     protected $table = 'promotions';
     protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'description',
+        'enable',
+        'status',
+        'price',
+        'start_date',
+        'end_date'
+    ];
 
     public function rooms()
     {

@@ -11,9 +11,9 @@
     @yield('style')
 </head>
 <body class="bg-gray-50 font-sans antialiased">
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen w-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col transition-all duration-300">
+        <aside class="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col transition-all duration-300">
             <div class="p-6">
                 <!-- Logo -->
                 <div class="flex items-center space-x-2">
@@ -63,6 +63,11 @@
                             <i class="fa-solid fa-star w-5 mr-3"></i>
                             Events
                         </a>
+                        <a href="{{ route('promotions') }}"
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('promotion*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fa-solid fa-tags w-5 mr-3"></i>
+                            Promotions
+                        </a>
                         <a href="{{ route('logs') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('logs*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-history w-5 mr-3"></i>
@@ -111,8 +116,8 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto bg-gray-50">
-            <header class="h-16 flex items-center justify-between px-8">
+        <main class="flex-1 min-w-0 overflow-hidden bg-gray-50 flex flex-col">
+            <header class="h-16 flex items-center justify-between px-8 flex-shrink-0">
                  <h1 class="text-xl font-semibold text-gray-800">@yield('page_title', 'Dashboard')</h1>
                  <div class="flex items-center space-x-4">
                     <div class="relative">
@@ -121,8 +126,8 @@
                     </div>
                  </div>
             </header>
-            
-            <div class="p-8">
+
+            <div class="flex-1 overflow-y-auto p-8">
                 @yield('content')
             </div>
         </main>

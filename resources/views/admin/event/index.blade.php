@@ -170,7 +170,7 @@
         <div class="modal-container">
             <div class="bg-indigo-600 px-8 py-6 flex items-center justify-between text-white sticky top-0 z-10">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center"><i class="fas fa-calendar-star"></i></div>
+                    <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center"><i class="fa-solid fa-star"></i> </div>
                     <div>
                         <h5 class="text-xl font-bold leading-none">New Event</h5>
                         <p class="text-[10px] text-indigo-100 mt-1 uppercase tracking-widest font-medium">Add to master data</p>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
 use App\Http\Controllers\Controller;
 use App\Log;
 use App\Promotions;
@@ -16,7 +15,7 @@ class PromotionController extends Controller
     public function index()
     {
         $promotions = DB::table('promotions')
-        ->where('deleted_at', null)
+        // ->where('deleted_at', null)
         ->get();
 
         return view('admin.promotion.index', compact('promotions'));
@@ -154,7 +153,10 @@ class PromotionController extends Controller
         $logs->save();
         //create a logs
 
-        return redirect('/promotions')->with('notify', 'Success save changes update promotion data');
+        return response()->json([
+            'status' => true,
+            'message' => 'Success save changes update promotion data'
+        ], 200);
 
     }
 
@@ -173,7 +175,7 @@ class PromotionController extends Controller
             ], 404);
         }
 
-        $delete = DB::table('promotions')->where('id', $id)->delete();
+        DB::table('promotions')->where('id', $id)->delete();
 
         //create a logs
         $logs = new Log();
@@ -187,6 +189,9 @@ class PromotionController extends Controller
         $logs->save();
         //create a logs
 
-        return redirect('/promotions')->with('notify', 'Success delete a promotions');
+        return response()->json([
+            'status' => true,
+            'message' => 'Success delete a promotion'
+        ], 200);
     }
 }
