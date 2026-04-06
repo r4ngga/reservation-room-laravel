@@ -49,7 +49,7 @@ class PromotionController extends Controller
             'name' => 'required',
             'description' => 'required',
             'enable' => 'in:0,1',
-            'price' => 'required|numeric',
+            // 'price' => 'required|numeric',
             'start_date' => '',
             'end_date' => '',
         ]);
@@ -65,13 +65,13 @@ class PromotionController extends Controller
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->description = 'add data description';
         $logs->action = 'POST';
         $logs->role = $auth->role;
         $logs->log_time = $now;
         $logs->data_old = '-';
-        $logs->data_new = json_decode($promotion);
+        $logs->data_new = json_encode($promotion);
         $logs->save();
         //create a logs
 

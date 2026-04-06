@@ -22,12 +22,13 @@ class EventController extends Controller
     public function add(Request $request)
     {
         $auth = Auth::user();
+        // dd($auth->id_user);
         $now = Carbon::now();
         $this->validate($request, [
             'name' => 'required',
             'description' => 'required',
             'enable' => 'in:0,1',
-            'price' => 'required|numeric',
+            // 'price' => 'required|numeric',
             'implement_with_promotion' => '',
             'start_date' => '',
             'end_date' => '',
@@ -40,7 +41,7 @@ class EventController extends Controller
             'description' => $request->description,
             'enable' => $request->enable,
             'status' => $cekstatus,
-            'price' =>  $request->price,
+            // 'price' =>  $request->price,
             'implement_with_promotion' => $request->implement_with_promotion,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -48,7 +49,7 @@ class EventController extends Controller
 
         //create a logs
         $logs = new Log();
-        $logs->user_id = $auth->user_id;
+        $logs->user_id = $auth->id_user;
         $logs->description = 'add data events';
         $logs->action = 'POST';
         $logs->role = $auth->role;
@@ -63,42 +64,72 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $evnt = DB::table('events')->where('id', $id)->first();
+        try {
+            $evnt = DB::table('events')->where('id', $id)->first();
 
-        if(!$evnt){
+            if(!$evnt){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed show a detail data event!',
+                ], 404);
+            }
+
+            $data = array(
+                'id' => $evnt->id ?? '',
+                'name' => $evnt->name ?? 'No Name',
+                'description' => $evnt->description ?? 'No Description',
+                'enable' => $evnt->enable ?? 0,
+                'status' => $evnt->enable ?? 0,
+                'implement_with_promotion' => $evnt->implement_with_promotion ?? 0,
+                'start_date' => $evnt->start_date ?? '-',
+                'end_date' => $evnt->end_date ?? '-',
+                'price' => $evnt->price ?? 0,
+                'created_at' => $evnt->created_at ? Carbon::parse($evnt->created_at)->format('d M Y, H:i') : '-',
+            );
+
+            return response()->json($data);
+
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Failed show a detail data event!',
-            ], 404);
+                'message' => 'Error fetching event data: ' . $e->getMessage(),
+            ], 500);
         }
-
-        $data = array(
-            'id' => $evnt->id,
-            'name' => $evnt->name,
-            'description' => $evnt->description,
-            'enable' => $evnt->enable,
-            'status' => $evnt->status,
-            'implement_with_promotion' => $evnt->implement_with_promotion,
-            'start_date' => $evnt->start_date,
-            'end_date' => $evnt->end_date,
-            'price' => $evnt->price,
-            'created_at' => $evnt->created_at,
-        );
-            return response()->json($data);
     }
 
     public function edit($id)
     {
-        $evnt = DB::table('events')->where('id', $id)->first();
+        try {
+            $evnt = DB::table('events')->where('id', $id)->first();
 
-        if(!$evnt){
+            if(!$evnt){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch event data!',
+                ], 404);
+            }
+
+            $data = array(
+                'id' => $evnt->id ?? '',
+                'name' => $evnt->name ?? '',
+                'description' => $evnt->description ?? '',
+                'enable' => $evnt->enable ?? 0,
+                'status' => $evnt->enable ?? 0,
+                'implement_with_promotion' => $evnt->implement_with_promotion ?? 0,
+                'start_date' => $evnt->start_date ?? '',
+                'end_date' => $evnt->end_date ?? '',
+                'price' => $evnt->price ?? 0,
+                'created_at' => $evnt->created_at ?? '',
+            );
+
+            return response()->json($data);
+
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Failed to fetch event data!',
-            ], 404);
+                'message' => 'Error fetching event data: ' . $e->getMessage(),
+            ], 500);
         }
-
-        return response()->json($evnt);
     }
 
     public function update(Request $request, $id)

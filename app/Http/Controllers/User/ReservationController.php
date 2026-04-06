@@ -120,7 +120,7 @@ class ReservationController extends Controller
         $logs->save();
 
         //return redirect('/roomsdashboard')->with('notify', 'Congratulation, you success booking a room');
-        return redirect()->route('client-dashboard')->with('notify', 'Congratulation, you success booking a room');
+        return redirect()->route('client')->with('notify', 'Congratulation, you success booking a room');
     }
 
 
