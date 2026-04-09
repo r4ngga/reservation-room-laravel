@@ -75,15 +75,30 @@
                         </a>
                     @else
                         <!-- User Links -->
-                        <a href="{{ route('rooms') }}" 
+                        <a href="{{ route('rooms') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('rooms*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-bed w-5 mr-3"></i>
                             Book a Room
                         </a>
-                        <a href="{{ route('history') }}" 
+                        <a href="{{ route('reservations.unpaid') }}"
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('reservations/unpaid*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fas fa-credit-card w-5 mr-3"></i>
+                            Pay Bill
+                        </a>
+                        <a href="{{ route('history') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('history*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-history w-5 mr-3"></i>
                             Transaction History
+                        </a>
+                        <a href="{{ route('events.index') }}"
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('events*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fa-solid fa-star w-5 mr-3"></i>
+                            Events
+                        </a>
+                        <a href="{{ route('promotions.index') }}"
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('promotions*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <i class="fa-solid fa-tags w-5 mr-3"></i>
+                            Promotions
                         </a>
                     @endif
 

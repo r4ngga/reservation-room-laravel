@@ -1,0 +1,72 @@
+@extends('layouts.sidebar_layout')
+
+@section('title', 'Unpaid Promotion Purchases')
+
+@section('page_title', 'Pending Promotion Payments')
+
+@section('content')
+<div class="mb-6">
+    <div class="bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl p-8 text-white shadow-lg">
+        <h2 class="text-3xl font-bold mb-2">Pending Payments</h2>
+        <p class="text-amber-100">Complete your promotion purchase payments to activate your deals</p>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-6 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">Unpaid Promotion Purchases</h3>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Purchase Code</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Promotion Name</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Payment</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                @forelse($purchases as $purchase)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="font-mono text-sm text-green-600 font-semibold">#{{ $purchase->code_purchase }}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm font-semibold text-gray-900">{{ $purchase->promotion_name }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-600">
+                            {{ \Carbon\Carbon::parse($purchase->created_at)->format('d M Y') }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-semibold text-gray-900">
+                            Rp {{ number_format($purchase->payment, 0, ',', '.') }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <a href="{{ route('promotion.payment', $purchase->id) }}"
+                           class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+                            <i class="fas fa-credit-card mr-2"></i>Pay Now
+                        </a>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="px-6 py-12 text-center">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-check-circle text-green-300 text-5xl mb-4"></i>
+                            <p class="text-gray-500 font-semibold">No pending payments</p>
+                            <p class="text-gray-400 text-sm mt-1">All your promotion purchases are paid!</p>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection

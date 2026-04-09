@@ -129,13 +129,15 @@ class ReservationController extends Controller
         $user = Auth::user();
 
         $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
-            ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-            ->select('reservations.*', 'users.*', 'rooms.*')
-            ->where('users.id_user', $user->id)
-            ->where('reservations.status_payment', '=', 'unpaid')
-            ->orderBy('reservations.number_reservation', 'desc')
-            ->orderBy('reservations.status_payment', 'desc')
+            ->select('reservations.id', 'reservations.code_reservation', 'reservations.user_id',
+                     'reservations.room_id as number_room', 'reservations.time_booking', 'reservations.payment',
+                     'reservations.status_payment', 'reservations.time_spend',
+                     'users.name')
+            ->where('users.id_user', $user->id_user)
+            ->where('reservations.status_payment', 'unpaid')
+            ->orderBy('reservations.created_at', 'desc')
             ->get();
+            // dd($reservations);
 
         return view('client.reservation.temporary_list', compact('reservations'));
     }
@@ -147,7 +149,7 @@ class ReservationController extends Controller
         ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
         ->where('reservations.id', $id)
         ->select('reservations.id as id',
-        'resevations.code_reservation as code',
+        'reservations.code_reservation as code',
         'reservations.user_id as user_id',
         'reservations.room_id as room_id',
         'reservations.time_booking as time_booking',
@@ -231,8 +233,9 @@ class ReservationController extends Controller
 
         $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
                     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-                    ->select('reservations.*', 'users.name', 'rooms.number_room', 'rooms.price')
+                    ->select('reservations.*', 'users.name', DB::raw('MAX(rooms.number_room) as number_room'), DB::raw('MAX(rooms.price) as price'))
                     ->where('reservations.user_id', $auth->id_user)
+                    ->groupBy('reservations.id')
                     ->orderBy('reservations.created_at', 'desc')
                     ->get();
 

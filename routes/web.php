@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\ReservationController as UserReservationController;
 use App\Http\Controllers\User\RoomController as UserRoomController;
+use App\Http\Controllers\User\EventController as UserEventController;
+use App\Http\Controllers\User\PromotionController as UserPromotionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,13 +117,33 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/userdashboard', [UserReservationController::class, 'paidreservation']);
         Route::get('client-dashboard/{id}', [UserReservationController::class, 'paidreservation'])->name('paidreservation');
-        Route::post('/paymentroom', [UserReservationController::class, 'paymentreservation']);
+        Route::post('/paymentroom', [UserReservationController::class, 'paymentreservation'])->name('paymentroom');
 
         Route::get('rooms', [UserReservationController::class, 'index'])->name('rooms');
         Route::post('/roomsdashboard', [UserReservationController::class, 'filter']);
         Route::get('/bookingrooms/{id}', [UserReservationController::class, 'reservation']);
         Route::post('/bookingrooms', [UserReservationController::class, 'booking']);
 
+        Route::get('reservations/unpaid', [UserReservationController::class, 'reservationlist'])->name('reservations.unpaid');
+
         Route::get('history', [UserReservationController::class, 'loghistory'])->name('history');
+
+        // Event Routes (User)
+        Route::get('events', [UserEventController::class, 'index'])->name('events.index');
+        Route::get('events/booking/{id}', [UserEventController::class, 'booking'])->name('event.booking');
+        Route::post('events/book', [UserEventController::class, 'bookEvent'])->name('event.book.submit');
+        Route::get('events/unpaid', [UserEventController::class, 'unpaidList'])->name('events.unpaid');
+        Route::get('events/payment/{id}', [UserEventController::class, 'payment'])->name('event.payment');
+        Route::post('events/payment/confirm', [UserEventController::class, 'confirmPayment'])->name('event.payment.confirm');
+        Route::get('events/history', [UserEventController::class, 'history'])->name('events.history');
+
+        // Promotion Routes (User)
+        Route::get('promotions', [UserPromotionController::class, 'index'])->name('promotions.index');
+        Route::get('promotions/purchase/{id}', [UserPromotionController::class, 'purchase'])->name('promotion.purchase');
+        Route::post('promotions/purchase', [UserPromotionController::class, 'purchasePromotion'])->name('promotion.purchase.submit');
+        Route::get('promotions/unpaid', [UserPromotionController::class, 'unpaidList'])->name('promotions.unpaid');
+        Route::get('promotions/payment/{id}', [UserPromotionController::class, 'payment'])->name('promotion.payment');
+        Route::post('promotions/payment/confirm', [UserPromotionController::class, 'confirmPayment'])->name('promotion.payment.confirm');
+        Route::get('promotions/history', [UserPromotionController::class, 'history'])->name('promotions.history');
     });
 });
