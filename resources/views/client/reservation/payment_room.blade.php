@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-8 text-white shadow-lg">
+    <div class="rounded-2xl p-8 text-white shadow-lg" style="background: linear-gradient(to right, #6366f1, #9333ea);">
         <h2 class="text-3xl font-bold mb-2">Complete Your Payment</h2>
         <p class="text-indigo-100">Upload your bank transfer proof to confirm the booking</p>
     </div>
@@ -94,7 +94,7 @@
 
                             <!-- Hidden Fields -->
                             @foreach($reservation as $rsv)
-                            <input type="hidden" name="number_reservation" value="{{ $rsv->number_reservation }}">
+                            <input type="hidden" name="number_reservation" value="{{ $rsv->code }}">
                             <input type="hidden" name="number_room" value="{{ $rsv->number_room }}">
                             <input type="hidden" name="payment" value="{{ $rsv->payment }}">
                             <input type="hidden" name="status_payment" value="paid">

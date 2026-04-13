@@ -124,7 +124,7 @@
                                         class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 uppercase tracking-widest">
                                     Approve
                                 </button>
-                                <button @click="imgSrc = '{{ $rsv->photo_transfer ? asset('images/' . $rsv->photo_transfer) : asset('images/default.jpeg') }}'; showImgCheck = true" 
+                                <button @click="imgSrc = '{{ $rsv->photo_transfer ? asset('images/paid_evidence/' . $rsv->photo_transfer) : asset('images/default.jpeg') }}'; showImgCheck = true" 
                                         class="p-2 text-gray-400 bg-gray-50 rounded-xl hover:bg-gray-200 transition-all">
                                     <i class="fas fa-image"></i>
                                 </button>

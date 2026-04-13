@@ -146,7 +146,7 @@ class ReservationController extends Controller
     {
         $user = Auth::user();
         $reservation = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
-        ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
+        ->join('rooms', 'reservations.room_id', '=', 'rooms.id')
         ->where('reservations.id', $id)
         ->select('reservations.id as id',
         'reservations.code_reservation as code',
@@ -167,6 +167,7 @@ class ReservationController extends Controller
         'rooms.status as status_room')
         ->orderBy('reservations.created_at', 'desc')
         ->get();
+        // dd($reservation);
         return view('client.reservation.payment_room', compact('reservation'));
     }
 
@@ -182,16 +183,16 @@ class ReservationController extends Controller
             'photo_transfer' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
 
-        $old_data_rsvt = Reservation::where('number_reservation', $request->number_reservation)->first();
+        $old_data_rsvt = Reservation::where('code_reservation', $request->number_reservation)->first();
 
         if($request->photo_transfer)
         {
             $imgName = $request->photo_transfer->getClientOriginalName() . '-' . time() . '.' . $request->photo_transfer->extension();
-            $request->photo_transfer->move(public_path('images'), $imgName);
+            $request->photo_transfer->move(public_path('images/paid_evidence'), $imgName);
         }
         $check_img = isset($request->photo_transfer) ? $imgName : null;
 
-        $rsvt = Reservation::where('number_reservation', $request->number_reservation)->update([
+        $rsvt = Reservation::where('code_reservation', $request->number_reservation)->update([
             'status_payment' => $request->status_payment,
             'photo_transfer' => $check_img,
         ]);
@@ -212,7 +213,7 @@ class ReservationController extends Controller
         //create a logs
 
         //return redirect('/userdashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
-        return redirect()->route('client-dashboard')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
+        return redirect()->route('client')->with('notify', 'Congratulation your bill now paid off, let`s enjoy your holiday!!');
     }
 
     public function confirmationbooking()
