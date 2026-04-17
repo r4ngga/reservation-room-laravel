@@ -58,12 +58,12 @@
                             <i class="fas fa-pray w-5 mr-3"></i>
                             Religions
                         </a>
-                        <a href="{{ route('events') }}"
+                        <a href="{{ route('admin-events') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('event*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fa-solid fa-star w-5 mr-3"></i>
                             Events
                         </a>
-                        <a href="{{ route('promotions') }}"
+                        <a href="{{ route('admin-promotions') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('promotion*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fa-solid fa-tags w-5 mr-3"></i>
                             Promotions

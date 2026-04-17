@@ -92,7 +92,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('religions/{id}', [ReligionController::class, 'delete'])->name('religions.delete');
 
         // Promotion Routes
-        Route::get('promotions', [PromotionController::class, 'index'])->name('promotions');
+        Route::get('admin-promotions', [PromotionController::class, 'index'])->name('admin-promotions');
         Route::get('promotions/{id}', [PromotionController::class, 'show'])->name('promotions.show');
         Route::get('promotionsfetch', [PromotionController::class, 'fetchIndex'])->name('promotions.fetch-index');
         Route::post('promotions-add', [PromotionController::class, 'add'])->name('promotions.add');
@@ -100,7 +100,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('promotions-delete/{id}', [PromotionController::class, 'delete'])->name('promotions.delete');
 
         // Event Routes
-        Route::get('events', [EventController::class, 'index'])->name('events');
+        Route::get('admin-events', [EventController::class, 'index'])->name('admin-events');
         Route::get('events/{id}', [EventController::class, 'show'])->name('events.show');
         Route::get('events-edit/{id}', [EventController::class, 'edit'])->name('events.edit');
         Route::post('events-add', [EventController::class, 'add'])->name('events.add');
