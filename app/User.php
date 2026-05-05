@@ -50,9 +50,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function reservation()
+    public function reservations()
     {
-        return $this->belongsTo(Reservation::class);
+        return $this->hasMany(Reservation::class, 'user_id', 'id_user');
     }
 
     public function religions()

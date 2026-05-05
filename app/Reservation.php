@@ -19,13 +19,13 @@ class Reservation extends Model
         'status_payment' => 'unpaid'
     ];
 
-    public function rooms()
+    public function room()
     {
-        return $this->hasMany(Room::class);
+        return $this->belongsTo(Room::class, 'room_id', 'number_room');
     }
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id_user');
     }
 }

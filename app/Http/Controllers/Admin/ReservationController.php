@@ -87,7 +87,8 @@ class ReservationController extends Controller
     {
         $reservations = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
                     ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-                    ->select('reservations.*', 'users.name', 'users.email', 'rooms.number_room', 'rooms.class') // Selecting specific columns to avoid conflicts if any, but name/email are important
+                    ->select('reservations.*', 'users.name', 'users.email', 'rooms.number_room', 'rooms.class')
+                    ->distinct()
                     ->orderBy('reservations.id', 'desc')
                     ->paginate(10);
 

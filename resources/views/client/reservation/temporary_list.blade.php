@@ -6,9 +6,9 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl p-8 text-white shadow-lg">
-        <h2 class="text-3xl font-bold mb-2">Pending Payments</h2>
-        <p class="text-amber-100">Complete your room reservation payments to confirm your booking</p>
+    <div style="background: linear-gradient(to right, #fbbf24, #f97316); border-radius: 1rem; padding: 2rem; color: #fff; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);">
+        <h2 style="font-size: 1.875rem; font-weight: 700; margin-bottom: 0.5rem;">Pending Payments</h2>
+        <p style="color: #fef3c7;">Complete your room reservation payments to confirm your booking</p>
     </div>
 
     @if(session('notify'))

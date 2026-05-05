@@ -146,7 +146,7 @@ class ReservationController extends Controller
     {
         $user = Auth::user();
         $reservation = Reservation::join('users', 'reservations.user_id', '=', 'users.id_user')
-        ->join('rooms', 'reservations.room_id', '=', 'rooms.id')
+        ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
         ->where('reservations.id', $id)
         ->select('reservations.id as id',
         'reservations.code_reservation as code',
@@ -221,9 +221,9 @@ class ReservationController extends Controller
         $reservations = DB::table('reservations')
             ->join('users', 'reservations.user_id', '=', 'users.id_user')
             ->join('rooms', 'reservations.room_id', '=', 'rooms.number_room')
-            ->select('reservations.*', 'users.*', 'rooms.*')
-            ->orderBy('reservations.number_reservation', 'desc')
-            // ->orderBy('reservations.status_payment', 'unpaid')
+            ->select('reservations.*', 'users.name', 'users.email', 'rooms.number_room', 'rooms.class', 'rooms.price', 'rooms.facility', 'rooms.capacity', 'rooms.status as room_status')
+            ->distinct()
+            ->orderBy('reservations.id', 'desc')
             ->get();
         return view('client.reservation.confirmationpayment', compact('reservations'));
     }

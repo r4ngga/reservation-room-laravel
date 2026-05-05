@@ -19,8 +19,8 @@ class Room extends Model
         'status' => 0
     ];
 
-    public function reservation()
+    public function reservations()
     {
-        return $this->belongsTo(Reservation::class);
+        return $this->hasMany(Reservation::class, 'room_id', 'number_room');
     }
 }
