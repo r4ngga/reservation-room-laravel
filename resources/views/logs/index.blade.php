@@ -68,7 +68,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-emerald-100 text-[10px] font-bold uppercase tracking-widest">Admin Actions</p>
-                    <p class="text-4xl font-black mt-1">{{ $logs->where('role', 1)->count() }}</p>
+                    <p class="text-4xl font-black mt-1">{{ $adminCount ?? 0 }}</p>
                 </div>
                 <div class="w-14 h-14 bg-white/25 rounded-2xl flex items-center justify-center">
                     <i class="fas fa-user-shield text-2xl"></i>
@@ -79,7 +79,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-orange-100 text-[10px] font-bold uppercase tracking-widest">User Actions</p>
-                    <p class="text-4xl font-black mt-1">{{ $logs->where('role', 2)->count() }}</p>
+                    <p class="text-4xl font-black mt-1">{{ $userCount ?? 0 }}</p>
                 </div>
                 <div class="w-14 h-14 bg-white/25 rounded-2xl flex items-center justify-center">
                     <i class="fas fa-users text-2xl"></i>
@@ -180,6 +180,12 @@
             </div>
             <p class="text-gray-500 font-medium">No audit trails found</p>
             <p class="text-gray-400 text-sm mt-1">System activity will appear here</p>
+        </div>
+        @endif
+
+        @if($logs->hasPages())
+        <div class="px-8 py-6 border-t border-gray-100">
+            {{ $logs->links('vendor.pagination.numbered_pagination') }}
         </div>
         @endif
     </div>
