@@ -48,6 +48,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', [AuthController::class, 'changepassword']);
     Route::post('/changepassword', [AuthController::class, 'updatechangepassword']);
 
+    // Impersonation (accessible by both admin and impersonated user)
+    Route::get('users/stop-impersonate', [AdminUserController::class, 'stopImpersonate'])->name('users.stop-impersonate');
+
     // Admin Routes
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('admin-dashboard', [AdminController::class, 'admindashboard'])->name('admin');
@@ -77,6 +80,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('fetchedit-user/{id}', [AdminUserController::class, 'fetchEditUser'])->name('users.fetchedit');
         Route::get('users/{id}', [AdminUserController::class, 'fetchDetailUser'])->name('users.show');
         Route::post('users/update/{id}', [AdminUserController::class, 'update'])->name('users.update');
+        Route::post('users/impersonate/{id}', [AdminUserController::class, 'impersonate'])->name('users.impersonate');
+
+        // Log Routes
 
         // Log Routes
         Route::get('logs', [LogController::class, 'index'])->name('logs');

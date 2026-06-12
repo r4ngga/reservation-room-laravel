@@ -209,6 +209,73 @@ class UserController extends Controller
         return response()->json(['notify' => 'success', 'data' => ' Success update information user !']);
     }
 
+    public function impersonate($id)
+    {
+        $admin = Auth::user();
+        $now = Carbon::now();
+
+        $targetUser = User::where('id_user', $id)->where('role', 2)->first();
+
+        if (!$targetUser) {
+            return redirect()->route('users')->with('notify', 'Failed to impersonate: user not found or is not a regular user.');
+        }
+
+        // Store original admin ID in session
+        session()->put('impersonate.admin_id', $admin->id_user);
+        session()->put('impersonate.user_id', $targetUser->id_user);
+
+        // Log the impersonation action
+        $logs = new Log();
+        $logs->user_id = $admin->id_user;
+        $logs->action = 'POST';
+        $logs->description = 'impersonate user ' . $targetUser->name . ' (ID: ' . $targetUser->id_user . ')';
+        $logs->role = $admin->role;
+        $logs->log_time = $now;
+        $logs->data_old = '-';
+        $logs->data_new = json_encode(['admin_id' => $admin->id_user, 'target_user_id' => $targetUser->id_user]);
+        $logs->save();
+
+        // Switch auth to the target user
+        if (!$targetUser->hasRole('user')) {
+            $targetUser->assignRole('user');
+        }
+        Auth::loginUsingId($targetUser->id_user);
+
+        return redirect()->route('client')->with('notify', 'You are now impersonating ' . $targetUser->name);
+    }
+
+    public function stopImpersonate()
+    {
+        $adminId = session('impersonate.admin_id');
+        $userId = session('impersonate.user_id');
+        $now = Carbon::now();
+
+        if (!$adminId) {
+            return redirect()->route('admin')->with('notify', 'No active impersonation session.');
+        }
+
+        $impersonatedUser = User::where('id_user', $userId)->first();
+
+        // Log the stop impersonation action
+        $logs = new Log();
+        $logs->user_id = $adminId;
+        $logs->action = 'POST';
+        $logs->description = 'stop impersonate user' . ($impersonatedUser ? ' ' . $impersonatedUser->name : '') . ' (ID: ' . $userId . ')';
+        $logs->role = 1;
+        $logs->log_time = $now;
+        $logs->data_old = json_encode(['admin_id' => $adminId, 'target_user_id' => $userId]);
+        $logs->data_new = '-';
+        $logs->save();
+
+        // Clear impersonation session
+        session()->forget(['impersonate.admin_id', 'impersonate.user_id']);
+
+        // Restore admin session
+        Auth::loginUsingId($adminId);
+
+        return redirect()->route('admin')->with('notify', 'Impersonation ended. Welcome back, Admin.');
+    }
+
     public function delete($id)
     {
         $auth = Auth::user();

@@ -103,13 +103,22 @@
                     @endif
 
                     <div class="pt-4">
+                        @if(session('impersonate.user_id'))
+                        <p class="text-xs font-semibold text-amber-500 uppercase tracking-wider mb-2">Session</p>
+                        <a href="{{ route('users.stop-impersonate') }}"
+                           class="flex items-center py-2.5 px-4 rounded transition duration-200 text-amber-600 bg-amber-50 hover:bg-amber-100 mb-3 font-bold">
+                            <i class="fas fa-arrow-left w-5 mr-3"></i>
+                            Back to Admin
+                        </a>
+                        @endif
+
                         <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Preferences</p>
-                        <a href="{{ route('setting') }}" 
+                        <a href="{{ route('setting') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 {{ Request::is('setting*') ? 'bg-teal-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                             <i class="fas fa-cog w-5 mr-3"></i>
                             Settings
                         </a>
-                        <a href="{{ route('logout') }}" 
+                        <a href="{{ route('logout') }}"
                            class="flex items-center py-2.5 px-4 rounded transition duration-200 text-red-500 hover:bg-red-50">
                             <i class="fas fa-sign-out-alt w-5 mr-3"></i>
                             Log out
@@ -143,6 +152,27 @@
             </header>
 
             <div class="flex-1 overflow-y-auto p-8">
+                {{-- Impersonation Banner --}}
+                @if(session('impersonate.user_id'))
+                <div class="mb-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mr-3">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <div>
+                                <p class="text-amber-800 font-bold text-sm">Impersonation Active</p>
+                                <p class="text-amber-600 text-xs">You are viewing as <span class="font-bold">{{ Auth::user()->name }}</span> (ID: {{ Auth::user()->id_user }})</p>
+                            </div>
+                        </div>
+                        <a href="{{ route('users.stop-impersonate') }}" class="inline-flex items-center px-4 py-2 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition-all text-xs uppercase tracking-widest shadow-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Leave
+                        </a>
+                    </div>
+                </div>
+                @endif
+
                 @yield('content')
             </div>
         </main>

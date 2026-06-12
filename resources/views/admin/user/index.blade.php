@@ -132,6 +132,12 @@
                         </td>
                         <td class="px-8 py-5">
                             <div class="flex items-center justify-center space-x-2">
+                                <form method="POST" action="{{ route('users.impersonate', $usr->id_user) }}" target="_blank" style="display:inline">
+                                    @csrf
+                                    <button type="submit" class="p-2 text-amber-600 bg-amber-50 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm" title="Impersonate User" onclick="return confirm('Impersonate {{ $usr->name }}? This will open in a new tab.')">
+                                        <i class="fas fa-user-secret"></i>
+                                    </button>
+                                </form>
                                 <button @click="fetchShowUser({{ $usr->id_user }}); showDetail = true" class="p-2 text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-600 hover:text-white transition-all shadow-sm" title="View Detail">
                                     <i class="fas fa-eye"></i>
                                 </button>
